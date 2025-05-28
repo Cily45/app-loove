@@ -1,0 +1,48 @@
+<div class="app-side-nav h-screen w-[220px] fixed flex flex-col justify-between text-white">
+  <img class="min-w-25 max-w-50 w-1/2 pt-10 mx-auto" routerLink="/" src="assets/image/logo-entier.png"
+       alt="logo pawfect match">
+  <ul class="ml-6">
+    <li><a routerLink="/accueil" routerLinkActive="text-[#F7A8C5]">Accueil</a></li>
+    <li><a routerLink="/match" routerLinkActive="text-[#F7A8C5]">Mes pawfects matches</a></li>
+    <li><a routerLink="/filtres" routerLinkActive="text-[#F7A8C5]">Filtres</a></li>
+    <li><a routerLink="/messagerie" routerLinkActive="text-[#F7A8C5]">Messagerie</a></li>
+    <li><a routerLink="/profil" routerLinkActive="text-[#F7A8C5]">Profil</a></li>
+    <li>
+      <a  class="flex items-center" routerLinkActive="text-[#F7A8C5]" (click)="isSettingsOpen.set(!isSettingsOpen())">Paramètres
+      <mat-icon>{{ isSettingsOpen() ? "arrow_right" : "arrow_drop_down" }}</mat-icon></a>
+      <ul [hidden]="isSettingsOpen()" class="pl-3">
+        <li><a routerLink="/compte" routerLinkActive="text-[#F7A8C5]">Compte</a></li>
+        <li><a routerLink="/notifications">Notifications</a></li>
+        <li><a routerLink="/abonnement">Abonnement</a></li>
+      </ul>
+    </li>
+  </ul>
+  <div>
+    <ul class="flex flex-col items-center ">
+      <button mat-raised-button (click)="onLogout()" class="mb-6">
+        Se déconnecter
+      </button>
+      <li>
+        <a routerLink="/a-propos-de-nous" routerLinkActive="text-[#F7A8C5]">
+          À propos de nous
+        </a>
+      </li>
+      <li>
+        <a routerLink="/faq" routerLinkActive="text-[#F7A8C5]">
+          Faq
+        </a>
+      </li>
+      <li>
+        <a routerLink="/contact" routerLinkActive="text-[#F7A8C5]">
+          Contact
+        </a>
+      </li>
+      <li>
+        <a routerLink="/informations" routerLinkActive="text-[#F7A8C5]">
+          Informations et conditions
+        </a>
+      </li>
+    </ul>
+    <p class="text-sm text-center mt-3">© 2025 by Pawfect match.</p>
+  </div>
+</div>

@@ -1,0 +1,63 @@
+<div class="app-login flex flex-col items-center justify-around min-h-screen">
+  <img class="min-w-25 max-w-50 w-1/2 mt-10 mx-auto" routerLink="/" src="assets/image/logo-entier.png"
+       alt="logo pawfect match">
+
+  <p class="text-xl w-2/3 text-center">Portail pour connecter des âmes sœurs, guidés par leurs chiens</p>
+
+  <button mat-flat-button *ngIf="!showLoginForm"
+       (click)="showLoginForm=true"
+       class="flex items-center justify-center drop-shadow-lg bg-[#6A3A71] text-white rounded-3xl h-12 max-w-100 min-w-50 w-2/3 text-center">
+    Se connecter
+  </button>
+
+  <div *ngIf="showLoginForm"
+       class="p-6 flex flex-col items-center drop-shadow-lg border-[#6A3A71] border-2 bg-[rgba(106,58,113,0.50)] max-w-100 min-w-50 w-2/3 rounded-3xl">
+    <form method="POST" action="/login" [formGroup]="formGroup" class="flex flex-col items-center justify-between">
+      <mat-form-field appearance="fill">
+        <mat-label>E-mail</mat-label>
+        <input
+          matInput
+          formControlName="email"
+          placeholder="pat@example.com"
+          name="email"
+          (blur)="updateEmailErrorMessage()"
+          required
+        />
+        @if (formGroup.get('email')?.invalid){
+          <mat-error>{{emailErrorMessage()}}</mat-error>
+
+        }
+
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Mot de passe</mat-label>
+        <div class="flex items-center px-3 justify-center">
+          <input
+            name="password"
+            formControlName="password"
+            matInput
+            placeholder="**********"
+            [type]="hide() ? 'password' : 'text'"
+            required
+          />
+          <button class="text-white mr-1" (click)="hide.set(!hide())">
+            <mat-icon>{{ hide() ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </div>
+
+        @if(formGroup.get('password')?.hasError('invalid')){
+          <mat-error>Identifiants invalides</mat-error>
+        }
+
+      </mat-form-field>
+      <button mat-flat-button class="mb-6 mt-3" (click)="onSubmit()">Se connecter</button>
+    </form>
+    <a routerLink="/oublie-mot-de-passe" class="text-[#f7a8c5]">Mot de passe oublier?</a>
+  </div>
+
+  <div class="flex flex-col md:flex-row items-center">
+    <p class="mr-1 text-[#6A3A71]">Pas encore membre?</p>
+    <a routerLink="/inscription" class="text-[#FF69B4]">Inscrivez-vous gratuitement</a>
+  </div>
+</div>

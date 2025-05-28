@@ -1,0 +1,187 @@
+<div class="app-register mr-5 min-h-screen flex flex-col w-full items-center my-12">
+  <img class="min-w-25 max-w-50 w-1/2 my-10 mx-auto" routerLink="/" src="assets/image/logo-entier.png"
+       alt="logo pawfect match">
+
+  <mat-stepper linear #stepper [orientation]="stepperOrientation">
+    <mat-step [stepControl]="firstFormGroup" [editable]="isEditable">
+      <div class="drop-shadow-lg border-[#6A3A71] border-2 bg-[rgba(106,58,113,0.50)] rounded-3xl p-6">
+        <form [formGroup]="firstFormGroup">
+          <ng-template matStepLabel>Vos informations</ng-template>
+
+          <mat-form-field class="w-full md:mr-3" appearance="fill">
+            <mat-label>Nom</mat-label>
+            <input
+              matInput
+              placeholder="Dupont"
+              name="lastname"
+              formControlName="lastname"
+              required
+            />
+            <mat-error *ngIf="firstFormGroup.get('lastname')?.hasError('required')">Nom requis</mat-error>
+
+          </mat-form-field>
+
+          <mat-form-field class="w-full" appearance="fill">
+            <mat-label>Prénom</mat-label>
+            <input
+              matInput
+              placeholder="Michel"
+              name="firstname"
+              formControlName="firstname"
+              required
+
+            />
+            <mat-error *ngIf="firstFormGroup.get('firstname')?.hasError('required')">Prénom requis</mat-error>
+
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="w-full">
+            <mat-label>Date de naissance</mat-label>
+            <input
+              name="birhday"
+              formControlName="birthday"
+              matInput
+              placeholder="01/01/2007"
+              required
+            />
+            <mat-error *ngIf="firstFormGroup.get('birthday')?.hasError('required')">Date de naissance requise</mat-error>
+            <mat-error *ngIf="firstFormGroup.get('birthday')?.hasError('invalidAge')">Age non réglmentaire</mat-error>
+            <mat-error *ngIf="firstFormGroup.get('birthday')?.hasError('invalidDate')">Date de naissance non valide</mat-error>
+          </mat-form-field>
+          <div class="flex justify-end mt-3">
+            <button mat-raised-button matStepperNext>Suivant</button>
+          </div>
+        </form>
+
+      </div>
+      <div>
+
+
+      </div>
+    </mat-step>
+
+    <mat-step [stepControl]="secondFormGroup" [editable]="isEditable">
+      <ng-template matStepLabel>Profil et affinités
+
+      </ng-template>
+
+      <div class="drop-shadow-lg border-[#6A3A71] border-2 bg-[rgba(106,58,113,0.50)] rounded-3xl p-6">
+        <form [formGroup]="secondFormGroup">
+
+          <mat-form-field class="w-full">
+            <mat-label>Genre</mat-label>
+            <mat-select formControlName="gender" required>
+              @for (gender of genders; track gender.id) {
+                <mat-option [value]="gender.id">{{ gender.name }}</mat-option>
+              }
+            </mat-select>
+            <mat-error *ngIf="secondFormGroup.get('gender')?.hasError('required')">Genre requis</mat-error>
+
+          </mat-form-field>
+
+          <mat-form-field class="w-full">
+            <mat-label>Préférences amoureuse</mat-label>
+            <mat-select formControlName="sexualOrientation" required>
+              @for (gender of genders; track gender.id) {
+                <mat-option [value]="gender.id">{{ gender.name }}</mat-option>
+              }
+            </mat-select>
+            <mat-error *ngIf="secondFormGroup.get('sexualOrientation')?.hasError('required')">Préférence sexuelle requis</mat-error>
+
+          </mat-form-field>
+
+          <div class="flex justify-end">
+            <button mat-raised-button matStepperNext>Suivant</button>
+          </div>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step [stepControl]="thirdFormGroup" [editable]="isEditable">
+      <ng-template matStepLabel>Accès</ng-template>
+      <div class="drop-shadow-lg border-[#6A3A71] border-2 bg-[rgba(106,58,113,0.50)] rounded-3xl p-6">
+        <form [formGroup]="thirdFormGroup">
+          <mat-form-field appearance="fill" class="w-full">
+            <mat-label>Email</mat-label>
+            <input
+              matInput
+              formControlName="email"
+              placeholder="pat@example.com"
+              required
+            />
+            <mat-error *ngIf="thirdFormGroup.get('email')?.hasError('required')">Email requis</mat-error>
+            <mat-error *ngIf="thirdFormGroup.get('email')?.hasError('pattern')">Email non valide</mat-error>
+            <mat-error *ngIf="thirdFormGroup.get('email')?.hasError('emailUsed')">>Email déjà utilisé</mat-error>
+
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="w-full">
+            <mat-label>Mot de passe</mat-label>
+            <div class="flex items-center px-3 justify-center">
+
+              <input
+                name="password"
+                formControlName="password"
+                type="password"
+                matInput
+                placeholder="**********"
+                [type]="hidePassword() ? 'password' : 'text'"
+                required
+              />
+              <button class="text-white mr-1" (click)="hidePassword.set(!hidePassword())">
+                <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+            </div>
+            <mat-error *ngIf="thirdFormGroup.get('password')?.hasError('required')">Mot de passe requis</mat-error>
+            <mat-error *ngIf="thirdFormGroup.get('password')?.hasError('pattern') && !thirdFormGroup.get('password')?.hasError('required')">Min. 8 caractères, avec une minuscule, un chiffre et un caractère spécial</mat-error>
+
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="w-full">
+            <mat-label>Confirmation</mat-label>
+            <div class="flex items-center px-3 justify-center">
+
+              <input
+                name="passwordConfirm"
+                formControlName="passwordConfirm"
+                type="password"
+                matInput
+                placeholder="**********"
+                [type]="hideConfirm() ? 'password' : 'text'"
+                required
+              />
+              <button class="text-white mr-1" (click)="hideConfirm.set(!hideConfirm())">
+                <mat-icon>{{ hideConfirm() ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+            </div>
+
+            <mat-error *ngIf="thirdFormGroup.get('passwordConfirm')?.hasError('required')">Confirmation de mot de passe requis</mat-error>
+
+            <mat-error *ngIf="thirdFormGroup.get('passwordConfirm')?.hasError('mismatchPassword')">Les mots de passe doivent correspondre</mat-error>
+
+          </mat-form-field>
+          <div class="flex justify-end">
+            <button mat-raised-button (click)="onSubmit(stepper)">Suivant</button>
+          </div>
+        </form>
+
+      </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Finalisation</ng-template>
+      <div class="drop-shadow-lg text-center flex flex-col justify-around h-[calc(50vh)] w-4/5 md:w-2/5 m-auto">
+
+        <h2 class="text-2xl text-[#6A3A71] font-semibold">Finalisez votre inscription</h2>
+        <p>Un e-mail vient de vous être envoyé.</p>
+        <p>Pour finaliser votre inscription, rendez-vous dans votre boîte e-mail pour activer votre compte.</p>
+        <p>Pas d’e-mail reçu dans votre boîte de reception ou vos spams? <a class="text-[#FF69B4] whitespace-nowrap">Renvoyer
+          l’e-mail.</a></p>
+
+        <p>Si vous avez procédé à la vérification, <a routerLink="/login" class="text-[#FF69B4] whitespace-nowrap">cliquez
+          ici</a> pour continuer votre
+          navigation.
+        </p>
+      </div>
+    </mat-step>
+  </mat-stepper>
+</div>

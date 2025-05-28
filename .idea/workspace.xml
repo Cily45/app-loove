@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="90a1cb02-b4eb-446b-9079-dccce62cc891" name="Changes" comment="init">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+    <pharConfigPath>$PROJECT_DIR$/api/composer.json</pharConfigPath>
+    <execution />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="main" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$/front" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Cily45&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Cily45/app-loove2.git&quot;,
+    &quot;accountId&quot;: &quot;e9f8b67f-cfc0-4ae8-80ff-5b05fd893361&quot;
+  }
+}</component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="/opt/homebrew/Cellar/php/8.4.7/bin/php">
+    <include_path>
+      <path value="$PROJECT_DIR$/api/vendor/composer" />
+      <path value="$PROJECT_DIR$/api/vendor/phpoption/phpoption" />
+      <path value="$PROJECT_DIR$/api/vendor/vlucas/phpdotenv" />
+      <path value="$PROJECT_DIR$/api/vendor/phpmailer/phpmailer" />
+      <path value="$PROJECT_DIR$/api/vendor/firebase/php-jwt" />
+      <path value="$PROJECT_DIR$/api/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/api/vendor/graham-campbell/result-type" />
+      <path value="$PROJECT_DIR$/api/vendor/symfony/polyfill-php80" />
+      <path value="$PROJECT_DIR$/api/vendor/symfony/polyfill-ctype" />
+    </include_path>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2wtlzWfwTYzSFbQGZJG9Odv5PUM" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Applications/MAMP/htdocs/app-loove/front/public/assets/image&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Applications/MAMP/htdocs/app-loove/front/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/front/public/assets/image" />
+      <recent name="$PROJECT_DIR$/front/src/app/view/home" />
+      <recent name="$PROJECT_DIR$/api" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/front/public/assets/image" />
+      <recent name="$PROJECT_DIR$/front/src/app/services/api" />
+      <recent name="$PROJECT_DIR$/api/upload" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-PS-251.23774.466" />
+        <option value="bundled-php-predefined-a98d8de5180a-aaeaa8632555-com.jetbrains.php.sharedIndexes-PS-251.23774.466" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="90a1cb02-b4eb-446b-9079-dccce62cc891" name="Changes" comment="" />
+      <created>1746869013996</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1746869013996</updated>
+      <workItem from="1746869015141" duration="1153000" />
+      <workItem from="1746870922425" duration="27308000" />
+      <workItem from="1746911686547" duration="193000" />
+      <workItem from="1746947980025" duration="9180000" />
+      <workItem from="1746958399460" duration="15036000" />
+      <workItem from="1746976741714" duration="13810000" />
+      <workItem from="1746994346537" duration="8000" />
+      <workItem from="1747024151205" duration="5077000" />
+      <workItem from="1747032309857" duration="779000" />
+      <workItem from="1747037466787" duration="7585000" />
+      <workItem from="1747068564876" duration="599000" />
+      <workItem from="1747069673293" duration="266000" />
+      <workItem from="1747070065859" duration="65000" />
+      <workItem from="1747070337374" duration="9000" />
+      <workItem from="1747070358120" duration="81000" />
+      <workItem from="1747071545090" duration="4719000" />
+      <workItem from="1747111640775" duration="3401000" />
+      <workItem from="1747118802765" duration="461000" />
+      <workItem from="1747131391162" duration="940000" />
+      <workItem from="1747143604050" duration="3934000" />
+      <workItem from="1747154253291" duration="1318000" />
+      <workItem from="1747210346322" duration="1672000" />
+      <workItem from="1747222382363" duration="1991000" />
+      <workItem from="1747236063451" duration="5620000" />
+      <workItem from="1747285291069" duration="2460000" />
+      <workItem from="1747291636442" duration="6917000" />
+      <workItem from="1747325090259" duration="9399000" />
+      <workItem from="1747371160954" duration="1323000" />
+      <workItem from="1747377821782" duration="15496000" />
+      <workItem from="1747404370878" duration="1806000" />
+      <workItem from="1747411661794" duration="4148000" />
+      <workItem from="1747422888373" duration="22000" />
+      <workItem from="1747467209942" duration="36999000" />
+      <workItem from="1747516542080" duration="13000" />
+      <workItem from="1747552558265" duration="7620000" />
+      <workItem from="1747565899931" duration="2608000" />
+      <workItem from="1747568679566" duration="11112000" />
+      <workItem from="1747586673159" duration="358000" />
+      <workItem from="1747587084939" duration="330000" />
+      <workItem from="1747587459742" duration="5089000" />
+      <workItem from="1747637169683" duration="406000" />
+      <workItem from="1747831675638" duration="7323000" />
+      <workItem from="1747848816916" duration="7900000" />
+      <workItem from="1747889879243" duration="22740000" />
+      <workItem from="1747982549950" duration="33221000" />
+      <workItem from="1748065361321" duration="57362000" />
+      <workItem from="1748198251369" duration="407000" />
+      <workItem from="1748198672101" duration="853000" />
+      <workItem from="1748199530194" duration="259000" />
+      <workItem from="1748199794214" duration="1056000" />
+      <workItem from="1748242079107" duration="2164000" />
+      <workItem from="1748244667136" duration="18166000" />
+      <workItem from="1748274412364" duration="10396000" />
+      <workItem from="1748328268181" duration="21558000" />
+      <workItem from="1748355835506" duration="9000" />
+      <workItem from="1748370763705" duration="42000" />
+      <workItem from="1748370808760" duration="134000" />
+      <workItem from="1748370954214" duration="167000" />
+      <workItem from="1748371127460" duration="171000" />
+      <workItem from="1748371301608" duration="710000" />
+      <workItem from="1748409243751" duration="144000" />
+    </task>
+    <task id="LOCAL-00001" summary="wip">
+      <option name="closed" value="true" />
+      <created>1746950173773</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1746950173773</updated>
+    </task>
+    <task id="LOCAL-00002" summary="wip">
+      <option name="closed" value="true" />
+      <created>1746950409666</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1746950409666</updated>
+    </task>
+    <task id="LOCAL-00003" summary="wip">
+      <option name="closed" value="true" />
+      <created>1747340132783</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1747340132783</updated>
+    </task>
+    <task id="LOCAL-00004" summary="wip">
+      <option name="closed" value="true" />
+      <created>1747568068507</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1747568068507</updated>
+    </task>
+    <task id="LOCAL-00005" summary="wip">
+      <option name="closed" value="true" />
+      <created>1747596284123</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1747596284123</updated>
+    </task>
+    <task id="LOCAL-00006" summary="wip">
+      <option name="closed" value="true" />
+      <created>1748195041737</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1748195041737</updated>
+    </task>
+    <task id="LOCAL-00007" summary="wip">
+      <option name="closed" value="true" />
+      <created>1748199335380</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1748199335380</updated>
+    </task>
+    <task id="LOCAL-00008" summary="init">
+      <option name="closed" value="true" />
+      <created>1748371920922</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1748371920922</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/front" />
+    </ignored-roots>
+    <MESSAGE value="wip" />
+    <MESSAGE value="init" />
+    <option name="LAST_COMMIT_MESSAGE" value="init" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/front/src/app/app.component.ts</url>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

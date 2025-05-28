@@ -1,0 +1,61 @@
+<div class="app-home bg-second w-screen h-[calc(100vh-60px)] md:w-[calc(100vw-220px)] md:h-screen">
+  <div
+    id="tphoto"
+    class="h-[calc(100vh-60px)] flex items-center justify-center relative md:h-screen"
+  >
+    @if (profils().length > 0) {
+      <div class="w-4/5 h-[80vh] lg:w-3/5   relative rounded-3xl shadow-lg shadow-black/25">
+
+        <img src="{{environment.apiUrl}}/uploads/{{profils()[index].profil_photo}}"
+             class="w-full h-full object-cover object-center rounded-3xl " alt="Photo" />
+
+        <div
+          class="absolute top-0 rounded-t-3xl left-0 w-full h-20 bg-gradient-to-t from-transparent to-black/50 z-10"></div>
+
+        <div class="text-white text-4xl">
+          <a class="absolute top-2 left-0  z-20 opacity-75  px-4 py-2" >
+            <mat-icon>article_person</mat-icon>
+          </a >
+          <a class="absolute top-2 right-0  z-20 opacity-75  px-4 py-2" onclick="document.getElementById('reportModal').classList.remove('hidden')">
+            <mat-icon>flag</mat-icon>
+          </a>
+
+        </div>
+
+        <div class="absolute bottom-20 left-4 text-white text-2xl z-20">
+          {{ profils()[index].firstname }}, {{ getAge(profils()[index].birthday) }}
+        </div>
+
+        <div
+          class="absolute bottom-0 rounded-b-3xl left-0 w-full h-32 bg-gradient-to-t from-black/75 to-transparent z-10"></div>
+
+        <div class="absolute bottom-4 left-0 w-full flex justify-center space-x-3 z-20 text-white opacity-80">
+          <div (click)="leftAnimation()"
+               class="h-14 w-14 bg-[#6A3A71] rounded-full flex items-center justify-center shadow-lg shadow-black/25">
+            <mat-icon>close</mat-icon>
+          </div>
+          <div [routerLink]="isSubscribe()?['/messagerie/discussion', profils()[index].id] : ['/nouvel-abonnement']"
+               class="h-16 w-16 bg-gray-600 rounded-full flex items-center justify-center shadow-lg shadow-black/25">
+            <mat-icon>chat_bubble</mat-icon>
+          </div>
+          <div (click)="rightAnimation()"
+               class="h-14 w-14 bg-pink-300 rounded-full flex items-center justify-center shadow-lg shadow-black/25">
+            <mat-icon>favorite</mat-icon>
+          </div>
+        </div>
+
+      </div>
+    } @else if (profils().length === 0) {
+      Aucun profil à montré
+    } @else {
+      En cours de chargement
+    }
+  </div>
+</div>
+@if(profils().length > 0){
+  <div id="reportModal" class="fixed inset-0  bg-white/30 backdrop-blur-sm bg-opacity-50 flex items-center justify-center hidden z-50 md:pl-[220px]">
+    <app-report [id]="profils()[index].id"></app-report>
+  </div>
+}
+
+

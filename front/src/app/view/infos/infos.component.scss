@@ -1,0 +1,25 @@
+@use '@angular/material' as mat;
+
+.app-infos {
+  span {
+    color: #6A3A71;
+    font-weight: bold;
+  }
+
+  p {
+    margin-bottom: 10px;
+  }
+}
+mat-expansion-panel-header.mat-expanded mat-panel-title {
+  color: #6A3A71;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+mat-panel-title {
+  color: white;
+}
+
+mat-expansion-panel.mat-expansion-panel.mat-expansion-panel-animations-enabled.mat-expanded.mat-expansion-panel-spacing {
+  background-color: white;
+}

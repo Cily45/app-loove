@@ -1,0 +1,34 @@
+/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.bg-main {
+  background: linear-gradient(#6A3A71, #202121);
+}
+
+.bg-second {
+  background-color: white;
+}
+
+/* styles.css */
+.toast-success {
+  background-color: #22c55e !important; /* vert */
+  color: white !important;
+}
+
+.toast-error {
+  background-color: #ef4444 !important;
+  color: white !important;
+}
+
+.toast-info {
+  background-color: #3b82f6 !important;
+  color: white !important;
+}
+
+.mat-mdc-snack-bar-container .mat-mdc-snackbar-surface{
+  background-color: transparent !important;
+}
+

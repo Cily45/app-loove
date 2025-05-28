@@ -1,0 +1,20 @@
+# Activer le moteur de réécriture
+RewriteEngine On
+
+# Autoriser les URLs propres (si tu fais du routing)
+# Exemple : rediriger tout vers index.php sauf les fichiers et dossiers existants
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
+
+# Transmettre Authorization à PHP
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+
+# Sécurité de base
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+# Forcer l'interprétation PHP si jamais les .php ne sont pas bien détectés
+AddType application/x-httpd-php .php

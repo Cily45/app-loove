@@ -1,0 +1,29 @@
+<div class="app-newSubscription flex flex-col items-center h-[calc(100vh-60px)] md:h-screen p-6">
+  <div class="">
+    <h2 class="text-2xl text-center text-[#6A3A71] mb-6">Abonnement</h2>
+    <p>Accéder à plus de filtres de recherche avancée</p>
+    <p> Envoyer des messages sans avoir à attendre un match</p>
+    <p> Voir avec qui on a matcher</p>
+  </div>
+  <div class="container scroll-1">
+    @for (price of prices(); track price) {
+      <div class="card" (click)="setPrice(price)">
+        <div class="card__image">
+          <img class="w-2/3 max-w-[400px] my-10 mx-auto rounded-3xl"
+               src="assets/image/Paw Print Premium Éclatante-Photoroom.png"
+               alt="Image">
+        </div>
+        <div class="card__content">
+          <span class="card__title">{{ price.quantity }} mois</span>
+          <p class="card__describe">{{ price.price }}€</p>
+          <p>Soit {{ (Math.round(price.price / price.quantity * 100) / 100).toFixed(2) }}€/mois</p>
+        </div>
+      </div>
+    }
+  </div>
+
+  @if (price() !== null) {
+    <p class="w-4/5 text-center">Vous avez selectionner le premium d'une durée de {{price()?.quantity}} mois à {{price()?.price}}€</p>
+    <app-paypal-button [price]="price()" class="w-4/5 mt-6"></app-paypal-button>
+  }
+</div>

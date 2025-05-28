@@ -1,0 +1,26 @@
+@use '@angular/material' as mat;
+
+.app-register {
+  @include mat.stepper-overrides((
+    container-color: tranparent,
+    header-selected-state-icon-background-color: #6a3a71,
+    header-icon-background-color: #f7a8c5,
+  ));
+
+  @include mat.button-overrides((
+    text-label-text-color: #6a3a71,
+  ));
+
+  input[type=file] {
+    display: none
+  }
+  @include mat.button-overrides((
+    protected-label-text-color: #6a3a71,
+  ));
+
+  @include mat.select-overrides((
+    focused-arrow-color: #6a3a71,
+    enabled-arrow-color: #6a3a71,
+    enabled-trigger-text-color: white,
+  ));
+}

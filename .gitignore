@@ -1,0 +1,5 @@
+/api/.env
+/front/.idea/
+/front/.angular/
+/front/.vscode/
+/front/src/app/env.ts

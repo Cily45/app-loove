@@ -1,0 +1,33 @@
+<div class="app-filter flex flex-col items-center h-[calc(100vh-60px)] md:h-screen p-6">
+  <h2 class="text-2xl text-center text-[#6A3A71] mb-6">Abonnement</h2>
+  <div class="flex flex-col items-center">
+    <div>
+      @if (isSubscribe()) {
+        <p>✅ Abonnement: {{ isSubscribe() ? "actif" : "non actif" }}</p>
+        <p>📅 Date d’activation : {{ getDate(subscriptionInfo().begin_date) }}</p>
+        <p>📅 Date d’activation : {{ getDate(subscriptionInfo().end_date) }}</p>
+      }
+    </div>
+    <div class="text-center my-6">
+
+        <button mat-flat-button routerLink="/nouvel-abonnement">
+          Acheter du premium
+        </button>
+
+    </div>
+  </div>
+  <div class="w-4/5 md:w-3/5">
+    <h3>💡 Bon à savoir :</h3>
+    <ul class="mb-6">
+      <li>Tu peux désactiver le renouvellement automatique à tout moment.</li>
+      <li>Une fois annulé, ton abonnement restera actif jusqu’à la fin de la période en cours.
+      </li>
+      <li>Pour toute question, notre équipe est là pour toi → <a class="text-green-500" routerLink="/contact">[Contact
+        Support]</a>
+      </li>
+    </ul>
+    <p>💖 Merci d’être membre Premium – ton soutien nous permet de faire matcher encore plus de belles histoires !
+    </p>
+  </div>
+
+</div>

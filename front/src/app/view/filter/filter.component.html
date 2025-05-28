@@ -1,0 +1,230 @@
+<div class="app-filter min-h-[calc(100vh-120px)] p-6">
+  <h2 class="text-2xl text-center text-[#6A3A71] mb-6">Filtres</h2>
+  <div class="flex flex-col justify-around ">
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Base</mat-panel-title>
+        </mat-expansion-panel-header>
+        <form [formGroup]="baseFormGroup">
+          <h3 class="mb-3">Préférence amoureuse:</h3>
+          <div class="flex flex-row flex-wrap justify-between">
+            <label
+              class="relative mx-12 my-4 text-[#6A3A71] flex cursor-pointer items-center"
+              for="woman"
+            >
+              <input formControlName="womanCheck" class="peer appearance-none" id="woman" name="woman" type="checkbox"/>
+              <span
+                class="absolute left-0 top-1/2 h-[2em] w-[2em] -translate-x-full -translate-y-1/2 rounded-[0.25em] border-[2px] border-[#6A3A71]"
+              >
+  </span>
+              <svg
+                class="absolute left-0 top-1/2 h-6 w-6 -translate-x-full -translate-y-1/2 duration-500 ease-out [stroke-dasharray:1000] [stroke-dashoffset:1000] peer-checked:[stroke-dashoffset:0] peer-checked:[fill:rgba(255,145,175,0.5)]"
+                viewBox="0 0 87 87"
+                fill="transparent"
+                height="87"
+                width="87"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  class="!h-6 !w-6"
+                  d="M28.048 74.752c-.74 0-3.428.03-3.674-.175-3.975-3.298-10.07-11.632-12.946-15.92C7.694 53.09 5.626 48.133 3.38 42.035 1.937 38.12 1.116 35.298.93 31.012c-.132-3.034-.706-7.866 0-10.847C2.705 12.67 8.24 7.044 15.801 7.044c1.7 0 3.087-.295 4.55.875 4.579 3.663 5.515 8.992 7.172 14.171.142.443 3.268 6.531 2.1 7.698-.362.363-1.161-10.623-1.05-12.071.26-3.37 1.654-5.522 3.15-8.398 3.226-6.205 7.617-7.873 14.52-7.873 2.861 0 5.343-.274 8.049 1.224 16.654 9.22 14.572 23.568 5.773 37.966-1.793 2.934-3.269 6.477-5.598 9.097-1.73 1.947-4.085 3.36-5.774 5.424-2.096 2.562-3.286 5.29-5.598 7.698-4.797 4.997-9.56 10.065-14.522 14.872-1.64 1.588-10.194 6.916-10.672 7.873-.609 1.217 2.76-.195 4.024-.7"
+                  stroke-width="4px"
+                  pathLength="1000"
+                  stroke="#FF91AF"
+                ></path>
+              </svg>
+              <p class="mx-3">Femme</p>
+            </label>
+            <label
+              class="relative mx-12 my-4 text-[#6A3A71] flex cursor-pointer items-center"
+              for="man"
+            >
+              <input formControlName="manCheck" class="peer appearance-none" id="man" name="man" type="checkbox"/>
+              <span
+                class="absolute left-0 top-1/2 h-[2em] w-[2em] -translate-x-full -translate-y-1/2 rounded-[0.25em] border-[2px] border-[#6A3A71]"
+              >
+  </span>
+              <svg
+                class="absolute left-0 top-1/2 h-6 w-6 -translate-x-full -translate-y-1/2 duration-500 ease-out [stroke-dasharray:1000] [stroke-dashoffset:1000] peer-checked:[stroke-dashoffset:0] peer-checked:[fill:rgba(255,145,175,0.5)]"
+                viewBox="0 0 87 87"
+                fill="transparent"
+                height="87"
+                width="87"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  class="!h-6 !w-6"
+                  d="M28.048 74.752c-.74 0-3.428.03-3.674-.175-3.975-3.298-10.07-11.632-12.946-15.92C7.694 53.09 5.626 48.133 3.38 42.035 1.937 38.12 1.116 35.298.93 31.012c-.132-3.034-.706-7.866 0-10.847C2.705 12.67 8.24 7.044 15.801 7.044c1.7 0 3.087-.295 4.55.875 4.579 3.663 5.515 8.992 7.172 14.171.142.443 3.268 6.531 2.1 7.698-.362.363-1.161-10.623-1.05-12.071.26-3.37 1.654-5.522 3.15-8.398 3.226-6.205 7.617-7.873 14.52-7.873 2.861 0 5.343-.274 8.049 1.224 16.654 9.22 14.572 23.568 5.773 37.966-1.793 2.934-3.269 6.477-5.598 9.097-1.73 1.947-4.085 3.36-5.774 5.424-2.096 2.562-3.286 5.29-5.598 7.698-4.797 4.997-9.56 10.065-14.522 14.872-1.64 1.588-10.194 6.916-10.672 7.873-.609 1.217 2.76-.195 4.024-.7"
+                  stroke-width="4px"
+                  pathLength="1000"
+                  stroke="#FF91AF"
+                ></path>
+              </svg>
+              <p class="mx-3">Homme</p>
+            </label>
+            <label
+              class="relative mx-12 my-4 text-[#6A3A71] flex cursor-pointer items-center"
+              for="other"
+            >
+              <input formControlName="otherCheck" class="peer appearance-none" id="other" name="other" type="checkbox"/>
+              <span
+                class="absolute left-0 top-1/2 h-[2em] w-[2em] -translate-x-full -translate-y-1/2 rounded-[0.25em] border-[2px] border-[#6A3A71]"
+              ></span>
+              <svg
+                class="absolute left-0 top-1/2 h-6 w-6 -translate-x-full -translate-y-1/2 duration-500 ease-out [stroke-dasharray:1000] [stroke-dashoffset:1000] peer-checked:[stroke-dashoffset:0] peer-checked:[fill:rgba(255,145,175,0.5)]"
+                viewBox="0 0 87 87"
+                fill="transparent"
+                height="87"
+                width="87"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  class="!h-6 !w-6"
+                  d="M28.048 74.752c-.74 0-3.428.03-3.674-.175-3.975-3.298-10.07-11.632-12.946-15.92C7.694 53.09 5.626 48.133 3.38 42.035 1.937 38.12 1.116 35.298.93 31.012c-.132-3.034-.706-7.866 0-10.847C2.705 12.67 8.24 7.044 15.801 7.044c1.7 0 3.087-.295 4.55.875 4.579 3.663 5.515 8.992 7.172 14.171.142.443 3.268 6.531 2.1 7.698-.362.363-1.161-10.623-1.05-12.071.26-3.37 1.654-5.522 3.15-8.398 3.226-6.205 7.617-7.873 14.52-7.873 2.861 0 5.343-.274 8.049 1.224 16.654 9.22 14.572 23.568 5.773 37.966-1.793 2.934-3.269 6.477-5.598 9.097-1.73 1.947-4.085 3.36-5.774 5.424-2.096 2.562-3.286 5.29-5.598 7.698-4.797 4.997-9.56 10.065-14.522 14.872-1.64 1.588-10.194 6.916-10.672 7.873-.609 1.217 2.76-.195 4.024-.7"
+                  stroke-width="4px"
+                  pathLength="1000"
+                  stroke="#FF91AF"
+                ></path>
+              </svg>
+              <p class="mx-3">Autre</p>
+            </label>
+          </div>
+
+          <div>
+            <h3 class="mb-3">Âge</h3>
+            <mat-slider
+              class="!w-full"
+              max=110
+              min=18
+              discrete=true>
+              <input value="25" formControlName="minAge" matSliderStartThumb>
+              <input value="35" formControlName="maxAge" matSliderEndThumb>
+
+            </mat-slider>
+          </div>
+          <div>
+            <h3 class="mb-3">Distance</h3>
+            <mat-slider
+              class="!w-full"
+              max=200
+              min=0
+              discrete=true>
+              <input formControlName="distance" value="80" matSliderThumb>
+            </mat-slider>
+          </div>
+          <div class="flex justify-between items-center">
+            <h3>Photo uniquement</h3>
+            <label class="switch">
+              <input formControlName="photoCheck" type="checkbox">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </form>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel class="my-6" [disabled]="!isSubscribe()">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Loisirs</mat-panel-title>
+        </mat-expansion-panel-header>
+        <form [formGroup]="hobbiesFormGroup">
+          <div class="flex flex-wrap justify-between">
+            @for (hobby of hobbies(); track hobby) {
+              <!-- From Uiverse.io by Uncannypotato69 -->
+              <div class="w-[250px]">
+                <label
+                  class="relative mx-12 my-4 text-[#6A3A71] flex cursor-pointer items-center"
+                  for="heart{{hobby.id}}"
+                >
+                  <input class="peer appearance-none" id="heart{{hobby.id}}" name="heart{{hobby.id}}" type="checkbox"/>
+                  <span
+                    class="absolute left-0 top-1/2 h-[2em] w-[2em] -translate-x-full -translate-y-1/2 rounded-[0.25em] border-[2px] border-[#6A3A71]"
+                  >
+  </span>
+                  <svg
+                    class="absolute left-0 top-1/2 h-6 w-6 -translate-x-full -translate-y-1/2 duration-500 ease-out [stroke-dasharray:1000] [stroke-dashoffset:1000] peer-checked:[stroke-dashoffset:0] peer-checked:[fill:rgba(255,145,175,0.5)]"
+                    viewBox="0 0 87 87"
+                    fill="transparent"
+                    height="87"
+                    width="87"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      class="!h-6 !w-6"
+                      d="M28.048 74.752c-.74 0-3.428.03-3.674-.175-3.975-3.298-10.07-11.632-12.946-15.92C7.694 53.09 5.626 48.133 3.38 42.035 1.937 38.12 1.116 35.298.93 31.012c-.132-3.034-.706-7.866 0-10.847C2.705 12.67 8.24 7.044 15.801 7.044c1.7 0 3.087-.295 4.55.875 4.579 3.663 5.515 8.992 7.172 14.171.142.443 3.268 6.531 2.1 7.698-.362.363-1.161-10.623-1.05-12.071.26-3.37 1.654-5.522 3.15-8.398 3.226-6.205 7.617-7.873 14.52-7.873 2.861 0 5.343-.274 8.049 1.224 16.654 9.22 14.572 23.568 5.773 37.966-1.793 2.934-3.269 6.477-5.598 9.097-1.73 1.947-4.085 3.36-5.774 5.424-2.096 2.562-3.286 5.29-5.598 7.698-4.797 4.997-9.56 10.065-14.522 14.872-1.64 1.588-10.194 6.916-10.672 7.873-.609 1.217 2.76-.195 4.024-.7"
+                      stroke-width="4px"
+                      pathLength="1000"
+                      stroke="#FF91AF"
+                    ></path>
+                  </svg>
+
+                  <p class="mx-3">{{ hobby.name }}</p>
+                  <mat-icon>{{ hobby.icon }}</mat-icon>
+                </label>
+              </div>
+            }
+          </div>
+        </form>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel class="my-6" [disabled]="!isSubscribe()">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Chiens</mat-panel-title>
+        </mat-expansion-panel-header>
+        <form [formGroup]="dogFormGroup">
+          <div class="mb-6">
+            @for (question of questions; track question; let i = $index) {
+              <p class="font-bold">{{ question.label }}</p>
+
+              <div>
+                @for (option of question.options; track option; let j = $index) {
+                  <label
+                    class="relative mx-12 my-4 text-[#6A3A71] flex cursor-pointer items-center"
+                    for="{{option}}"
+                  >
+                    <input
+                      class="peer appearance-none"
+                      name="{{option}}"
+                      id="{{option}}"
+                      type="checkbox"
+                    /> <span
+                    class="absolute left-0 top-1/2 h-[2em] w-[2em] -translate-x-full -translate-y-1/2 rounded-[0.25em] border-[2px] border-[#6A3A71]"
+                  >
+  </span>
+                    <svg
+                      class="absolute left-0 top-1/2 h-6 w-6 -translate-x-full -translate-y-1/2 duration-500 ease-out [stroke-dasharray:1000] [stroke-dashoffset:1000] peer-checked:[stroke-dashoffset:0] peer-checked:[fill:rgba(255,145,175,0.5)]"
+                      viewBox="0 0 87 87"
+                      fill="transparent"
+                      height="87"
+                      width="87"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        class="!h-6 !w-6"
+                        d="M28.048 74.752c-.74 0-3.428.03-3.674-.175-3.975-3.298-10.07-11.632-12.946-15.92C7.694 53.09 5.626 48.133 3.38 42.035 1.937 38.12 1.116 35.298.93 31.012c-.132-3.034-.706-7.866 0-10.847C2.705 12.67 8.24 7.044 15.801 7.044c1.7 0 3.087-.295 4.55.875 4.579 3.663 5.515 8.992 7.172 14.171.142.443 3.268 6.531 2.1 7.698-.362.363-1.161-10.623-1.05-12.071.26-3.37 1.654-5.522 3.15-8.398 3.226-6.205 7.617-7.873 14.52-7.873 2.861 0 5.343-.274 8.049 1.224 16.654 9.22 14.572 23.568 5.773 37.966-1.793 2.934-3.269 6.477-5.598 9.097-1.73 1.947-4.085 3.36-5.774 5.424-2.096 2.562-3.286 5.29-5.598 7.698-4.797 4.997-9.56 10.065-14.522 14.872-1.64 1.588-10.194 6.916-10.672 7.873-.609 1.217 2.76-.195 4.024-.7"
+                        stroke-width="4px"
+                        pathLength="1000"
+                        stroke="#FF91AF"
+                      ></path>
+                    </svg>
+                    <p class="mx-3"> {{ option }}
+                    </p>
+                  </label>
+
+                }
+              </div>
+            }
+          </div>
+
+        </form>
+      </mat-expansion-panel>
+
+
+    </mat-accordion>
+
+    <button mat-flat-button class="self-end w-fit mt-6" (click)="onSubmit()">Actualiser</button>
+  </div>
+</div>
+
+
+
