@@ -23,7 +23,6 @@ import {log} from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
-
 })
 export class HomeComponent implements OnInit {
   profils = signal<Profil[]>([])

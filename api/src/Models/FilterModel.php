@@ -23,12 +23,4 @@ class FilterModel extends FilterController
             ]);
     }
 
-    public function delete(int $id): bool|string
-    {
-        return $this
-            ->query("DELETE FROM `filter` WHERE `user_id` = :id")
-            ->execute([
-                'id'=>$id
-            ]);
-    }
 }

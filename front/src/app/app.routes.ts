@@ -18,6 +18,7 @@ import {AccountComponent} from './view/account/account.component';
 import {NotificationComponent} from './view/notification/notification.component';
 import {SubscriptionComponent} from './view/subscription/subscription.component';
 import {NewSubscriptionComponent} from './view/new-subscription/new-subscription.component';
+import {DogProfilComponent} from './view/dog-profil/dog-profil.component';
 
 export const routes: Routes = [
   {
@@ -108,11 +109,17 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
+    title: 'Mes chiens',
+    path: 'chiens',
+    component: DogProfilComponent,
+    canActivate: [authGuard]
+  },
+  {
     title: 'Messagerie',
     path: 'messagerie',
     component: ChatComponent,
     canActivate: [authGuard],
-  },  {
+  }, {
     title: 'Discussion',
     path: 'messagerie/discussion/:id',
     component: MessageComponent,

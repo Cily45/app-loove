@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {catchError, firstValueFrom, Observable, throwError} from 'rxjs';
 import {environment} from '../../env';
 import {UserService} from '../api/user.service';
+import {DogService} from '../api/dog.service';
 
 interface LoginResponse {
   token?: string
@@ -25,7 +26,7 @@ export interface LoginCredentials {
 export class AuthService {
   private apiUrl = environment.apiUrl;
 
-  constructor(private https: HttpClient, private userService: UserService) {
+  constructor(private https: HttpClient, private userService: UserService, private dogService : DogService) {
   }
   async login(credentials: LoginCredentials): Promise<boolean> {
     try {
@@ -37,6 +38,9 @@ export class AuthService {
         this.userService.userProfil(response.id).subscribe((res) => {
           localStorage.setItem('profil', JSON.stringify(res))
         });
+        this.dogService.dogProfil(response.id).subscribe((list) => {
+          localStorage.setItem('dogs', JSON.stringify(list))
+        })
         return true;
       }
       return false;

@@ -9,10 +9,11 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {Profil} from '../../services/api/user.service';
 import {environment} from '../../env';
 import {HobbiesService, Hobby} from '../../services/api/hobbies.service';
+import {MatSlider, MatSliderRangeThumb} from '@angular/material/slider';
 
 @Component({
   selector: 'app-profil',
-  imports: [MatIconModule, RouterLink, MatIconModule, MatFormFieldModule, MatInputModule, MatExpansionModule, MatButton, ReactiveFormsModule],
+  imports: [MatIconModule, RouterLink, MatIconModule, MatFormFieldModule, MatInputModule, MatExpansionModule, MatButton, ReactiveFormsModule, MatSlider, MatSliderRangeThumb],
   templateUrl: './profil.component.html',
   styleUrl: './profil.component.scss'
 })

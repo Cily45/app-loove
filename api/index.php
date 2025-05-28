@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
+use App\Controllers\DogController;
 use App\Controllers\HobbiesController;
 use App\Controllers\MatchContoller;
 use App\Controllers\MessagesController;
@@ -69,4 +70,5 @@ $routeur->addRoute(['GET'], '/subscription', SubscriptionController::class, 'sub
 
 $routeur->addRoute(['GET'], '/price', PriceController::class, 'get');
 
+$routeur->addRoute(['GET'], '/dog/{id}', DogController::class, 'get');
 new Kernel($routeur);

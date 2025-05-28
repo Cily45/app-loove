@@ -10,6 +10,7 @@ import {ToastService} from '../../services/toast.service';
     ReactiveFormsModule,
   ],
   templateUrl: './report.component.html',
+  standalone: true,
   styleUrl: './report.component.css'
 })
 export class ReportComponent implements OnInit{

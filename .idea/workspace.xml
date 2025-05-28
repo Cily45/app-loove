@@ -5,7 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90a1cb02-b4eb-446b-9079-dccce62cc891" name="Changes" comment="init">
+      <change afterPath="$PROJECT_DIR$/api/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/Controllers/DogController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/Models/DogModel.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/services/api/dog.service.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/services/api/dog.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/Models/FilterModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/Models/FilterModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/app.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/app.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/component/report/report.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/component/report/report.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/services/auth/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/services/auth/auth.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/view/home/home.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/view/home/home.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/view/profil/profil.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/view/profil/profil.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/view/profil/profil.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/view/profil/profil.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/view/profil/profil.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/view/profil/profil.component.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,12 +68,12 @@
     &quot;assignee&quot;: &quot;Cily45&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Cily45/app-loove2.git&quot;,
-    &quot;accountId&quot;: &quot;e9f8b67f-cfc0-4ae8-80ff-5b05fd893361&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Cily45/app-loove.git",
+    "accountId": "e9f8b67f-cfc0-4ae8-80ff-5b05fd893361"
   }
-}</component>
+}]]></component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="/opt/homebrew/Cellar/php/8.4.7/bin/php">
     <include_path>
       <path value="$PROJECT_DIR$/api/vendor/composer" />
@@ -88,7 +103,7 @@
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Applications/MAMP/htdocs/app-loove/front/public/assets/image&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -107,8 +122,8 @@
       <recent name="$PROJECT_DIR$/api" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/front/public/assets/image" />
       <recent name="$PROJECT_DIR$/front/src/app/services/api" />
+      <recent name="$PROJECT_DIR$/front/public/assets/image" />
       <recent name="$PROJECT_DIR$/api/upload" />
     </key>
   </component>
@@ -188,6 +203,8 @@
       <workItem from="1748371127460" duration="171000" />
       <workItem from="1748371301608" duration="710000" />
       <workItem from="1748409243751" duration="144000" />
+      <workItem from="1748409509902" duration="1503000" />
+      <workItem from="1748411029145" duration="15827000" />
     </task>
     <task id="LOCAL-00001" summary="wip">
       <option name="closed" value="true" />
@@ -253,7 +270,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748371920922</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="init">
+      <option name="closed" value="true" />
+      <created>1748410156321</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1748410156321</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -23,3 +23,36 @@ mat-panel-title {
 mat-expansion-panel.mat-expansion-panel.mat-expansion-panel-animations-enabled.mat-expanded.mat-expansion-panel-spacing {
   background-color: white;
 }
+
+/* From Uiverse.io by mrhyddenn */
+.form__field {
+  font-family: inherit;
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #6A3A71;
+  outline: 0;
+  font-size: 17px;
+  color: black;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+}
+
+
+.form__field:focus {
+  padding-bottom: 6px;
+  font-weight: 700;
+  border-width: 3px;
+  border-image: linear-gradient(to right, #6A3A71, white);
+  border-image-slice: 1;
+}
+
+.form__field:focus ~ .form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 17px;
+  color: #38caef;
+  font-weight: 700;
+}
