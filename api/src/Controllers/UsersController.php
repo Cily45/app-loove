@@ -3,14 +3,18 @@
 namespace App\Controllers;
 
 use App\Models\UserModel;
+use DateTime;
 
 class UsersController extends BaseController
 {
 
-    public function liste()
+    public function liste(int $quantity, int $page)
     {
+        $quantity = cleanString($quantity);
+        $page = cleanString($page);
         $model = new UserModel();
-        return json_encode($model->all(), JSON_PRETTY_PRINT);
+        $res = $model->all($quantity, $page);
+        return json_encode($res, JSON_PRETTY_PRINT);
     }
 
     public function user(string $id)
@@ -42,14 +46,13 @@ class UsersController extends BaseController
         $data = json_decode(file_get_contents('php://input'), true);
         $firstname = cleanString($data['firstname']);
         $lastname = cleanString($data['lastname']);
-        $birthday = cleanString($data['birthday']);
-        $gender = (int) cleanString($data['gender']);
-        $sexualOrientation = (int) cleanString($data['sexualOrientation']);
+        $birthday = DateTime::createFromFormat('Y-m-d', cleanString($data['birthday']));
+        $gender = isset($data['gender']) ? (int)cleanString($data['gender']) : null;
         $email = cleanString($data['email']);
-        $password = trim($data['password']);
+        $password = isset($data['password'])?trim($data['password']) : '0000';
         $userModel = new UserModel();
 
-        if (!$firstname || !$lastname || !$birthday || !$gender || !$sexualOrientation || !$email || !$password) {
+        if (!$firstname || !$lastname || !$birthday || !$email || !$password) {
             http_response_code(400);
             return json_encode(['error' => 'Champs manquants.']);
         }
@@ -66,7 +69,6 @@ class UsersController extends BaseController
             $lastname,
             $birthday,
             $gender,
-            $sexualOrientation,
             $email,
             $hashedPassword
         );
@@ -75,10 +77,11 @@ class UsersController extends BaseController
         return json_encode(['success' => true], JSON_PRETTY_PRINT);
     }
 
-    public function profil(string $id){
+    public function profil(string $id)
+    {
         try {
             $userId = $this->getId();
-            if(!$userId){
+            if (!$userId) {
                 return null;
             }
 
@@ -91,10 +94,11 @@ class UsersController extends BaseController
         }
     }
 
-    public function allProfil(){
+    public function allProfil()
+    {
         try {
             $id = $this->getId();
-            if(!$id){
+            if (!$id) {
                 http_response_code(401);
                 return json_encode(['error' => 'Erreur de token']);
             }
@@ -108,10 +112,11 @@ class UsersController extends BaseController
         }
     }
 
-    public function allProfilMessage(){
+    public function allProfilMessage()
+    {
         try {
             $id = $this->getId();
-            if(!$id){
+            if (!$id) {
                 return json_encode(['error' => 'Erreur de token']);
             }
             $model = new UserModel();
@@ -124,9 +129,10 @@ class UsersController extends BaseController
         }
     }
 
-    public function matchs(){
+    public function matchs()
+    {
         $id = $this->getId();
-        if(!$id){
+        if (!$id) {
             http_response_code(401);
             return json_encode(['error' => 'Erreur de token']);
         }
@@ -135,11 +141,12 @@ class UsersController extends BaseController
         return json_encode($model->getAllProfilMatch($id));
     }
 
-    public function updateLocation(){
+    public function updateLocation()
+    {
         $data = json_decode(file_get_contents('php://input'), true);
 
         $id = $this->getId();
-        if(!$id){
+        if (!$id) {
             http_response_code(401);
             return json_encode(['error' => 'Erreur de token']);
         }
@@ -148,5 +155,65 @@ class UsersController extends BaseController
         $model = new UserModel();
 
         return json_encode($model->updateLocation($id, $location));
+    }
+
+    public function banned(int $id)
+    {
+        if (!$this->isAdmin()) {
+            http_response_code(401);
+            return json_encode(['error' => 'Erreur de token']);
+        }
+        $model = new UserModel();
+        return json_encode($model->updateBanned($id));
+    }
+
+    public function delete(int $id): bool|string
+    {
+        if (!$this->isAdmin()) {
+            http_response_code(401);
+            return json_encode(['error' => 'Erreur de token']);
+        }
+
+
+        $model = new UserModel();
+        return json_encode($model->delete($id));
+    }
+
+    public function profilAdmin(int $id): bool|string
+    {
+        if (!$this->isAdmin()) {
+            http_response_code(401);
+            return json_encode(['error' => 'Erreur de token']);
+        }
+        $model = new UserModel();
+        return json_encode($model->getProfilAdmin($id));
+    }
+
+    public function updateProfilAdmin(): bool|string
+    {
+        if(!$this->isAdmin()){
+            http_response_code(401);
+            return json_encode(['error' => 'Erreur de token']);
+        }
+        $data = json_decode(file_get_contents('php://input'), true);
+        $id = (isset($data['id']) && is_numeric($data['id'])) ? $data['id'] : null;
+        $firstname = cleanString($data['firstname']);
+        $lastname = cleanString($data['lastname']);
+        $birthday = DateTime::createFromFormat('Y-m-d', cleanString($data['birthday']));
+        $email = cleanString($data['email']);
+        $userModel = new UserModel();
+        if (!$firstname || !$lastname || !$birthday || !$email) {
+            http_response_code(400);
+            return json_encode(['error' => 'Champs manquants.']);
+        }
+
+        http_response_code(201);
+        return json_encode($userModel->updateUser(
+            $id,
+            $firstname,
+            $lastname,
+            $birthday,
+            $email
+        ));
     }
 }

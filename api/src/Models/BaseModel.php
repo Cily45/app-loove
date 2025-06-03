@@ -63,4 +63,22 @@ abstract class BaseModel {
         $this->current_statement->execute();
         return $this->current_statement->fetchAll();
     }
+    protected function fetchColumn(array $parameters = [], int $column = 0)
+    {
+        if($this->current_statement === null) {
+            throw new LogicException("You should use function query before execute");
+        }
+
+        foreach($parameters as $key => $value) {
+            $this->current_statement->bindValue(":$key", $value);
+        }
+
+        $this->current_statement->execute();
+        return $this->current_statement->fetchColumn($column);
+    }
+    protected function lastInsertId(): string
+    {
+        return $this->connection->lastInsertId();
+    }
+
 }

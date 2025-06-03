@@ -53,6 +53,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem('authToken')
     localStorage.removeItem('profil')
+    localStorage.removeItem('dogs')
 
   }
 

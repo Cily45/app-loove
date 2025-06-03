@@ -17,4 +17,14 @@ class AuthService
             return null;
         }
     }
+
+    public function isAuthenticateAdmin(string $jwt): bool
+    {
+        try {
+            $decoded = JWT::decode($jwt, new Key( $_ENV['JWT_KEY'], 'HS256'));
+            return $decoded->admin ?? false;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
 }

@@ -31,4 +31,11 @@ class SubscriptionModel extends BaseModel
         return $this->query("DELETE FROM `subscription` WHERE user_id = :id;")
             ->fetch(['id' => $id]);
     }
+
+    public function count(){
+        return $this->query('SELECT COUNT(DISTINCT user_id) AS currently_subscribed
+FROM subscription
+WHERE end_date > NOW();
+')->fetchColumn();
+    }
 }

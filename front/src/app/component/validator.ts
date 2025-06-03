@@ -3,7 +3,7 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms'
 export function birthDateValidator (): ValidatorFn {
   return (control: AbstractControl) => {
     if (!control.value) return null
-    const [day, month, year] = control.value.split('/').map(Number)
+    const [year, month,day ] = control.value.split('-').map(Number)
     const today = new Date()
     const birthDate = new Date(year, month - 1, day)
     if (birthDate.getDate() !== day || birthDate.getMonth() + 1 !== month || birthDate.getFullYear() !== year) {

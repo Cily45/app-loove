@@ -41,4 +41,25 @@ class ReportController extends BaseController
         http_response_code(401);
         return json_encode(['error' => 'Token invalid']);
     }
+
+    public function list(int $quantity, int $page): bool|string
+    {
+        if(!$this->isAdmin()){
+            http_response_code(401);
+            return json_encode(['error' => 'Token invalid']);
+        }
+
+        $model = new ReportModel();
+        return json_encode($model->getAll($quantity, $page));
+    }
+
+    public function get(int $id): bool|string{
+        if(!$this->isAdmin()){
+            http_response_code(401);
+            return json_encode(['error' => 'Token invalid']);
+        }
+
+        $model = new ReportModel();
+        return json_encode($model->get($id));
+    }
 }

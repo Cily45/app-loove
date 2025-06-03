@@ -5,7 +5,7 @@
     @if(!isSubcribe() && (profil()?.match_code === 1 || profil()?.match_code === 2)) {
       <div class="absolute z-50 w-[calc(80vw)] h-[calc(80vh-60px)] md:w-[calc(80vw-220px)] md:h-[calc(80vh-)] rounded-3xl bg-white/30 backdrop-blur-xl" [routerLink]="['/nouvel-abonnement']"></div>
     }
-    <img src="{{environment.apiUrl}}/uploads/{{profil()?.profil_photo}}"
+    <img src="{{environment.apiUrl}}/uploads/photo-user/{{profil()?.profil_photo}}"
          class="w-[calc(80vw)] h-[calc(80vh-60px)] object-cover object-center rounded-3xl " alt="Photo" />
 
     <div class="text-white text-4xl absolute bottom-2 left-0 w-full z-20 opacity-75  px-4 py-2 flex flex-col justify-between">

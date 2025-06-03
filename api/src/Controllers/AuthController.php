@@ -27,8 +27,13 @@ class AuthController extends BaseController
         $user = $userModel->findByEmail($email);
 
         if (!$user || !password_verify($password, $user['password'])) {
-
             $response = new Response(401, json_encode(['error' => 'Identifiants invalides']));
+            header("Content-Type: application/json");
+            return $response->getBody();
+        }
+
+        if ($user['is_banned']) {
+            $response = new Response(401, json_encode(['error' => 'Utilisateur banni']));
             header("Content-Type: application/json");
             return $response->getBody();
         }
@@ -52,7 +57,6 @@ class AuthController extends BaseController
         header("Content-Type: application/json");
         return $response->getBody();
     }
-
 
 
 }

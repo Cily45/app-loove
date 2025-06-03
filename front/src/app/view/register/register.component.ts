@@ -27,6 +27,14 @@ import {NgIf} from '@angular/common';
     RouterLink,
     MatIconModule,
     MatSelectModule,
+    NgIf,
+    NgIf,
+    NgIf,
+    NgIf,
+    NgIf,
+    NgIf,
+    NgIf,
+    NgIf,
     NgIf
   ],
   templateUrl: './register.component.html',
@@ -86,7 +94,6 @@ export class RegisterComponent implements OnInit {
       return
     }
     emailControl.setErrors(null)
-
 
     const form = {
       ...this.firstFormGroup.value,

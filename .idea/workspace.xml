@@ -4,23 +4,76 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90a1cb02-b4eb-446b-9079-dccce62cc891" name="Changes" comment="init">
-      <change afterPath="$PROJECT_DIR$/api/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/src/Controllers/DogController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/src/Models/DogModel.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front/src/app/services/api/dog.service.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front/src/app/services/api/dog.service.ts" afterDir="false" />
+    <list default="true" id="90a1cb02-b4eb-446b-9079-dccce62cc891" name="Changes" comment="wip">
+      <change afterPath="$PROJECT_DIR$/api/src/Controllers/AuthAdminController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/Controllers/StatisticsController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/Models/AdminModel.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/uploads/photo-user/user-delete.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-backoffice/src/app/view/user/user.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-backoffice/src/app/view/user/user.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-backoffice/src/app/view/user/user.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-backoffice/src/app/view/user/user.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/Models/FilterModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/Models/FilterModel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/app.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/app.routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/app/component/report/report.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/component/report/report.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/Controllers/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/Controllers/AuthController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/Controllers/BaseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/Controllers/BaseController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/Controllers/DogController.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/Controllers/DogController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/Controllers/PriceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/Controllers/PriceController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/Controllers/ReportController.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/Controllers/ReportController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/Controllers/UsersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/Controllers/UsersController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/Models/BaseModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/Models/BaseModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/Models/DogModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/Models/DogModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/Models/MatchModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/Models/MatchModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/Models/MessagesModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/Models/MessagesModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/Models/PriceModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/Models/PriceModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/Models/ReportModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/Models/ReportModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/Models/SubscriptionModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/Models/SubscriptionModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/Models/UserModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/Models/UserModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/utils/AuthService.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/utils/AuthService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (1).jpg" beforeDir="false" afterPath="$PROJECT_DIR$/api/uploads/photo-user/uifaces-human-image (1).jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (10).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (11).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (12).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (13).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (14).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (15).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (16).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (17).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (18).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (19).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (2).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (20).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (21).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (22).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (23).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (24).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (25).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (26).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (27).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (28).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (29).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (3).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (4).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (5).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (6).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (7).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (8).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/uploads/uifaces-human-image (9).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/component/chat-card/chat-card.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/component/chat-card/chat-card.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/component/match-card/match-card.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/component/match-card/match-card.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/component/message-card/message-card.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/component/message-card/message-card.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/component/validator.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/component/validator.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/services/api/dog.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/services/api/dog.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/services/api/gender.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/services/api/gender.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/services/api/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/services/api/user.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front/src/app/services/auth/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/services/auth/auth.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/app/view/home/home.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/view/home/home.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/view/home/home.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/view/home/home.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front/src/app/view/profil/profil.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/view/profil/profil.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front/src/app/view/profil/profil.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/view/profil/profil.component.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front/src/app/view/profil/profil.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/view/profil/profil.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/view/register/register.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/view/register/register.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/view/register/register.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/view/register/register.component.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,12 +121,12 @@
     &quot;assignee&quot;: &quot;Cily45&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Cily45/app-loove.git",
-    "accountId": "e9f8b67f-cfc0-4ae8-80ff-5b05fd893361"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Cily45/app-loove.git&quot;,
+    &quot;accountId&quot;: &quot;e9f8b67f-cfc0-4ae8-80ff-5b05fd893361&quot;
   }
-}]]></component>
+}</component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="/opt/homebrew/Cellar/php/8.4.7/bin/php">
     <include_path>
       <path value="$PROJECT_DIR$/api/vendor/composer" />
@@ -104,27 +157,31 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Applications/MAMP/htdocs/app-loove/front/public/assets/image&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Applications/MAMP/htdocs/app-loove/front-backoffice/src/app/view&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Applications/MAMP/htdocs/app-loove/front/node_modules/typescript/lib&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.web.browsers&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Applications/MAMP/htdocs/app-loove/front-backoffice/node_modules/typescript/lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/front-backoffice/src/app/view" />
+      <recent name="$PROJECT_DIR$/front/public" />
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/front/public/assets/image" />
       <recent name="$PROJECT_DIR$/front/src/app/view/home" />
-      <recent name="$PROJECT_DIR$/api" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/api/uploads/photo-user" />
+      <recent name="$PROJECT_DIR$/front-backoffice/src/app/services/api" />
+      <recent name="$PROJECT_DIR$/api/uploads" />
       <recent name="$PROJECT_DIR$/front/src/app/services/api" />
       <recent name="$PROJECT_DIR$/front/public/assets/image" />
-      <recent name="$PROJECT_DIR$/api/upload" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -204,7 +261,11 @@
       <workItem from="1748371301608" duration="710000" />
       <workItem from="1748409243751" duration="144000" />
       <workItem from="1748409509902" duration="1503000" />
-      <workItem from="1748411029145" duration="15827000" />
+      <workItem from="1748411029145" duration="16075000" />
+      <workItem from="1748496419925" duration="31711000" />
+      <workItem from="1748591564291" duration="14626000" />
+      <workItem from="1748847169265" duration="27912000" />
+      <workItem from="1748927384991" duration="24891000" />
     </task>
     <task id="LOCAL-00001" summary="wip">
       <option name="closed" value="true" />
@@ -278,7 +339,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748410156321</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="wip">
+      <option name="closed" value="true" />
+      <created>1748436551879</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1748436551879</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -299,9 +368,9 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/front" />
     </ignored-roots>
-    <MESSAGE value="wip" />
     <MESSAGE value="init" />
-    <option name="LAST_COMMIT_MESSAGE" value="init" />
+    <MESSAGE value="wip" />
+    <option name="LAST_COMMIT_MESSAGE" value="wip" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

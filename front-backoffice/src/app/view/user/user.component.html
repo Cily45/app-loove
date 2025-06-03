@@ -1,0 +1,68 @@
+<div
+  class="app-user mr-5 min-h-screen flex flex-col w-full items-center px-6 pb-[80px] md:pb-0">
+  <img class="min-w-25 max-w-50 w-1/2 my-10 mx-auto" routerLink="/" src="assets/image/logo-entier.png"
+       alt="logo pawfect match">
+
+  <form [formGroup]="formGroup"
+        class="drop-shadow-lg border-[#6A3A71] border-2 bg-[rgba(106,58,113,0.50)] rounded-3xl p-6">
+
+    <div class="flex flex-col md:flex-row">
+      <mat-form-field class="w-full md:mr-3" appearance="fill">
+        <mat-label>Nom</mat-label>
+        <input
+          matInput
+          placeholder="Dupont"
+          name="lastname"
+          formControlName="lastname"
+          required
+        />
+        <mat-error *ngIf="formGroup.get('lastname')?.errors?.['required']">Nom requis</mat-error>
+
+      </mat-form-field>
+
+      <mat-form-field class="w-full" appearance="fill">
+        <mat-label>Prénom</mat-label>
+        <input
+          matInput
+          placeholder="Michel"
+          name="firstname"
+          formControlName="firstname"
+          required
+        />
+        <mat-error *ngIf="formGroup.get('firstname')?.errors?.['required']">Prénom requis</mat-error>
+
+      </mat-form-field>
+    </div>
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Date de naissance</mat-label>
+      <input
+        name="birhday"
+        formControlName="birthday"
+        matInput
+        type="date"
+        placeholder="01/01/2007"
+        required
+      />
+      <mat-error *ngIf="formGroup.get('birthday')?.errors?.['required']">Date de naissance requise</mat-error>
+      <mat-error *ngIf="formGroup.get('birthday')?.errors?.['invalidAge']">Age non réglmentaire</mat-error>
+      <mat-error *ngIf="formGroup.get('birthday')?.errors?.['invalidDate']">Date de naissance non valide</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        formControlName="email"
+        placeholder="pat@example.com"
+        required
+      />
+      <mat-error *ngIf="formGroup.get('email')?.errors?.['required']">Email requis</mat-error>
+      <mat-error *ngIf="formGroup.get('email')?.errors?.['pattern']">Email non valide</mat-error>
+      <mat-error *ngIf="formGroup.get('email')?.errors?.['emailUsed']">>Email déjà utilisé</mat-error>
+
+    </mat-form-field>
+  </form>
+    <div class="flex justify-end">
+      <button mat-raised-button (click)="onSubmit()">Valider</button>
+    </div>
+</div>

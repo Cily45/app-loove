@@ -62,4 +62,22 @@ abstract class BaseController
 
         return $userId;
     }
+
+    protected function isAdmin(): string|bool
+    {
+        $headers = getallheaders();
+        if (!isset($headers['X-Access-Token'])) {
+            return false;
+        }
+
+        $token = str_replace('Bearer ', '', $headers['X-Access-Token']);
+
+        $authService = new AuthService();
+        $userId = $authService->isAuthenticateAdmin($token);
+        if (!$userId) {
+            return false;
+        }
+
+        return $userId;
+    }
 }

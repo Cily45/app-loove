@@ -9,11 +9,12 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {Profil} from '../../services/api/user.service';
 import {environment} from '../../env';
 import {HobbiesService, Hobby} from '../../services/api/hobbies.service';
-import {MatSlider, MatSliderRangeThumb} from '@angular/material/slider';
+import {Gender, GenderService} from '../../services/api/gender.service';
+import {getDate} from '../../component/helper';
 
 @Component({
   selector: 'app-profil',
-  imports: [MatIconModule, RouterLink, MatIconModule, MatFormFieldModule, MatInputModule, MatExpansionModule, MatButton, ReactiveFormsModule, MatSlider, MatSliderRangeThumb],
+  imports: [MatIconModule, RouterLink, MatIconModule, MatFormFieldModule, MatInputModule, MatExpansionModule, MatButton, ReactiveFormsModule],
   templateUrl: './profil.component.html',
   styleUrl: './profil.component.scss'
 })
@@ -29,16 +30,21 @@ export class ProfilComponent implements OnInit {
   })
   profilPhoto = signal<string>('')
   hobbies = signal<Hobby[]>([])
-
-  constructor(private hobbiesService : HobbiesService) {
+genders = signal<Gender[]>([])
+  constructor(private hobbiesService : HobbiesService, private genderService : GenderService) {
   }
 
   ngOnInit() {
     this.userProfil.set(JSON.parse(<string>localStorage.getItem('profil')))
-    this.profilPhoto.set(environment.apiUrl + "/uploads/" + this.userProfil()?.profil_photo)
+    this.profilPhoto.set(environment.apiUrl + "/uploads/photo-user/" + this.userProfil()?.profil_photo)
     this.hobbiesService.getAllByUser().subscribe(list => {
       this.hobbies.set(list)
     })
+    this.genderService.getAll().subscribe(list => {
+      console.log(list)
+      this.genders.set(list)
+    })
+
   }
 
   protected readonly environment = environment;
@@ -65,4 +71,6 @@ export class ProfilComponent implements OnInit {
       }
     }
   }
+
+  protected readonly getDate = getDate;
 }

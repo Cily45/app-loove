@@ -17,6 +17,6 @@ export class GenderService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Gender[]> {
-    return this.http.get<Gender[]>(`${this.apiUrl}/login`)
+    return this.http.get<Gender[]>(`${this.apiUrl}/genders`)
   }
 }

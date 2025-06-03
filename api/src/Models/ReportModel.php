@@ -40,4 +40,45 @@ class ReportModel extends BaseModel
             ':date' => $date
         ]);
     }
+
+    public function getAll($quantity, $page): array
+    {
+        $offset = ($page - 1) * $quantity;
+
+        return $this->query("
+SELECT 
+  report.id,
+report_reason.name AS reason,
+  report.date,
+  report.is_solved
+FROM report
+JOIN report_reason ON report.reason_id = report_reason.id
+ORDER BY report.date
+        LIMIT $quantity OFFSET $offset;
+        ")
+            ->fetchAll();
+    }
+
+    public function get($id){
+        return $this->query("
+SELECT 
+  report.*, 
+  report_reason.name AS reason
+FROM report 
+JOIN report_reason ON report.reason_id = report_reason.id
+WHERE report.id = :id;
+")
+            ->fetch([
+                'id' => $id
+            ]);
+    }
+    public function count(){
+        return $this->query("SELECT COUNT(*) FROM `report`")
+            ->fetchColumn();
+    }
+    public function countUnsolved(){
+        return $this->query("SELECT COUNT(*) FROM `report` WHERE is_solved = 0")
+            ->fetchColumn();
+    }
+
 }

@@ -84,4 +84,17 @@ ORDER BY date, hour;
 
         return true;
     }
+    public function countToday(): int
+    {
+        $result = $this->query('SELECT COUNT(*) FROM `messages` WHERE date = NOW();')
+            ->fetchColumn();
+        return $result;
+    }
+
+    public function count(): int
+    {
+        $result = $this->query('SELECT COUNT(*) FROM `messages`;')
+            ->fetchColumn();
+        return $result;
+    }
 }

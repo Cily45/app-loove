@@ -29,8 +29,8 @@ export class UserService {
   }
 
   createUser(form: any) {
-    return this.https.post<any>(`${this.apiUrl}/create-user`, form)
-      .pipe(map(response => response));
+    return this.https.put<any>(`${this.apiUrl}/create-user`, form)
+      .pipe(map(response => response))
   }
 
   updateLocation(location :any) {
