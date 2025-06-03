@@ -1,0 +1,22 @@
+<div class="app-faq mx-auto w-10/12 md:w-4/5 xl:w-1/2 pb-[60px] md:pb-0">
+  <img class="min-w-25 max-w-50 w-1/2 mt-10 mx-auto mb-12"
+       routerLink="/"
+       src="assets/image/logo-entier.png"
+       alt="logo pawfect match">
+  <h2 class="text-center text-[#6A3A71] text-2xl font-bold mb-6">Ticket n°{{report().id}}</h2>
+  <div class="p-3 rounded-3xl border border-[#6A3A71]">
+    <p>Date: {{report().date}}</p>
+    <p>Motif: {{report().reason}}</p>
+  <a><p>Utilisateur signalé: {{report().accused_id}}</p></a>
+<a><p>Utilisateur plaignant: {{report().complainant_id}}</p></a>
+
+    <select>
+      <option>Avertissement</option>
+      <option>Banissement 1 mois</option>
+      <option>Banissement 3 mois</option>
+      <option>Banissement 6 mois</option>
+      <option>Banissement 12 mois</option>
+      <option>Suppression de compte</option>
+    </select>
+  </div>
+</div>

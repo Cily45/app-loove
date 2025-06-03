@@ -1,0 +1,33 @@
+<div class="app-faq mx-auto w-10/12 md:w-4/5 xl:w-1/2">
+  <img class="min-w-25 max-w-50 w-1/2 mt-10 mx-auto mb-12"
+       routerLink="/"
+       src="assets/image/logo-entier.png"
+       alt="logo pawfect match">
+  <h2 class="text-center text-[#6A3A71] text-2xl font-bold mb-6">Statistiques</h2>
+  <mat-accordion class="m-12">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>📊 Vue générale</mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>Total des utilisateurs : {{ statistics().users }} </p>
+      <p>Utilisateurs premium : {{ statistics().subcrib}} </p>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel class="my-6">
+      <mat-expansion-panel-header>
+        <mat-panel-title>💞 Engagement et interactions</mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>Matchs créés : {{ statistics().matchs }}</p>
+      <p>Messages envoyés : {{ statistics().messagesSend }}</p>
+      <p>Messages envoyés (aujourd'hui): {{ statistics().messagesSendToday }}</p>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>🔎 Modération et sécurité</mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>Signalements reçus : {{ statistics().reports }}</p>
+      <p>Signalement non traités: {{ statistics().reportUnsolved }}</p>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

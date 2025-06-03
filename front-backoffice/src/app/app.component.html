@@ -1,0 +1,27 @@
+<div class="app">
+  <mat-drawer-container class="min-h-screen">
+    @if (isAuth() && !isMobile()) {
+      <mat-drawer mode="side" opened>
+        <app-side-nav></app-side-nav>
+      </mat-drawer>
+    }
+
+    <mat-drawer-content>
+
+      @if (isAuth() && isMobile()) {
+        <div>
+          <router-outlet></router-outlet>
+          <app-menu-mobile class="h-15 fixed bottom-0"></app-menu-mobile>
+        </div>
+      } @else {
+        <div>
+          <router-outlet></router-outlet>
+        </div>
+      }
+
+    </mat-drawer-content>
+  </mat-drawer-container>
+  @if (!isAuth()) {
+    <app-footer></app-footer>
+  }
+</div>

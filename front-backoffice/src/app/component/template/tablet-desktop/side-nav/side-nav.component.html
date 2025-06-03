@@ -1,0 +1,38 @@
+<div class="app-side-nav h-screen w-[220px] fixed flex flex-col justify-between text-white">
+  <img class="min-w-25 max-w-50 w-1/2 pt-10 mx-auto" routerLink="/" src="assets/image/logo-entier.png"
+       alt="logo pawfect match">
+  <ul class="ml-6">
+    <li><a routerLink="/statistiques" routerLinkActive="text-[#F7A8C5]">Statistiques</a></li>
+    <li><a routerLink="/utilisateurs" routerLinkActive="text-[#F7A8C5]">Utilisateurs</a></li>
+    <li><a routerLink="/signalements" routerLinkActive="text-[#F7A8C5]">Signalements</a></li>
+    <li><a routerLink="/tarification" routerLinkActive="text-[#F7A8C5]">Abonnement</a></li>
+  </ul>
+  <div>
+    <ul class="flex flex-col items-center ">
+      <button mat-raised-button (click)="onLogout()" class="mb-6">
+        Se déconnecter
+      </button>
+      <li>
+        <a routerLink="/a-propos-de-nous" routerLinkActive="text-[#F7A8C5]">
+          À propos de nous
+        </a>
+      </li>
+      <li>
+        <a routerLink="/faq" routerLinkActive="text-[#F7A8C5]">
+          Faq
+        </a>
+      </li>
+      <li>
+        <a routerLink="/contact" routerLinkActive="text-[#F7A8C5]">
+          Contact
+        </a>
+      </li>
+      <li>
+        <a routerLink="/informations" routerLinkActive="text-[#F7A8C5]">
+          Informations et conditions
+        </a>
+      </li>
+    </ul>
+    <p class="text-sm text-center mt-3">© 2025 by Pawfect match.</p>
+  </div>
+</div>

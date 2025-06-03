@@ -1,0 +1,32 @@
+<div class="app-faq mx-auto w-10/12 md:w-4/5 xl:w-1/2">
+  <img class="min-w-25 max-w-50 w-1/2 mt-10 mx-auto mb-12"
+       routerLink="/"
+       src="assets/image/logo-entier.png"
+       alt="logo pawfect match">
+  <h2 class="text-center text-[#6A3A71] text-2xl font-bold mb-6">Tarification</h2>
+
+  <form [formGroup]="pricesForm" class="flex flex-col items-center" (ngSubmit)="onSubmit()">
+    <div formArrayName="prices">
+      @for (priceControl of pricesFormArray.controls; track $index; let i = $index) {
+        <div [formGroupName]="i" class="flex mb-3 items-center">
+          <p>Abonnement {{ priceControl.get('quantity')?.value }} mois:</p>
+          <input
+            formControlName="price"
+            type="number"
+            step="0.01"
+            class="mx-1 w-[9ch] text-right border border-[#6A3A71] p-1 rounded-2xl"
+            maxlength="6">
+          <p>€</p>
+        </div>
+      }
+    </div>
+
+    <button
+      mat-flat-button
+      type="submit"
+      class="mt-6"
+      [disabled]="pricesForm.invalid">
+      Valider
+    </button>
+  </form>
+</div>

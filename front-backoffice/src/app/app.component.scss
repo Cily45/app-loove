@@ -1,0 +1,42 @@
+@use '@angular/material' as mat;
+
+.app {
+  @include mat.form-field-overrides((
+    filled-container-color: transparent,
+    filled-input-text-color: white,
+    filled-hover-label-text-color: #6A3A71,
+    filled-label-text-color: white,
+    filled-focus-label-text-color: #6A3A71,
+    filled-input-text-placeholder-color: #f7a8c5,
+    filled-error-label-text-color: #7f1313,
+    filled-error-caret-color: #7f1313,
+    error-text-color: #7f1313,
+    //indicator
+    filled-active-indicator-color: white,
+    filled-hover-active-indicator-color: #6A3A71,
+    filled-focus-active-indicator-color: #6A3A71,
+    filled-error-active-indicator-color: #7f1313,
+    filled-error-focus-active-indicator-color: #7f1313,
+    filled-error-hover-active-indicator-color: #7f1313,
+  ));
+
+  @include mat.expansion-overrides((
+    container-background-color: #6A3A71,
+    header-indicator-color: white,
+  ));
+
+  @include mat.sidenav-overrides((
+    container-shape: 0px,
+    container-width: 220px,
+  ));
+
+  @include mat.button-overrides((
+    filled-container-color: #6A3A71,
+    protected-label-text-color: #6A3A71,
+  ));
+
+  @include mat.sidenav-overrides((
+    container-background-color:  #6A3A71,
+  ));
+}
+
