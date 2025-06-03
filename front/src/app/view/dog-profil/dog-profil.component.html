@@ -1,0 +1,57 @@
+<div class="app-dog-profil min-h-[calc(100vh-60px)] w-screen md:w-[calc(100vw-220px)] md:min-h-screen pb-[60px] md:pb-0">
+<h2 class="mt-6 text-2xl text-center text-[#6A3A71] mb-6">Gestion des chiens</h2>
+  <form class="w-4/5 m-auto" [formGroup]="dogForm">
+    <mat-accordion class="shadow-lg shadow-black/25" formArrayName="dogs">
+      @for (dogControl of dogsFormArray.controls; track dogControl; let i = $index) {
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>{{ dogControl.get('name')?.value === '' ? 'Nouveau chien' : (dogControl.get('name')?.value || 'Nouveau chien') }}</mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div [formGroupName]="i">
+            <input
+              type="text"
+              class="form__field"
+              formControlName="name"
+              placeholder="Nom du chien">
+
+            <input
+              type="date"
+              formControlName="birthday">
+
+            <div class="mb-6">
+              @for (question of questions; track question; let q = $index) {
+                <p class="font-bold">{{ question.label }}</p>
+                <ul class="flex flex-col">
+                  @for (option of question.options; track option; let j = $index) {
+                    <li class="ml-6">
+                      <label>
+                        <input
+                          type="radio"
+                          [value]="j"
+                          [formControlName]="question.key">
+                        <span class="ml-3">{{ option }}</span>
+                      </label>
+                    </li>
+                  }
+                </ul>
+              }
+            </div>
+          </div>
+
+          <button class="!mr-auto"
+            mat-raised-button
+            type="button"
+            (click)="deleteDog(i)">
+            Supprimer
+          </button>
+        </mat-expansion-panel>
+      }
+    </mat-accordion>
+  </form>
+
+  @if (dogsFormArray.length < 3) {
+    <button mat-flat-button type="button" (click)="addDog()">Ajouter un chien</button>
+  }
+  <button mat-flat-button type="button" (click)="onSubmit()">Valider</button>
+</div>

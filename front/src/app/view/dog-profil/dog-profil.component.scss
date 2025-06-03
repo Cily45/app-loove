@@ -1,0 +1,24 @@
+@use '@angular/material' as mat;
+
+   .app-filter {
+     @include mat.slider-overrides((
+     handle-color: #6A3A71,
+     focus-handle-color: pink,
+     label-container-color: #6A3A71,
+     active-track-color: #6A3A71,
+     ));
+   }
+
+mat-expansion-panel-header.mat-expanded mat-panel-title {
+  color: #6A3A71;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+mat-panel-title {
+  color: white;
+}
+
+mat-expansion-panel.mat-expansion-panel.mat-expansion-panel-animations-enabled.mat-expanded.mat-expansion-panel-spacing {
+  background-color: white;
+}
