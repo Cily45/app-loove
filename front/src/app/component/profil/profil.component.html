@@ -1,0 +1,71 @@
+<div id="profil-{{id()}}"
+     class="fixed inset-0  bg-white/30 backdrop-blur-sm bg-opacity-50 flex items-center justify-center hidden z-50 md:pl-[220px]">
+  <div class="app-profil bg-[#b59db8] rounded-3xl h-[90vh] w-[90vw] md:w-[calc(90vh-220px)] p-6">
+    <button (click)="close()"
+            class="ml-auto text-white hover:text-gray-700 text-2xl leading-none hover:bg-gray-100 rounded-full w-8 h-8 flex items-center justify-center transition-colors">
+      &times;
+    </button>
+
+
+    <div class="space-y-4 h-[calc(90vh-80px)] flex-1 overflow-y-auto overflow-x-hidden scroll-container">
+
+      <div class="flex justify-center space-x-3 text-2xl text-white">
+        <p>{{ profil().firstname }}</p>
+        <p>{{ profil().lastname }}</p>
+      </div>
+
+      <img src="{{environment.apiUrl}}/uploads/photo-user/{{profil().profil_photo}}"
+           class="w-full h-full object-cover object-center rounded-3xl " alt="Photo"/>
+
+      <div class="flex justify-center space-x-3 text-xl text-white ">
+        <p class="capitalize">{{ profil().gender }}</p>
+        <p>{{ getAge(profil().birthday) }}ans</p>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6">
+        <h5 class="text-center text-2xl mb-3">Préférence(s) amoureuse</h5>
+        <div class="flex flex-wrap justify-center">
+          @for (gender of gendersPreference(); track gender) {
+            @if(gender.selected){
+              <p class="capitalize w-[75px]">{{ gender.name }}</p>
+            }
+          }
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6">
+        <h5 class="text-center text-2xl mb-3">Description</h5>
+        <p class="px-6">{{ profil().description }}</p>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6">
+        <h5 class="text-center text-2xl mb-3">Intêret</h5>
+        <div class="flex flex-wrap justify-center space-y-2">
+          @for (hobby of hobbies(); track hobby) {
+            @if (hobby.selected) {
+              <div class="flex space-x-2 w-[150px]">
+                <mat-icon>{{ hobby.icon }}</mat-icon>
+                <p>{{ hobby.name }}</p>
+              </div>
+            }
+          }
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6">
+        <h5 class="text-center text-2xl mb-3">Chien(s)</h5>
+        <div class="flex flex-wrap justify-center">
+          @for (dog of dogs(); track dog) {
+            <div class="flex flex-col border rounded-3xl p-3 m-3">
+              <p>{{ dog.name }}, {{ getAge(dog.birthday) }} ans</p>
+              <p>{{ genre[dog.gender_id] }}</p>
+              <p>{{ size[dog.size_id] }}</p>
+              <p>{{ temperament[dog.temperament_id] }}</p>
+            </div>
+          }
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

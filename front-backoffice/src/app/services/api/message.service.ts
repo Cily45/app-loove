@@ -8,11 +8,10 @@ export interface Message {
   message: string
   date: string
   hour: string
-  is_view: number
   firstname: string,
   lastname: string,
-  profil_photo: string,
-  is_that_user: number
+  sender_id: number
+  receiver_id: number
 }
 
 @Injectable({
@@ -28,8 +27,8 @@ export class MessageService {
     return this.http.get<Message[]>(`${this.apiUrl}/messages`)
   }
 
-    messagesById(id: number): Observable<Message[]> {
-    return this.http.get<Message[]>(`${this.apiUrl}/messages/${id}`)
+    messagesById(id0: number, id1 :number): Observable<Message[]> {
+    return this.http.get<Message[]>(`${this.apiUrl}/messages/${id0}/${id1}`)
   }
 
   sendMessage(form: { receiver_id: number; message: string | null }){

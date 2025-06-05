@@ -11,13 +11,19 @@ class PriceModel extends BaseModel
             ->fetchAll();
     }
 
-    public function update(int $id, float $price): bool
+    public function update(
+        int   $id,
+        float $price
+    ): bool
     {
-        return $this->query("UPDATE `price` SET `price` = :price WHERE `id` = :id")
+        return $this
+            ->query("
+            UPDATE `price` 
+            SET `price` = :price 
+            WHERE `id` = :id")
             ->execute([
                 ':id' => $id,
                 ':price' => $price,
             ]);
     }
-
 }

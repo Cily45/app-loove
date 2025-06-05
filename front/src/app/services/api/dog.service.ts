@@ -8,9 +8,9 @@ export interface Dog {
   name: string,
   birthday :string,
   photo: string,
-  size: number,
-  temperament: number,
-  gender: number,
+  size_id: number,
+  temperament_id: number,
+  gender_id: number,
 }
 @Injectable({
   providedIn: 'root'
@@ -26,6 +26,6 @@ export class DogService {
   }
 
   addDogs(form: any){
-    return this.https.put<any>(`${this.apiUrl}/add-dogs/`, form).pipe(map(response => response))
+    return this.https.post<any>(`${this.apiUrl}/add-dogs`, form).pipe(map(response => response))
   }
 }

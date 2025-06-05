@@ -31,9 +31,6 @@ export class UserComponent implements OnInit {
     private userService: UserService, private route: ActivatedRoute, private toastService: ToastService, private router: Router) {
   }
 
-  hidePassword = signal(true)
-  hideConfirm = signal(true)
-
   formGroup = new FormGroup({
     id: new FormControl(this.userProfil().id),
     lastname: new FormControl(this.userProfil().lastname, Validators.required),
@@ -78,7 +75,6 @@ export class UserComponent implements OnInit {
       })
     } else {
       this.userService.userUpdate(this.formGroup.value).subscribe(res => {
-        console.log(res)
         if (res) {
           this.toastService.showSuccess('Utilisateur à été mis à jour')
           this.router.navigate(['/utilisateurs'])

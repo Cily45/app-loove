@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import {Injectable, WritableSignal} from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { map, Observable } from 'rxjs'
 import {environment} from '../../env';
@@ -11,6 +11,7 @@ export interface Profil {
   description: string
   birthday: string
   match_code: number
+  gender: string
 }
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class UserService {
   }
 
   isMailUsed (email: string): Observable<boolean> {
-    return this.https.post<{ used: boolean }>(`${this.apiUrl}/email`, { email })
+    return this.https.get<{ used: boolean }>(`${this.apiUrl}/email/${email}`)
     .pipe(map(response => response.used))
   }
 
@@ -42,8 +43,9 @@ export class UserService {
     return this.https.get<Profil>(`${this.apiUrl}/profil/${id}`)
   }
 
-  allUserProfilMessage(): Observable<Profil[]> {
-    return this.https.get<Profil[]>(`${this.apiUrl}/users-messages`)
+  deleteUser(id: number) {
+    return this.https.delete<any>(`${this.apiUrl}/delete/${id}`)
+      .pipe(map(response => response))
   }
 
   getAllProfil(): Observable<Profil[]> {
@@ -55,4 +57,15 @@ export class UserService {
 
   }
 
+  updatePhoto(file: FormData): Observable<any>{
+    if(file === null){
+      console.log('null....')
+    }
+    return this.https.post<any>(`${this.apiUrl}/update-photo`, file)
+  }
+
+  updateUser(form: any) {
+    return this.https.post<any>(`${this.apiUrl}/update-user`, form)
+      .pipe(map(response => response))
+  }
 }

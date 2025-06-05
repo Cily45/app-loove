@@ -3,20 +3,51 @@
        routerLink="/"
        src="assets/image/logo-entier.png"
        alt="logo pawfect match">
-  <h2 class="text-center text-[#6A3A71] text-2xl font-bold mb-6">Ticket n°{{report().id}}</h2>
-  <div class="p-3 rounded-3xl border border-[#6A3A71]">
-    <p>Date: {{report().date}}</p>
-    <p>Motif: {{report().reason}}</p>
-  <a><p>Utilisateur signalé: {{report().accused_id}}</p></a>
-<a><p>Utilisateur plaignant: {{report().complainant_id}}</p></a>
+  <h2 class="text-center text-[#6A3A71] text-2xl font-bold mb-6">Ticket n°{{ report().id }}</h2>
+  <div class="p-3 rounded-3xl border border-[#6A3A71] flex flex-col justify-around h-full p-9">
+    <p class="self-end">{{ report().date }}</p>
+    <p class="self-center my-6 text-xl">{{ report().reason }}</p>
+    <a class="text-blue-600 hover:text-blue-800 underline hover:no-underline cursor-pointer"
+       onclick="document.getElementById('profil-acused').classList.remove('hidden')"><p>Utilisateur
+      signalé: {{ report().accused_id }}</p></a>
+    <a><p>Utilisateur plaignant: {{ report().complainant_id }}</p></a>
+    <a class="text-blue-600 hover:text-blue-800 underline hover:no-underline cursor-pointer"
+       onclick="document.getElementById('messages').classList.remove('hidden')">Messages échangé</a>
+    @if (!report().is_solved) {
+      <div class="self-center">
+        <select [(ngModel)]="selectedSanction" class="w-52  my-6 border p-1 border-[#6A3A71] rounded-3xl">
+          <option>Rien</option>
+          <option>Avertissement</option>
+          <option>Bannissement</option>
+          <option>Suppression de compte</option>
+        </select>
+        @if (selectedSanction === "Bannissement") {
+          <select [(ngModel)]="selectedTime" class="ml-6 w-30 my-6 border p-1 border-[#6A3A71] rounded-3xl">
+            <option value="1">1 mois</option>
+            <option value="3">3 mois</option>
+            <option value="6">6 mois</option>
+            <option value="12">12 mois</option>
+          </select>
+        }
+      </div>
+      <button
+        mat-flat-button
+        class="mt-6 w-40 self-end" (click)="onSubmit()">
+        Valider
+      </button>
+    }
 
-    <select>
-      <option>Avertissement</option>
-      <option>Banissement 1 mois</option>
-      <option>Banissement 3 mois</option>
-      <option>Banissement 6 mois</option>
-      <option>Banissement 12 mois</option>
-      <option>Suppression de compte</option>
-    </select>
   </div>
+
+  <div id="profil-acused"
+       class="fixed inset-0  bg-white/30 backdrop-blur-sm bg-opacity-50 flex items-center justify-center hidden z-50 md:pl-[220px]">
+    <app-profil [id]="report().accused_id"></app-profil>
+  </div>
+
+  <div id="messages"
+       class="fixed inset-0  bg-white/30 backdrop-blur-sm bg-opacity-50 flex items-center justify-center hidden z-50 md:pl-[220px]">
+    <app-messages [id0]="report().accused_id" [id1]="report().complainant_id"></app-messages>
+  </div>
+
+
 </div>

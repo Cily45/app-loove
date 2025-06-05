@@ -1,5 +1,6 @@
-<div class="app-dog-profil min-h-[calc(100vh-60px)] w-screen md:w-[calc(100vw-220px)] md:min-h-screen pb-[60px] md:pb-0">
-<h2 class="mt-6 text-2xl text-center text-[#6A3A71] mb-6">Gestion des chiens</h2>
+<div
+  class="app-dog-profil min-h-[calc(100vh-60px)] w-screen md:w-[calc(100vw-220px)] md:min-h-screen pb-[60px] md:pb-0">
+  <h2 class="mt-6 text-2xl text-center text-[#6A3A71] mb-6">Gestion des chiens</h2>
   <form class="w-4/5 m-auto" [formGroup]="dogForm">
     <mat-accordion class="shadow-lg shadow-black/25" formArrayName="dogs">
       @for (dogControl of dogsFormArray.controls; track dogControl; let i = $index) {
@@ -20,29 +21,61 @@
               formControlName="birthday">
 
             <div class="mb-6">
-              @for (question of questions; track question; let q = $index) {
-                <p class="font-bold">{{ question.label }}</p>
-                <ul class="flex flex-col">
-                  @for (option of question.options; track option; let j = $index) {
-                    <li class="ml-6">
-                      <label>
-                        <input
-                          type="radio"
-                          [value]="j"
-                          [formControlName]="question.key">
-                        <span class="ml-3">{{ option }}</span>
-                      </label>
-                    </li>
-                  }
-                </ul>
-              }
+              <p class="font-bold">De quel genre est votre chien?</p>
+              <ul class="flex flex-col">
+                @for (option of dogGenders(); track option) {
+                  <li class="ml-6">
+                    <label>
+                      <input
+                        type="radio"
+                        name="gender"
+                        [value]="option.id"
+                        formControlName="gender">
+                      <span class="ml-3">{{ option.name }}</span>
+                    </label>
+                  </li>
+                }
+              </ul>
+
+              <p class="font-bold">De quelle taille est votre chien?</p>
+              <ul class="flex flex-col">
+                @for (option of dogSizes(); track option) {
+                  <li class="ml-6">
+                    <label>
+                      <input
+                        type="radio"
+                        name="size"
+                        [value]="option.id"
+                        formControlName="size">
+                      <span class="ml-3">{{ option.name }}</span>
+                    </label>
+                  </li>
+                }
+              </ul>
+
+              <p class="font-bold">De quel tempérament est votre chien?</p>
+              <ul class="flex flex-col">
+                @for (option of dogTemperaments(); track option) {
+                  <li class="ml-6">
+                    <label>
+                      <input
+                        type="radio"
+                        [value]="option.id"
+                        name="temperament"
+                        formControlName="temperament">
+                      <span class="ml-3">{{ option.name }}</span>
+                    </label>
+                  </li>
+                }
+              </ul>
+
             </div>
           </div>
 
           <button class="!mr-auto"
-            mat-raised-button
-            type="button"
-            (click)="deleteDog(i)">
+                  mat-raised-button
+                  type="button"
+                  (click)="deleteDog(i)">
             Supprimer
           </button>
         </mat-expansion-panel>
@@ -50,8 +83,10 @@
     </mat-accordion>
   </form>
 
-  @if (dogsFormArray.length < 3) {
-    <button mat-flat-button type="button" (click)="addDog()">Ajouter un chien</button>
-  }
-  <button mat-flat-button type="button" (click)="onSubmit()">Valider</button>
+  <div class="w-4/5 m-auto flex justify-around my-6 mb-[60px] z-0">
+    @if (dogsFormArray.length < 3) {
+      <button mat-flat-button type="button" (click)="addDog()">Ajouter un chien</button>
+    }
+    <button mat-flat-button type="button" (click)="onSubmit()">Valider</button>
+  </div>
 </div>

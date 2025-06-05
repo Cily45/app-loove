@@ -19,8 +19,8 @@
         </mat-form-field>
         <button mat-raised-button class="w-fit self-end">Valider</button>
       </form>
-
     </mat-expansion-panel>
+
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>Mot de passe</mat-panel-title>
@@ -86,6 +86,28 @@
         <button mat-raised-button class="w-fit self-end">Valider</button>
       </form>
     </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Suppression de compte</mat-panel-title>
+      </mat-expansion-panel-header>
+      <form [formGroup]="deleteFormGroup" class="flex flex-col">
+        <mat-form-field>
+          <mat-label>Veuillez écrire "Supprimer" pour confirmer la suppression de votre compte.</mat-label>
+          <input
+            matInput
+            placeholder="Supprimer"
+            formControlName="input"
+            name="input"
+            required
+          />
+
+        </mat-form-field>
+        <button mat-raised-button class="w-fit self-end" (click)="delete()">Valider</button>
+      </form>
+
+    </mat-expansion-panel>
+
   </mat-accordion>
 
 </div>

@@ -15,6 +15,6 @@ export class PriceService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Price[]> {
-    return this.http.get<Price[]>(`${this.apiUrl}/price`)
+    return this.http.get<Price[]>(`${this.apiUrl}/prices`)
   }
 }

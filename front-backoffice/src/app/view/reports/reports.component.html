@@ -36,7 +36,7 @@
 
   </table>
 
-  <mat-paginator [length]="100"
+  <mat-paginator [length]="length()"
                  [pageSize]="quantity()"
                  [pageSizeOptions]="[10,25, 50, 100]"
                  (page)="handlePageEvent($event)"

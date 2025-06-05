@@ -6,6 +6,7 @@ import {RouterLink} from '@angular/router';
 import {NgClass} from '@angular/common';
 import {ReportComponent} from '../report/report.component';
 import {environment} from '../../env';
+import {ProfilComponent} from '../profil/profil.component';
 
 @Component({
   selector: 'app-match-card',
@@ -13,7 +14,8 @@ import {environment} from '../../env';
     MatIconModule,
     RouterLink,
     NgClass,
-    ReportComponent
+    ReportComponent,
+    ProfilComponent
   ],
   templateUrl: './match-card.component.html',
   styleUrl: './match-card.component.css'
@@ -26,9 +28,18 @@ export class MatchCardComponent {
     profil_photo: '',
     description: '',
     birthday: '',
-    match_code: 2
+    match_code: 2,
+    gender: '',
   })
+
+  openProfil(){
+    document.getElementById(`profil-${this.profil().id}`)?.classList.remove('hidden');
+  }
+
+  openReport(){
+    document.getElementById(`report-${this.profil().id}`)?.classList.remove('hidden');
+  }
   isSubcribe = input<boolean>()
-  protected readonly getAge = getAge;
   protected readonly environment = environment;
+  protected readonly document = document;
 }

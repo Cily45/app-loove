@@ -15,7 +15,7 @@ import {MatCardModule} from '@angular/material/card';
 import {HobbiesService, Hobby} from '../../services/api/hobbies.service';
 import {MatIconModule} from '@angular/material/icon';
 import {SubscriptionService} from '../../services/api/subscription.service';
-
+import {Gender, GenderService} from '../../services/api/gender.service';
 
 @Component({
   selector: 'app-filter',
@@ -39,6 +39,7 @@ import {SubscriptionService} from '../../services/api/subscription.service';
 })
 export class FilterComponent implements OnInit {
   hobbies = signal<Hobby[]>([])
+  genders = signal<Gender[]>([])
   isSubscribe = signal<boolean>(false)
   private _formBuilder = inject(FormBuilder)
 
@@ -75,46 +76,91 @@ export class FilterComponent implements OnInit {
     }
   ]
 
-  constructor(private hobbiesService: HobbiesService, private subscriptionService : SubscriptionService) {
-    for (const question of this.questions) {
-      this.dogFormGroup.addControl(question.key, new FormControl([]))
-    }
-  }
-
-  baseFormGroup = this._formBuilder.group({
-    manCheck: new FormControl(''),
-    womanCheck: new FormControl(''),
-    otherCheck: new FormControl(''),
+  baseFormGroup: FormGroup = this._formBuilder.group({
     minAge: new FormControl(25),
     maxAge: new FormControl(35),
-    distance: new FormControl(''),
-    photoCheck: new FormControl(''),
+    distance: new FormControl(80),
+    genders: this._formBuilder.array([])
   })
 
   hobbiesFormGroup: FormGroup = this._formBuilder.group({})
   dogFormGroup: FormGroup = this._formBuilder.group({})
 
+  constructor(
+    private hobbiesService: HobbiesService,
+    private subscriptionService: SubscriptionService,
+    private genderService: GenderService
+  ) {
+
+    for (const question of this.questions) {
+      this.dogFormGroup.addControl(question.key, new FormControl([]))
+    }
+  }
 
   ngOnInit(): void {
     this.hobbiesService.getAll().subscribe(list => {
       this.hobbies.set(list)
       const group: { [key: string]: FormControl } = {}
       for (let hobby of list) {
-        group[hobby.id] = new FormControl()
+        group[hobby.id] = new FormControl(false)
       }
       this.hobbiesFormGroup = this._formBuilder.group(group)
     })
-    this.subscriptionService.isSubscribe().subscribe(res =>{
+
+    this.subscriptionService.isSubscribe().subscribe(res => {
       this.isSubscribe.set(res)
+    })
+
+    this.genderService.getAll().subscribe(res => {
+      this.genders.set(res)
+
+      const genderControls: { [key: string]: FormControl } = {}
+      for (let gender of res) {
+        genderControls[`gender-${gender.id}`] = new FormControl(false)
+      }
+      this.baseFormGroup = this._formBuilder.group({
+        ...this.baseFormGroup.controls,
+        ...genderControls
+      })
     })
   }
 
   onSubmit() {
+    const baseValues = this.baseFormGroup.value
+    const hobbiesValues = this.hobbiesFormGroup.value
+    const dogValues = this.dogFormGroup.value
+
+    const selectedGenders = this.genders()
+      .filter(gender => baseValues[`gender-${gender.id}`])
+      .map(gender => gender.id)
+
+    const selectedHobbies = this.hobbies()
+      .filter(hobby => hobbiesValues[hobby.id])
+      .map(hobby => hobby.id)
+
     const form = {
-      ...this.baseFormGroup.value,
-      ...this.hobbiesFormGroup.value,
-      ...this.dogFormGroup.value
+      minAge: baseValues.minAge,
+      maxAge: baseValues.maxAge,
+      distance: baseValues.distance,
+      selectedGenders: selectedGenders,
+      selectedHobbies: selectedHobbies,
+      dogPreferences: dogValues
     }
-    console.log(form)
+
+    console.log('Formulaire soumis:', form)
+  }
+
+  onDogOptionChange(questionKey: string, option: string, event: any) {
+    const control = this.dogFormGroup.get(questionKey);
+    if (control) {
+      const currentValue = control.value || [];
+      if (event.target.checked) {
+        if (!currentValue.includes(option)) {
+          control.setValue([...currentValue, option]);
+        }
+      } else {
+        control.setValue(currentValue.filter((val: string) => val !== option));
+      }
+    }
   }
 }

@@ -21,7 +21,7 @@
           </div></div>
       }
       <div class="flex flex-row justify-between">
-      <a>
+        <a (click)="openProfil()">
         <mat-icon>article_person</mat-icon>
       </a >
       <div class="flex truncate">
@@ -30,7 +30,7 @@
           <mat-icon>chat_bubble</mat-icon>
         </div>
       </div>
-      <a onclick="document.getElementById('reportModal').classList.remove('hidden')">
+      <a (click)="openReport()">
         <mat-icon>flag</mat-icon>
       </a>
     </div>
@@ -40,8 +40,6 @@
     <p class="absolute z-50 w-[calc(80vw)] md:w-[calc(80vw-220px)] text-center text-3xl text-white">{{profil()?.match_code === 0 ? "Pawfect" : ""}}</p>
 
   </div>
-
-</div>
-<div id="reportModal" class="fixed inset-0  bg-white/30 backdrop-blur-sm bg-opacity-50 flex items-center justify-center hidden z-50 md:pl-[220px]">
-  <app-report [id]="profil().id"></app-report>
+    <app-report [id]="profil().id"></app-report>
+    <app-profil [id]="profil().id"></app-profil>
 </div>

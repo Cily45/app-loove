@@ -23,7 +23,7 @@ export class HobbiesService {
     return this.http.get<Hobby[]>(`${this.apiUrl}/hobbies`)
   }
 
-  getAllByUser(): Observable<Hobby[]> {
-    return this.http.get<Hobby[]>(`${this.apiUrl}/user-hobbies`)
+  getAllByUser(id: number): Observable<Hobby[]> {
+    return this.http.get<Hobby[]>(`${this.apiUrl}/user-hobbies/${id}`)
   }
 }

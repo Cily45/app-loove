@@ -1,0 +1,28 @@
+<div class="flex justify-between items-center p-6 border-b border-gray-200 shrink-0 h-[80px] w-[80vw]">
+  <h2 class="text-xl font-semibold text-[#6A3A71]">Messages échangés</h2>
+  <button onclick="document.getElementById('messages').classList.add('hidden')"
+          class="text-gray-500 hover:text-gray-700 text-2xl leading-none hover:bg-gray-100 rounded-full w-8 h-8 flex items-center justify-center transition-colors">
+    &times;
+  </button>
+</div>
+
+<div class="p-6 space-y-4" style="flex: 1; overflow-y: auto; overflow-x: hidden; height: calc(80vh - 160px);">
+  @for (message of messages(); track message.id) {
+    <div class="rounded-lg p-4 border-l-4"
+         [class]="id0() === message.sender_id ? 'bg-red-50 border-red-500' : 'bg-blue-50 border-blue-500'">
+
+      <div class="flex flex-wrap mb-3">
+        @if (id0() === message.sender_id) {
+          <p class="mr-2 text-red-500 font-medium">Signalé:</p>
+        } @else {
+          <p class="mr-2 text-blue-500 font-medium">Plaignant:</p>
+        }
+      </div>
+
+      <div class="text-gray-700 leading-relaxed space-y-2">
+        <p> {{ message.message }}
+        </p>
+      </div>
+    </div>
+  }
+</div>

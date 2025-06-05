@@ -2,11 +2,13 @@ import {Component, OnInit, signal} from '@angular/core';
 import {SubscriptionService} from '../../services/api/subscription.service';
 import {Profil, UserService} from '../../services/api/user.service';
 import {MatchCardComponent} from '../../component/match-card/match-card.component';
+import {ProfilComponent} from '../../component/profil/profil.component';
 
 @Component({
   selector: 'app-matches',
   imports: [
-    MatchCardComponent
+    MatchCardComponent,
+    ProfilComponent
   ],
   templateUrl: './matches.component.html',
   styleUrl: './matches.component.scss'

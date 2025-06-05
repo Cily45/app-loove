@@ -9,32 +9,30 @@ class MatchModel extends BaseModel
         $userId1,
         $date,
         $is_skiped
-    ): void
+    ): bool
     {
-        $stmt = $this->query("
-            INSERT INTO `matches`( `user_id_0`, `user_id_1`, `date`, `is_skiped`) 
-            VALUES (:userId0, :userId1, :date, :is_skiped);
-");
-
-        $stmt->execute([
-            'userId0' => $userId0,
-            'userId1' => $userId1,
-            'date' => $date,
-            'is_skiped' => $is_skiped,
-        ]);
+        return $this
+            ->query('
+                INSERT INTO `matches`( `user_id_0`, `user_id_1`, `date`, `is_skiped`) 
+                VALUES (:userId0, :userId1, :date, :is_skiped);
+            ')
+            ->execute([
+                'userId0' => $userId0,
+                'userId1' => $userId1,
+                'date' => $date,
+                'is_skiped' => $is_skiped,
+            ]);
     }
+
     public function count()
     {
-        return $this->query('SELECT COUNT(*) AS reciprocal_matches_count
-FROM matches m1
-JOIN matches m2
-  ON m1.user_id_0 = m2.user_id_1
- AND m1.user_id_1 = m2.user_id_0
-WHERE m1.user_id_0 < m1.user_id_1
-  AND m1.is_skiped = 0
-  AND m2.is_skiped = 0;
-')
+        return $this
+            ->query('
+                SELECT COUNT(*) AS reciprocal_matches_count
+                FROM matches m1
+                JOIN matches m2 ON m1.user_id_0 = m2.user_id_1 AND m1.user_id_1 = m2.user_id_0
+                WHERE m1.user_id_0 < m1.user_id_1 AND m1.is_skiped = 0 AND m2.is_skiped = 0;
+                ')
             ->fetchColumn();
     }
-
 }

@@ -28,8 +28,8 @@ export class MessageService {
     return this.http.get<Message[]>(`${this.apiUrl}/messages`)
   }
 
-    messagesById(id: number): Observable<Message[]> {
-    return this.http.get<Message[]>(`${this.apiUrl}/messages/${id}`)
+    messagesById(id: number, id1: number): Observable<Message[]> {
+    return this.http.get<Message[]>(`${this.apiUrl}/messages/${id}/${id1}`)
   }
 
   sendMessage(form: { receiver_id: number; message: string | null }){

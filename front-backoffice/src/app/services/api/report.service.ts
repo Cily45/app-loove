@@ -28,4 +28,13 @@ export class ReportService {
       .pipe(map(response => response));
   }
 
+  update(id :number){
+    return this.https.put<any>(`${this.apiUrl}/report-update`, id)
+      .pipe(map(response => response));
+  }
+
+  count():Observable<number>{
+    return this.https.get<number>(`${this.apiUrl}/report-count`)
+      .pipe(map(response => response));
+  }
 }

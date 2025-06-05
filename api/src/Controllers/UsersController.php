@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\GenderModel;
+use App\Models\HobbiesModel;
 use App\Models\UserModel;
 use DateTime;
 
@@ -13,7 +15,8 @@ class UsersController extends BaseController
         $quantity = cleanString($quantity);
         $page = cleanString($page);
         $model = new UserModel();
-        $res = $model->all($quantity, $page);
+        $offset = ($page - 1) * $quantity;
+        $res = $model->all($quantity, $offset);
         return json_encode($res, JSON_PRETTY_PRINT);
     }
 
@@ -23,22 +26,14 @@ class UsersController extends BaseController
         return json_encode($model->get($id), JSON_PRETTY_PRINT);
     }
 
-    public function isEmailUsed(): bool|string
+    public function isEmailUsed(string $email): bool|string
     {
-        $data = json_decode(file_get_contents('php://input'), true);
-
-        if (empty($data['email'])) {
-            http_response_code(400);
-            return json_encode(['error' => 'Email requis']);
-        }
-
-        $email = trim($data['email']);
+        $email = trim('email');
 
         $userModel = new UserModel();
         $response = $userModel->findByEmail($email);
 
         return json_encode(['used' => (bool)$response], JSON_PRETTY_PRINT);
-
     }
 
     public function create(): string
@@ -49,7 +44,7 @@ class UsersController extends BaseController
         $birthday = DateTime::createFromFormat('Y-m-d', cleanString($data['birthday']));
         $gender = isset($data['gender']) ? (int)cleanString($data['gender']) : null;
         $email = cleanString($data['email']);
-        $password = isset($data['password'])?trim($data['password']) : '0000';
+        $password = isset($data['password']) ? trim($data['password']) : '0000';
         $userModel = new UserModel();
 
         if (!$firstname || !$lastname || !$birthday || !$email || !$password) {
@@ -112,23 +107,6 @@ class UsersController extends BaseController
         }
     }
 
-    public function allProfilMessage()
-    {
-        try {
-            $id = $this->getId();
-            if (!$id) {
-                return json_encode(['error' => 'Erreur de token']);
-            }
-            $model = new UserModel();
-
-            return json_encode($model->getAllProfilMessage($id));
-
-        } catch (\Throwable $e) {
-            http_response_code(500);
-            return json_encode(['error' => 'Erreur serveur :' . $e->getMessage()]);
-        }
-    }
-
     public function matchs()
     {
         $id = $this->getId();
@@ -163,8 +141,16 @@ class UsersController extends BaseController
             http_response_code(401);
             return json_encode(['error' => 'Erreur de token']);
         }
-        $model = new UserModel();
-        return json_encode($model->updateBanned($id));
+
+        try {
+            $model = new UserModel();
+            $result = $model->updateBanned($id);
+            return json_encode($result);
+        } catch (\Exception $e) {
+            error_log("Erreur avec le comptage d'utilisateur: " . $e->getMessage());
+            http_response_code(500);
+            return json_encode(['error' => 'Erreur serveur']);
+        }
     }
 
     public function delete(int $id): bool|string
@@ -174,9 +160,19 @@ class UsersController extends BaseController
             return json_encode(['error' => 'Erreur de token']);
         }
 
+        try {
+            $uploadDir = __DIR__ . '/../../uploads/photo-user/';
+            $targetPath = $uploadDir . 'profil-photo-' . $id . '.webp';
+            unlink($targetPath);
 
-        $model = new UserModel();
-        return json_encode($model->delete($id));
+            $model = new UserModel();
+            $result = $model->delete($id);
+            return json_encode($result, JSON_PRETTY_PRINT);
+        } catch (\Exception $e) {
+            error_log("Erreur avec la suppression d'utilisateur: " . $e->getMessage());
+            http_response_code(500);
+            return json_encode(['error' => 'Erreur serveur']);
+        }
     }
 
     public function profilAdmin(int $id): bool|string
@@ -185,35 +181,182 @@ class UsersController extends BaseController
             http_response_code(401);
             return json_encode(['error' => 'Erreur de token']);
         }
-        $model = new UserModel();
-        return json_encode($model->getProfilAdmin($id));
+
+        try {
+            $model = new UserModel();
+            $result = $model->getProfilAdmin($id);
+            return json_encode($result, JSON_PRETTY_PRINT);
+        } catch (\Exception $e) {
+            error_log("Erreur avec la récupération du profil: " . $e->getMessage());
+            http_response_code(500);
+            return json_encode(['error' => 'Erreur serveur']);
+        }
     }
 
     public function updateProfilAdmin(): bool|string
     {
-        if(!$this->isAdmin()){
+        if (!$this->isAdmin()) {
             http_response_code(401);
             return json_encode(['error' => 'Erreur de token']);
         }
-        $data = json_decode(file_get_contents('php://input'), true);
-        $id = (isset($data['id']) && is_numeric($data['id'])) ? $data['id'] : null;
-        $firstname = cleanString($data['firstname']);
-        $lastname = cleanString($data['lastname']);
-        $birthday = DateTime::createFromFormat('Y-m-d', cleanString($data['birthday']));
-        $email = cleanString($data['email']);
-        $userModel = new UserModel();
-        if (!$firstname || !$lastname || !$birthday || !$email) {
-            http_response_code(400);
-            return json_encode(['error' => 'Champs manquants.']);
+
+        try {
+            $data = json_decode(file_get_contents('php://input'), true);
+            $id = isset($data['id']) ? (int)$data['id'] : null;
+            $firstname = isset($data['firstname']) ? cleanString($data['firstname']) : null;
+            $lastname = isset($data['lastname']) ? cleanString($data['lastname']) : null;
+            $birthday = isset($data['birthday']) ? DateTime::createFromFormat('Y-m-d', cleanString($data['birthday'])) : null;
+            $email = isset($data['email']) ? cleanString($data['email']) : null;
+
+            if (!$firstname || !$lastname || !$birthday || !$email || !$id) {
+                http_response_code(400);
+                return json_encode(['error' => 'Champs manquants.']);
+            }
+
+            $userModel = new UserModel();
+            $result = $userModel->updateUser($id, $firstname, $lastname, $birthday, $email);
+            http_response_code(201);
+            return json_encode($result, JSON_PRETTY_PRINT);
+        } catch (\Exception $e) {
+            error_log("Erreur avec la maj d'utilisateur: " . $e->getMessage());
+            http_response_code(500);
+            return json_encode(['error' => 'Erreur serveur']);
+        }
+    }
+
+    public function count(): string
+    {
+        if (!$this->isAdmin()) {
+            http_response_code(401);
+            return json_encode(['error' => 'Erreur de token']);
+        }
+        try {
+            $model = new UserModel();
+            $result = $model->count();
+            http_response_code(200);
+            return json_encode($result, JSON_PRETTY_PRINT);
+
+        } catch (\Exception $e) {
+            error_log("Erreur avec le comptage d'utilisateur: " . $e->getMessage());
+            http_response_code(500);
+            return json_encode(['error' => 'Erreur serveur']);
+        }
+    }
+
+    public function updatePhoto()
+    {
+        $id = $this->getId();
+        if (!$id) {
+            http_response_code(401);
+            return json_encode(['error' => 'Erreur de token']);
         }
 
-        http_response_code(201);
-        return json_encode($userModel->updateUser(
-            $id,
-            $firstname,
-            $lastname,
-            $birthday,
-            $email
-        ));
+        if (isset($_FILES['photo'])) {
+            $uploadDir = __DIR__ . '/../../uploads/photo-user/';
+            $tmpName = $_FILES['photo']['tmp_name'];
+            $fileName = 'profil-photo-' . $id . '.jpg';
+            $targetPath = $uploadDir . $fileName;
+
+            if (move_uploaded_file($tmpName, $targetPath)) {
+                $webpName = pathinfo($fileName, PATHINFO_FILENAME) . '.webp';
+                $webpPath = $uploadDir . $webpName;
+
+                if (convertToWebP($targetPath, $webpPath)) {
+                    unlink($targetPath);
+                    try {
+                        $model = new UserModel();
+                        $result = $model->updatePhoto($id, $webpName);
+                        http_response_code(200);
+                        return json_encode($result, JSON_PRETTY_PRINT);
+                    } catch (\Exception $e) {
+                        error_log("Erreur avec la mise à jour de la photo: " . $e->getMessage());
+                        http_response_code(500);
+                        return json_encode(['error' => 'Erreur serveur']);
+                    }
+
+                } else {
+                    echo json_encode([
+                        'error' => 'Conversion WebP échouée'
+                    ]);
+                }
+            } else {
+                http_response_code(500);
+                echo json_encode(['error' => 'Erreur lors du déplacement du fichier']);
+            }
+
+
+        } else {
+            http_response_code(400);
+            echo json_encode(['error' => 'Aucun fichier envoyé']);
+        }
     }
+
+    public function updateUser(): bool|string
+    {
+        $id = $this->getId();
+        if (!$id) {
+            http_response_code(401);
+            return json_encode(['error' => 'Erreur de token']);
+        }
+
+        try {
+            $data = json_decode(file_get_contents('php://input'), true);
+            $description = isset($data['description']) ? cleanString($data['description']) : null;
+            $genders = isset($data['genderPreferences']) &&  is_array(($data['genderPreferences']))? $data['genderPreferences'] : null;
+            $hobbies = isset($data['selectedHobbies']) && is_array($data['selectedHobbies']) ? $data['selectedHobbies'] : null;
+
+            if (!$description || !$genders) {
+                http_response_code(400);
+                return json_encode(['error' => 'Champs manquants ou incorrect.']);
+            }
+
+            $userModel = new UserModel();
+            $result = $userModel->updateUserDescription($id, $description);
+
+            if(!$result){
+                http_response_code(400);
+                return json_encode(['error' => 'Erreur avec la maj description']);
+            }
+
+            $genderModel = new GenderModel();
+            $result = $genderModel->delete($id);
+
+            if(!$result){
+                http_response_code(400);
+                return json_encode(['error' => 'Erreur avec la suppression des preference de genre']);
+            }
+            foreach ($genders as $index => $gender) {
+                if($gender){
+                    $result = $genderModel->add($index + 1, $id);
+                    if(!$result){
+                        http_response_code(400);
+                        return json_encode(['error' => 'Erreur avec l\'ajout des preference amoureuseq']);
+                    }
+                }
+            }
+
+            $hobbiesModel = new HobbiesModel();
+            $result = $hobbiesModel->delete($id);
+            if(!$result){
+                http_response_code(400);
+                return json_encode(['error' => 'Erreur avec la suppression des hobbies/utilsateur']);
+            }
+
+            foreach ($hobbies as $hobby) {
+                $result = $hobbiesModel->add( $id, $hobby['id']);
+                if(!$result){
+                    http_response_code(400);
+                    return json_encode(['error' => 'Erreur avec l\'ajout des preference amoureuseq']);
+                }
+            }
+
+            http_response_code(201);
+            return json_encode($result, JSON_PRETTY_PRINT);
+        } catch (\Exception $e) {
+            error_log("Erreur avec la maj d'utilisateur: " . $e->getMessage());
+            http_response_code(500);
+            return json_encode(['error' => 'Erreur serveur']);
+        }
+    }
+
 }

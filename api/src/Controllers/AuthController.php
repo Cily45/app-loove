@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Core\Response;
+use App\Models\BannedModel;
 use App\Models\UserModel;
 use Firebase\JWT\JWT;
 
@@ -15,9 +16,8 @@ class AuthController extends BaseController
         $data = json_decode(file_get_contents('php://input'), true);
 
         if (empty($data['email']) || empty($data['password'])) {
-            $response = new Response(400, json_encode(['error' => 'Email et mot de passe requis']));
-            header("Content-Type: application/json");
-            return $response->getBody();
+            http_response_code(400);
+            return json_encode(['error' => 'Email et mot de passe requis'], JSON_PRETTY_PRINT);
         }
 
         $email = trim($data['email']);
@@ -27,15 +27,19 @@ class AuthController extends BaseController
         $user = $userModel->findByEmail($email);
 
         if (!$user || !password_verify($password, $user['password'])) {
-            $response = new Response(401, json_encode(['error' => 'Identifiants invalides']));
-            header("Content-Type: application/json");
-            return $response->getBody();
+            http_response_code(401);
+            return json_encode(['error' => 'Identifiants invalides'], JSON_PRETTY_PRINT);
         }
 
-        if ($user['is_banned']) {
-            $response = new Response(401, json_encode(['error' => 'Utilisateur banni']));
-            header("Content-Type: application/json");
-            return $response->getBody();
+        $bannedModel = new BannedModel;
+        $banned = $bannedModel->get($user['id']);
+        if($banned){
+            if($banned['end_date'] < date('Y-m-d')){
+                $bannedModel->delete($user['id']);
+            }else{
+                http_response_code(403);
+                return json_encode(['error' => 'Utilisateur banni'], JSON_PRETTY_PRINT);
+            }
         }
 
         $payload = [
@@ -48,15 +52,12 @@ class AuthController extends BaseController
         ];
 
         $token = JWT::encode($payload, $key, 'HS256');
-        $response = new Response(200, json_encode([
+        $response = [
             'message' => 'Connexion réussie',
             'token' => $token,
             'id' => $user['id']
-        ]));
-
-        header("Content-Type: application/json");
-        return $response->getBody();
+        ];
+        http_response_code(200);
+        return json_encode($response, JSON_PRETTY_PRINT);
     }
-
-
 }

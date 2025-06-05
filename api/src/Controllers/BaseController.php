@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Core\Request;
+use App\Core\Response;
 use App\utils\AuthService;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -12,7 +13,7 @@ abstract class BaseController
 
     protected Request $request;
 
-    public function setRequest(Request $request)
+    public function setRequest(Request $request): void
     {
         $this->request = $request;
     }
@@ -78,6 +79,7 @@ abstract class BaseController
             return false;
         }
 
-        return $userId;
+        return true;
     }
+
 }

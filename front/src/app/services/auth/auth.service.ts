@@ -4,6 +4,8 @@ import {catchError, firstValueFrom, Observable, throwError} from 'rxjs';
 import {environment} from '../../env';
 import {UserService} from '../api/user.service';
 import {DogService} from '../api/dog.service';
+import {ToastService} from '../toast.service';
+import {getXHRResponse} from 'rxjs/internal/ajax/getXHRResponse';
 
 interface LoginResponse {
   token?: string
@@ -26,7 +28,7 @@ export interface LoginCredentials {
 export class AuthService {
   private apiUrl = environment.apiUrl;
 
-  constructor(private https: HttpClient, private userService: UserService, private dogService : DogService) {
+  constructor(private https: HttpClient, private userService: UserService, private dogService : DogService, private toastService : ToastService) {
   }
   async login(credentials: LoginCredentials): Promise<boolean> {
     try {
@@ -36,16 +38,29 @@ export class AuthService {
       if (response.token) {
         localStorage.setItem('authToken', response.token);
         this.userService.userProfil(response.id).subscribe((res) => {
-          localStorage.setItem('profil', JSON.stringify(res))
-        });
-        this.dogService.dogProfil(response.id).subscribe((list) => {
-          localStorage.setItem('dogs', JSON.stringify(list))
+          localStorage.setItem('profil', JSON.stringify(res));
         })
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const longitude = position.coords.longitude
+            const latitude = position.coords.latitude
+            const location = `POINT(${latitude} ${longitude})`
+            this.userService.updateLocation({location: location}).subscribe(res => {
+              if (res) {
+                this.toastService.showSuccess("Geolocalisation réussi")
+              } else {
+                this.toastService.showError("Geolocalisation échoué")
+
+              }
+            })
+          }
+        )
         return true;
       }
       return false;
     } catch (err) {
       console.error('Erreur de connexion', err);
+      this.toastService.showError('Erreur de connexion, si cela persiste, contactez le support');
       return false;
     }
   }
@@ -53,8 +68,6 @@ export class AuthService {
   logout() {
     localStorage.removeItem('authToken')
     localStorage.removeItem('profil')
-    localStorage.removeItem('dogs')
-
   }
 
   getToken(): string | null {

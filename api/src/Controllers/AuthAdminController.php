@@ -20,14 +20,17 @@ class AuthAdminController extends BaseController
             return $response->getBody();
         }
 
-        $email = trim($data['email']);
+        $email = cleanString($data['email']);
         $password = trim($data['password']);
 
         $model = new AdminModel();
         $admin = $model->findByEmail($email);
 
-        if (!$admin || !password_verify($password, $admin['password'])) {
 
+        $validPassword = $admin && password_verify($password, $admin['password']);
+        password_verify($password, '$2y$10$dummy.hash.to.prevent.timing.attacks');
+
+        if (!$admin || !$validPassword) {
             $response = new Response(401, json_encode(['error' => 'Identifiants invalides']));
             header("Content-Type: application/json");
             return $response->getBody();

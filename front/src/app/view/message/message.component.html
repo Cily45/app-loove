@@ -1,28 +1,32 @@
 <div class="app-messages  min-h-[calc(100vh-120px)] flex  flex-col justify-between  w-full ">
   <div class="flex justify-between items-center bg-[#b59db8] p-6 w-full">
+
     <div class="w-screen flex items-center justify-between text-[#6A3A71]">
-      <img src="{{environment.apiUrl}}/uploads/{{profil()?.profil_photo}}" alt="photo de profil"
-           class="w-25 h-25 object-cover rounded-2xl mr-3 shadow-lg shadow-black/25">
-      <p class="flex w-full justify-between text-2xl ">{{ profil().firstname }} {{ profil().lastname }}</p>
-
-      <div>
-        <a onclick="document.getElementById('reportModal').classList.remove('hidden')" class=" px-4 py-2">
-          <mat-icon>flag</mat-icon>
-        </a>
-
-        @if(profil().id){
-        <div id="reportModal"
-             class="fixed inset-0  bg-white/30 backdrop-blur-sm bg-opacity-50 flex items-center justify-center hidden z-50 md:pl-[220px]">
-          <app-report [id]="profil().id"></app-report>
+      <a (click)="openProfil()" class="flex items-center">
+        <img src="{{environment.apiUrl}}/uploads/photo-user/{{profil()?.profil_photo}}" alt="photo de profil"
+             class="w-25 h-25 object-cover rounded-2xl mr-3 shadow-lg shadow-black/25">
+        <div class="flex-col  text-2xl ">
+          <p>{{ profil().firstname }} </p>
+          <p>{{ profil().lastname }}</p>
         </div>
-
+      </a>
+      <div>
+        @if (profil().lastname !== '') {
+          <a (click)="openReport()" class=" px-4 py-2">
+            <mat-icon>flag</mat-icon>
+          </a>
+        }
+        @if (profil().id) {
+          <app-profil [id]="profil().id"></app-profil>
+          <app-report [id]="profil().id"></app-report>
         }
       </div>
     </div>
   </div>
   <div class="bg-second h-[calc(100vh-268px)] md:h-[calc(100vh-208px)] p-6 flex flex-col-reverse overflow-y-auto">
     @for (message of messages(); track message) {
-      <app-message-card [message]="message" [photo]="message.is_that_user? userProfil().profil_photo : profil().profil_photo"></app-message-card>
+      <app-message-card [message]="message"
+                        [photo]="message.is_that_user? userProfil().profil_photo : profil().profil_photo"></app-message-card>
     }
   </div>
 
@@ -34,8 +38,10 @@
       [formControl]="message"
       required
     />
-    <button (click)="onSubmit()" class="pl-3 text-[#6A3A71] my-auto">
-      <mat-icon>send</mat-icon>
-    </button>
+    @if(message.value.length > 0) {
+      <button (click)="onSubmit()" class="pl-3 text-[#6A3A71] my-auto">
+        <mat-icon>send</mat-icon>
+      </button>
+    }
   </div>
 </div>

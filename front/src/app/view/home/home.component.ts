@@ -8,11 +8,9 @@ import {RouterLink} from '@angular/router';
 import {getAge} from '../../component/helper';
 import {ReportComponent} from '../../component/report/report.component';
 import {SubscriptionService} from '../../services/api/subscription.service';
-import {GeolocationService} from '@ng-web-apis/geolocation';
 import {ToastService} from '../../services/toast.service';
 import {environment} from '../../env';
-import {log} from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
-
+import {ProfilComponent} from '../../component/profil/profil.component';
 
 @Component({
   selector: 'app-home',
@@ -20,6 +18,9 @@ import {log} from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
     MatIconModule,
     RouterLink,
     ReportComponent,
+    ProfilComponent,
+    ProfilComponent,
+
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -29,8 +30,7 @@ export class HomeComponent implements OnInit {
   index = 0
   isSubscribe = signal<boolean>(false)
 
-
-  constructor(private userService: UserService, private matchService: MatchService, private subscriptionService: SubscriptionService,  private toastService : ToastService) {
+  constructor(private userService: UserService, private matchService: MatchService, private subscriptionService: SubscriptionService, private toastService: ToastService) {
   }
 
   ngOnInit(): void {
@@ -41,42 +41,13 @@ export class HomeComponent implements OnInit {
     this.subscriptionService.isSubscribe().subscribe(res => {
       this.isSubscribe.set(res)
     })
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const longitude = position.coords.longitude
-        const latitude = position.coords.latitude
-        const location = `POINT(${latitude} ${longitude})`
-        this.userService.updateLocation({location : location}).subscribe(res =>{
-          if(res){
-            this.toastService.showSuccess("Geolocalisation réussi")
-          }else{
-            this.toastService.showError("Geolocalisation échoué")
-
-          }
-        })
-      }
-    )
-
-
   }
 
   get currentUserId(): number | undefined {
-    console.log(this.profils()[this.index]?.id)
     return this.profils()[this.index]?.id;
   }
 
   leftAnimation(): void {
-    if (this.currentUserId !== undefined) {
-      this.matchService.match({
-        userId1: this.currentUserId,
-        is_skiped: false
-      }).subscribe();
-    }
-    this.index++
-  }
-
-  rightAnimation(): void {
     if (this.currentUserId !== undefined) {
       this.matchService.match({
         userId1: this.currentUserId,
@@ -86,6 +57,23 @@ export class HomeComponent implements OnInit {
     this.index++
   }
 
+  rightAnimation(): void {
+    if (this.currentUserId !== undefined) {
+      this.matchService.match({
+        userId1: this.currentUserId,
+        is_skiped: false
+      }).subscribe();
+    }
+    this.index++
+  }
+
+  openProfil(){
+    document.getElementById(`profil-${this.profils()[this.index].id}`)?.classList.remove('hidden');
+  }
+
+  openReport(){
+    document.getElementById(`report-${this.profils()[this.index].id}`)?.classList.remove('hidden');
+  }
   protected readonly getAge = getAge;
   protected readonly environment = environment;
 }

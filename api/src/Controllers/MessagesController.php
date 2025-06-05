@@ -9,89 +9,96 @@ class MessagesController extends AuthController
 {
     public function messages()
     {
+        $id = (int)$this->getId();
+        if (!$id) {
+            http_response_code(401);
+            return json_encode(['error' => 'Token invalid']);
+        }
+
         try {
-            $id =(int) $this->getId();
-            if(!$id){
-                http_response_code(401);
-                return json_encode(['error' => 'Token invalid']);
-            }
-
             $model = new MessagesModel();
-
             return json_encode($model->allMessageById($id));
 
         } catch (\Throwable $e) {
+            error_log("Erreur récuperation conversation: " . $e->getMessage());
             http_response_code(500);
-            return json_encode(['error' => 'Erreur serveur : ' . $e->getMessage()]);
+            return json_encode(['error' => 'Erreur serveur']);
         }
     }
-    public function messagesById($id): bool|string
+
+    public function messagesById(int $id0, int $id1): bool|string
     {
-        if(!$this->verifyToken()){
-            http_response_code(401);
-            return json_encode(['error' => 'Token Invalid.']);
+        if (!$this->isAdmin()) {
+            $userId = (int)$this->getId();
+
+            if (!$userId || $userId !== $id0) {
+                http_response_code(401);
+                return json_encode(['error' => 'Token Invalid.']);
+            }
         }
 
         try {
-            $userId =(int) $this->getId();
-
             $model = new MessagesModel();
-            return json_encode($model->allMessageByIdById($userId, $id));
-
-        } catch (\Throwable $e) {
+            return json_encode($model->allMessageByIdById($id0, $id1));
+        } catch (\Exception $e) {
+            error_log("Erreur récuperation conversation: " . $e->getMessage());
             http_response_code(500);
-            return json_encode(['error' => 'Erreur serveur : ' . $e->getMessage()]);
+            return json_encode(['error' => 'Erreur serveur']);
         }
     }
 
     public function addMessage()
     {
-        if(!$this->verifyToken()){
+        $senderId = $this->getId();
+        if (!$senderId) {
             http_response_code(401);
             return json_encode(['error' => 'Token Invalid.']);
         }
-        $data = json_decode(file_get_contents('php://input'), true);
-        $senderId = $this->getId();
-        $receiverId= cleanString($data['receiver_id']);
-        $message = cleanString($data['message']);
-        date_default_timezone_set('Europe/Paris');
-        $date = date('Y-m-d');
-        $hour = date("H:i:s");
-        $model = new MessagesModel();
+        try {
+            $data = json_decode(file_get_contents('php://input'), true);
+            $receiverId = isset($data['receiver_id']) ? (int)$data['receiver_id'] : null;
+            $message = isset($data['message']) ? cleanString($data['message']) : null;
 
-        if ( !$receiverId || !$message) {
-            http_response_code(400);
-            return json_encode(['error' => 'Champs manquants.']);
+            date_default_timezone_set('Europe/Paris');
+            $date = date('Y-m-d');
+            $hour = date("H:i:s");
+            $model = new MessagesModel();
+
+            if (!$receiverId || !$message) {
+                http_response_code(400);
+                return json_encode(['error' => 'Champs manquants.']);
+            }
+
+            $model->addMessage($receiverId, $senderId, $message, $date, $hour);
+
+            http_response_code(201);
+            return json_encode(['success' => true], JSON_PRETTY_PRINT);
+        } catch (\Exception $e) {
+            error_log("Erreur récuperation conversation: " . $e->getMessage());
+            http_response_code(500);
+            return json_encode(['error' => 'Erreur serveur']);
+
         }
 
-        if (!$senderId ) {
-            http_response_code(400);
-            return json_encode(['error' => 'Action non autorisé']);
-        }
-
-        $model->addMessage(
-            $receiverId,
-            $senderId,
-            $message,
-            $date,
-            $hour
-        );
-
-        http_response_code(201);
-        return json_encode(['success' => true], JSON_PRETTY_PRINT);
 
     }
 
-    public function viewed(int $id){
-        try {
-            $userId =(int) $this->getId();
+    public function viewed(int $id)
+    {
+        $userId = (int)$this->getId();
+        if (!$userId) {
+            http_response_code(401);
+            return json_encode(['error' => 'Token Invalid.']);
+        }
 
+        try {
             $model = new MessagesModel();
             return json_encode($model->updateMessage($userId, $id));
 
         } catch (\Throwable $e) {
+            error_log("Erreur d'actualisation de vue: " . $e->getMessage());
             http_response_code(500);
-            return json_encode(['error' => 'Erreur serveur : ' . $e->getMessage()]);
+            return json_encode(['error' => 'Erreur serveur']);
         }
     }
 }

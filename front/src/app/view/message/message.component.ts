@@ -7,6 +7,7 @@ import {MessageCardComponent} from '../../component/message-card/message-card.co
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ReportComponent} from '../../component/report/report.component';
 import {environment} from '../../env';
+import {ProfilComponent} from '../../component/profil/profil.component';
 
 @Component({
   selector: 'app-message',
@@ -15,6 +16,7 @@ import {environment} from '../../env';
     MessageCardComponent,
     ReactiveFormsModule,
     ReportComponent,
+    ProfilComponent,
   ],
   templateUrl: './message.component.html',
   styleUrl: './message.component.scss'
@@ -23,14 +25,18 @@ export class MessageComponent implements OnInit {
   profil = signal<Profil>({
     id: 0,
     lastname: '',
-    firstname: '',
-    profil_photo: '',
+    firstname: 'Utilisateur supprimer',
+    profil_photo: 'user-delete.webp',
     description: '',
     birthday: '',
-    match_code: 2
+    match_code: 2,
+    gender: '',
   })
   messages = signal<Message[]>([])
-  message = new FormControl('', Validators.required);
+  message: FormControl<string> = new FormControl('',{
+    nonNullable: true,
+    validators: [Validators.required],
+  });
   userProfil = signal<Profil>({
     id: 0,
     lastname: '',
@@ -38,7 +44,8 @@ export class MessageComponent implements OnInit {
     profil_photo: '',
     description: '',
     birthday: '',
-    match_code: 2
+    match_code: 2,
+    gender: '',
   })
 
 
@@ -47,28 +54,39 @@ export class MessageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let id =  parseInt(<string>this.route.snapshot.paramMap.get('id'))
+    let id = parseInt(<string>this.route.snapshot.paramMap.get('id'))
     this.userProfil.set(JSON.parse(<string>localStorage.getItem('profil')))
-    this.messagesService.messagesById(id).subscribe(list => {
+    this.messagesService.messagesById(this.userProfil().id, id).subscribe(list => {
       this.messages.set(list.reverse())
-      if (id!== null) {
-        this.userService.userProfil(id).subscribe(list => {
-          this.profil.set(list)})
+      if (id !== null) {
+        this.userService.userProfil(id).subscribe(res => {
+          if (res) {
+            this.profil.set(res)
+          }
+        })
+
       }
     })
-    if ( this.messages().length > 0 && !this.messages()[this.messages().length].is_that_user && !this.messages()[this.messages().length].is_view) {
+    if (this.messages().length > 0 && !this.messages()[this.messages().length].is_that_user && !this.messages()[this.messages().length].is_view) {
       this.messagesService.updateMessage(this.messages()[this.messages().length].id).subscribe()
     }
   }
 
   onSubmit() {
+    let data = {
+      "receiver_id": this.profil().id,
+      "message": this.message.value
+    }
+    this.messagesService.sendMessage(data).subscribe()
+    this.message.reset()
+  }
 
-      let data = {
-        "receiver_id": this.profil().id,
-        "message": this.message.value
-      }
-      this.messagesService.sendMessage(data).subscribe()
-      this.message.reset()
+  openProfil(){
+    document.getElementById(`profil-${this.profil().id}`)?.classList.remove('hidden');
+  }
+
+  openReport(){
+    document.getElementById(`report-${this.profil().id}`)?.classList.remove('hidden');
   }
 
   protected readonly environment = environment;

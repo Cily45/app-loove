@@ -11,6 +11,7 @@ export interface Profil {
   description: string
   birthday: string
   match_code: number
+  gender: string
   is_banned: boolean
 }
 
@@ -47,16 +48,8 @@ export class UserService {
     return this.https.get<Profil>(`${this.apiUrl}/profil/${id}`)
   }
 
-  allUserProfilMessage(): Observable<Profil[]> {
-    return this.https.get<Profil[]>(`${this.apiUrl}/users-messages`)
-  }
-
   getAllProfil(quantity: number, page: number): Observable<Profil[]> {
     return this.https.get<Profil[]>(`${this.apiUrl}/users/${quantity}/${page}`)
-  }
-
-  getMatchsProfil(): Observable<Profil[]> {
-    return this.https.get<Profil[]>(`${this.apiUrl}/matchs`)
   }
 
   deleteUser(id: number) {
@@ -71,5 +64,9 @@ export class UserService {
   userUpdate(form: any) {
     return this.https.put<any>(`${this.apiUrl}/update-user-admin`, form)
       .pipe(map(response => response))
+  }
+
+  count(): Observable<number> {
+    return this.https.get<number>(`${this.apiUrl}/user-count`)
   }
 }

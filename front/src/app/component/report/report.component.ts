@@ -30,6 +30,9 @@ report = new FormControl('', Validators.required)
     })
   }
 
+  close(){
+    document.getElementById(`report-${this.id()}`)?.classList.add('hidden');
+  }
   onSubmit(){
     if (this.report.value !== '' && this.report.value !== null) {
       let report = {

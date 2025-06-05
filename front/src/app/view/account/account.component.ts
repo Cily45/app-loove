@@ -7,6 +7,7 @@ import {MatButton} from '@angular/material/button';
 import {NgIf} from '@angular/common';
 import {MatIconModule} from '@angular/material/icon'
 import {matchPassword} from '../../component/validator';
+import {UserService} from '../../services/api/user.service';
 
 
 @Component({
@@ -19,7 +20,11 @@ export class AccountComponent {
   hideOldPassword = signal(true)
   hidePassword = signal(true)
   hideConfirm = signal(true)
+  id = 12
 
+  constructor(private userService : UserService) {
+
+  }
   emailFormGroup = new FormGroup({
       email: new FormControl('',
         [
@@ -37,4 +42,15 @@ export class AccountComponent {
     ]),
     passwordConfirm: new FormControl('', Validators.required)
   }, {validators: matchPassword()})
+
+  deleteFormGroup = new FormGroup({
+    input: new FormControl('', [Validators.required, Validators.pattern("Supprimer")])
+  })
+
+  delete() {
+    if(this.deleteFormGroup.valid && confirm("La suppression de votre compte est irréversible. Êtes-vous sûr de vouloir supprimer votre compte ?")){
+      this.userService.deleteUser(this.id)
+
+    }
+  }
 }

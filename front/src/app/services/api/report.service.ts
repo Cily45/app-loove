@@ -12,7 +12,7 @@ export class ReportService {
   constructor(private https: HttpClient) {}
 
   createReport(report :any) {
-    return this.https.post<any>(`${this.apiUrl}/report`, report)
+    return this.https.put<any>(`${this.apiUrl}/report`, report)
       .pipe(map(response => response));
   }
 
