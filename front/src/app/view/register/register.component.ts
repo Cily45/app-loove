@@ -28,14 +28,6 @@ import {NgIf} from '@angular/common';
     MatIconModule,
     MatSelectModule,
     NgIf,
-    NgIf,
-    NgIf,
-    NgIf,
-    NgIf,
-    NgIf,
-    NgIf,
-    NgIf,
-    NgIf
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
@@ -84,24 +76,29 @@ export class RegisterComponent implements OnInit {
   async onSubmit(stepper: MatStepper) {
     const emailControl = this.thirdFormGroup.get('email')
     const email: string = this.thirdFormGroup.get('email')?.value || 'error'
-    const isEmailUsed = await firstValueFrom(this.userService.isMailUsed(email))
+    let isEmailUsed = true
+    this.userService.isMailUsed(email).subscribe(res => {
+      isEmailUsed = res
 
-    if (!emailControl) {
-      return
-    }
-    if (isEmailUsed) {
-      emailControl.setErrors({'emailUsed': true})
-      return
-    }
-    emailControl.setErrors(null)
+      if (!emailControl) {
+        return
+      }
+      if (isEmailUsed) {
+        emailControl.setErrors({'emailUsed': true})
+        return
+      }
+      emailControl.setErrors(null)
 
-    const form = {
-      ...this.firstFormGroup.value,
-      ...this.secondFormGroup.value,
-      ...this.thirdFormGroup.value
-    }
-    this.userService.createUser(form).subscribe()
-    stepper.next()
+      const form = {
+        ...this.firstFormGroup.value,
+        ...this.secondFormGroup.value,
+        ...this.thirdFormGroup.value
+      }
+      this.userService.createUser(form).subscribe(res => {
+        stepper.next()
+      })
+    })
+
   }
 
   ngOnInit(): void {

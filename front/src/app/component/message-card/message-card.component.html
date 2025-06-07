@@ -3,7 +3,7 @@
     <div class="max-w-3/4 h-fit w-fit  m-3 ">
     <p class="bg-[#6A3A71] text-white p-3 break-words rounded-t-3xl shadow-lg shadow-black/25"
        [ngClass]="message().is_that_user? 'rounded-bl-3xl' : 'rounded-br-3xl' ">
-      {{ message()?.message }}
+      {{ message().message }}
     </p>
     <p class="text-[#202121] text-end text-sm">{{getDatetime()}}</p>
     </div>

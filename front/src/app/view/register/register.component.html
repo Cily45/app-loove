@@ -38,6 +38,7 @@
           <mat-form-field appearance="fill" class="w-full">
             <mat-label>Date de naissance</mat-label>
             <input
+              type="date"
               name="birhday"
               formControlName="birthday"
               matInput
@@ -45,7 +46,7 @@
               required
             />
             <mat-error *ngIf="firstFormGroup.get('birthday')?.errors?.['required']">Date de naissance requise</mat-error>
-            <mat-error *ngIf="firstFormGroup.get('birthday')?.hasError('invalidAge')">Age non réglmentaire</mat-error>
+            <mat-error *ngIf="firstFormGroup.get('birthday')?.errors?.['invalidAge']">Age non réglmentaire</mat-error>
             <mat-error *ngIf="firstFormGroup.get('birthday')?.errors?.['invalidDate']">
               Date de naissance non valide
             </mat-error>
@@ -112,8 +113,8 @@
               required
             />
             <mat-error *ngIf="thirdFormGroup.get('email')?.errors?.['required']">Email requis</mat-error>
-            <mat-error *ngIf="thirdFormGroup.get('email')?.hasError('pattern')">Email non valide</mat-error>
-            <mat-error *ngIf="thirdFormGroup.get('email')?.hasError('emailUsed')">>Email déjà utilisé</mat-error>
+            <mat-error *ngIf="thirdFormGroup.get('email')?.errors?.['pattern']">Email non valide</mat-error>
+            <mat-error *ngIf="thirdFormGroup.get('email')?.errors?.['emailUsed']">>Email déjà utilisé</mat-error>
 
           </mat-form-field>
 
@@ -135,7 +136,7 @@
               </button>
             </div>
             <mat-error *ngIf="thirdFormGroup.get('password')?.errors?.['required']">Mot de passe requis</mat-error>
-            <mat-error *ngIf="thirdFormGroup.get('password')?.hasError('pattern') && !thirdFormGroup.get('password')?.hasError('required')">Min. 8 caractères, avec une minuscule, un chiffre et un caractère spécial</mat-error>
+            <mat-error *ngIf="thirdFormGroup.get('password')?.errors?.['pattern'] && !thirdFormGroup.get('password')?.errors?.['required']">Min. 8 caractères, avec une minuscule, un chiffre et un caractère spécial</mat-error>
 
           </mat-form-field>
 
@@ -159,7 +160,7 @@
 
             <mat-error *ngIf="thirdFormGroup.get('passwordConfirm')?.errors?.['required']">Confirmation de mot de passe requis</mat-error>
 
-            <mat-error *ngIf="thirdFormGroup.get('passwordConfirm')?.hasError('mismatchPassword')">Les mots de passe doivent correspondre</mat-error>
+            <mat-error *ngIf="thirdFormGroup.get('passwordConfirm')?.errors?.['mismatchPassword']">Les mots de passe doivent correspondre</mat-error>
 
           </mat-form-field>
           <div class="flex justify-end">
@@ -176,8 +177,6 @@
         <h2 class="text-2xl text-[#6A3A71] font-semibold">Finalisez votre inscription</h2>
         <p>Un e-mail vient de vous être envoyé.</p>
         <p>Pour finaliser votre inscription, rendez-vous dans votre boîte e-mail pour activer votre compte.</p>
-        <p>Pas d’e-mail reçu dans votre boîte de reception ou vos spams? <a class="text-[#FF69B4] whitespace-nowrap">Renvoyer
-          l’e-mail.</a></p>
 
         <p>Si vous avez procédé à la vérification, <a routerLink="/login" class="text-[#FF69B4] whitespace-nowrap">cliquez
           ici</a> pour continuer votre

@@ -28,7 +28,7 @@ export interface LoginCredentials {
 export class AuthService {
   private apiUrl = environment.apiUrl;
 
-  constructor(private https: HttpClient, private userService: UserService, private dogService : DogService, private toastService : ToastService) {
+  constructor(private https: HttpClient, private userService: UserService, private toastService : ToastService) {
   }
   async login(credentials: LoginCredentials): Promise<boolean> {
     try {
@@ -59,8 +59,7 @@ export class AuthService {
       }
       return false;
     } catch (err) {
-      console.error('Erreur de connexion', err);
-      this.toastService.showError('Erreur de connexion, si cela persiste, contactez le support');
+      this.toastService.showError('Erreur de connexion. Veuillez vérifier votre adresse e-mail et, si le problème persiste, contactez le support.');
       return false;
     }
   }

@@ -19,6 +19,7 @@ import {NotificationComponent} from './view/notification/notification.component'
 import {SubscriptionComponent} from './view/subscription/subscription.component';
 import {NewSubscriptionComponent} from './view/new-subscription/new-subscription.component';
 import {DogProfilComponent} from './view/dog-profil/dog-profil.component';
+import {ConfirmEmailComponent} from './view/confirm-email/confirm-email.component';
 
 export const routes: Routes = [
   {
@@ -154,6 +155,15 @@ export const routes: Routes = [
     path: 'nouvel-abonnement',
     component: NewSubscriptionComponent,
     canActivate: [authGuard],
+  },
+  {
+    title: 'Confirmation de mail',
+    path: 'confirmation/:token',
+    component: ConfirmEmailComponent,
+    data: {
+      hideFooter: true,
+      hideAsideMenu: true
+    },
   },
   {
     path: '',

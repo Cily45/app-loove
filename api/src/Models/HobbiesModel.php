@@ -41,7 +41,7 @@ class HobbiesModel extends BaseModel
                     WHERE user_id = :id
                 ")
             ->execute([
-                ':id' => $id,
+                'id' => $id,
             ]);
     }
 

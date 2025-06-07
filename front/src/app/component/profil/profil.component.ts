@@ -47,6 +47,7 @@ export class ProfilComponent {
     birthday: '',
     match_code: 0,
     gender: '',
+    distance_km: 0
   })
   hobbies = signal<Hobby[]>([])
   gendersPreference = signal<Gender[]>([])

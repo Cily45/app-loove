@@ -50,7 +50,7 @@ class UserModel extends BaseModel
 
     public function findByEmail(
         string $email
-    ): array
+    ): array | bool
     {
         return $this->query("
             SELECT 
@@ -74,13 +74,14 @@ class UserModel extends BaseModel
         DateTime $birthday,
         ?int     $gender,
         string   $email,
-        string   $password
+        string   $password,
+        string   $token
     ): bool
     {
-        return $this
+        $result = $this
             ->query("
-                INSERT INTO user (firstname, lastname, gender_id, birthday, password, email)
-                VALUES (:firstname, :lastname, :gender, :birthday, :password, :email)
+                INSERT INTO user (firstname, lastname, gender_id, birthday, password, email, token)
+                VALUES (:firstname, :lastname, :gender, :birthday, :password, :email, :token)
                 ")
             ->execute([
                 'firstname' => $firstname,
@@ -88,7 +89,21 @@ class UserModel extends BaseModel
                 'gender' => $gender,
                 'birthday' => $birthday->format('Y-m-d'),
                 'password' => $password,
-                'email' => $email
+                'email' => $email,
+                'token' => $token
+            ]);
+
+        $id = $this->lastInsertId();
+        if(!$result){
+            return $result;
+        }
+
+        return $this
+            ->query("
+                INSERT INTO `user_filter`(`user_id`)
+                VALUES (:id)")
+            ->execute([
+                'id' => $id
             ]);
     }
 
@@ -119,13 +134,108 @@ class UserModel extends BaseModel
     {
         return $this
             ->query("
-            SELECT id, firstname, lastname, gender_id, birthday, profil_photo, description
-            FROM user
-            WHERE id != :id
-            AND lastname IS NOT NULL
-              AND id NOT IN (
-                  SELECT user_id_1 FROM matches WHERE user_id_0 = :id)
-        ")
+SELECT DISTINCT
+    u.id, 
+    u.firstname, 
+    u.lastname, 
+    u.gender_id, 
+    u.birthday, 
+    u.profil_photo, 
+    u.description,
+    TIMESTAMPDIFF(YEAR, u.birthday, CURDATE()) as age,
+    -- Calcul de la distance en km
+    ROUND(
+        ST_Distance_Sphere(
+            u.location, 
+            (SELECT location FROM user WHERE id = :id)
+        ) / 1000, 2
+    ) as distance_km
+FROM user u
+-- Suppression des LEFT JOIN qui causent les doublons
+WHERE u.id != :id 
+    AND u.lastname IS NOT NULL
+    AND u.is_verified = 1
+        AND u.id NOT IN (
+        SELECT user_id_1 
+        FROM matches 
+        WHERE user_id_0 = :id
+    )
+    -- Filtre d'âge (si des filtres existent)
+    AND (
+        NOT EXISTS (SELECT 1 FROM user_filter WHERE user_id = :id)
+        OR (
+            TIMESTAMPDIFF(YEAR, u.birthday, CURDATE()) >= (SELECT min_age FROM user_filter WHERE user_id = :id LIMIT 1)
+            AND TIMESTAMPDIFF(YEAR, u.birthday, CURDATE()) <= (SELECT max_age FROM user_filter WHERE user_id = :id LIMIT 1)
+        )
+    )
+    -- Filtre de distance (si des filtres existent)
+    AND (
+        NOT EXISTS (SELECT 1 FROM user_filter WHERE user_id = :id AND distance IS NOT NULL)
+        OR ST_Distance_Sphere(
+            u.location, 
+            (SELECT location FROM user WHERE id = :id)
+        ) / 1000 <= (SELECT distance FROM user_filter WHERE user_id = :id AND distance IS NOT NULL LIMIT 1)
+    )
+    -- Filtre de genre (si des filtres existent)
+    AND (
+        NOT EXISTS (SELECT 1 FROM user_filter_gender WHERE user_id = :id)
+        OR u.gender_id IN (
+            SELECT gender_id FROM user_filter_gender WHERE user_id = :id
+        )
+    )
+    -- Filtre des hobbies (si des filtres existent)
+    AND (
+        NOT EXISTS (SELECT 1 FROM user_filter_hobbies WHERE user_id = :id)
+        OR EXISTS (
+            SELECT 1 
+            FROM user_hobbies uh 
+            WHERE uh.user_id = u.id 
+            AND uh.hobbies_id IN (
+                SELECT hobbies_id FROM user_filter_hobbies WHERE user_id = :id
+            )
+        )
+    )
+    -- Filtre genre des chiens (si des filtres existent)
+    AND (
+        NOT EXISTS (SELECT 1 FROM user_filter_dog_genders WHERE user_id = :id)
+        OR EXISTS (
+            SELECT 1 
+            FROM user_dog ud 
+            JOIN dog d ON d.id = ud.dog_id 
+            WHERE ud.user_id = u.id 
+            AND d.gender_id IN (
+                SELECT dog_gender_id FROM user_filter_dog_genders WHERE user_id = :id
+            )
+        )
+    )
+    -- Filtre taille des chiens (si des filtres existent)
+    AND (
+        NOT EXISTS (SELECT 1 FROM user_filter_dog_sizes WHERE user_id = :id)
+        OR EXISTS (
+            SELECT 1 
+            FROM user_dog ud 
+            JOIN dog d ON d.id = ud.dog_id 
+            WHERE ud.user_id = u.id 
+            AND d.size_id IN (
+                SELECT size_dog_id FROM user_filter_dog_sizes WHERE user_id = :id
+            )
+        )
+    )
+    -- Filtre tempérament des chiens (si des filtres existent)
+    AND (
+        NOT EXISTS (SELECT 1 FROM user_filter_dog_temperament WHERE user_id = :id)
+        OR EXISTS (
+            SELECT 1 
+            FROM user_dog ud 
+            JOIN dog d ON d.id = ud.dog_id 
+            WHERE ud.user_id = u.id 
+            AND d.temperament_id IN (
+                SELECT dog_temperament_id FROM user_filter_dog_temperament WHERE user_id = :id
+            )
+        )
+    )
+ORDER BY distance_km ASC;
+")
             ->fetchAll(['id' => $id]);
     }
 
@@ -316,6 +426,18 @@ class UserModel extends BaseModel
             ->execute([
                 'id' => $id,
                 'description' => $description,
+            ]);
+    }
+
+    public function updateVerify($token): bool
+    {
+        return $this
+            ->query("
+                UPDATE `user` SET `is_verified`= 1 
+                WHERE token = :token
+                ")
+            ->execute([
+                'token' => $token
             ]);
     }
 

@@ -76,4 +76,5 @@ export class HomeComponent implements OnInit {
   }
   protected readonly getAge = getAge;
   protected readonly environment = environment;
+  protected readonly Math = Math;
 }

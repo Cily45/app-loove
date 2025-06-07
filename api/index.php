@@ -18,7 +18,9 @@ use App\Controllers\DogController;
 use App\Controllers\DogGenderController;
 use App\Controllers\DogSizeController;
 use App\Controllers\DogTemperamentController;
+use App\Controllers\FilterController;
 use App\Controllers\HobbiesController;
+use App\Controllers\MailController;
 use App\Controllers\MatchContoller;
 use App\Controllers\MessagesController;
 use App\Controllers\PriceController;
@@ -61,6 +63,7 @@ $routeur->addRoute(['POST'], '/create-user', UsersController::class, 'create');
 $routeur->addRoute(['POST'], '/update-user-admin', UsersController::class, 'updateProfilAdmin');
 $routeur->addRoute(['POST'], '/update-photo', UsersController::class, 'updatePhoto');
 $routeur->addRoute(['POST'], '/update-user', UsersController::class, 'updateUser');
+$routeur->addRoute(['POST'], '/update-verify', UsersController::class, 'updateVerify');
 
 $routeur->addRoute(['DELETE'], '/delete/{id}', UsersController::class, 'delete');
 
@@ -115,7 +118,13 @@ $routeur->addRoute(['GET'], '/statistics', StatisticsController::class, 'get');
 $routeur->addRoute(['PUT'], '/banned-add', BannedController::class, 'add');
 $routeur->addRoute(['DELETE'], '/banned-delete/{id}', BannedController::class, 'delete');
 
+//FILTER
+$routeur->addRoute(['GET'], '/get-filter', FilterController::class, 'get');
+$routeur->addRoute(['POST'], '/add-filter', FilterController::class, 'add');
+$routeur->addRoute(['GET'], '/reset-filter', FilterController::class, 'reset');
 
+//MAIL
+$routeur->addRoute(['POST'], '/mail-send', MailController::class, 'send');
 
 
 new Kernel($routeur);

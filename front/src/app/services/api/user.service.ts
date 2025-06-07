@@ -12,6 +12,7 @@ export interface Profil {
   birthday: string
   match_code: number
   gender: string
+  distance_km: number
 }
 @Injectable({
   providedIn: 'root'
@@ -25,8 +26,7 @@ export class UserService {
   }
 
   isMailUsed (email: string): Observable<boolean> {
-    return this.https.get<{ used: boolean }>(`${this.apiUrl}/email/${email}`)
-    .pipe(map(response => response.used))
+    return this.https.get<boolean>(`${this.apiUrl}/email/${email}`)
   }
 
   createUser(form: any) {
@@ -58,9 +58,6 @@ export class UserService {
   }
 
   updatePhoto(file: FormData): Observable<any>{
-    if(file === null){
-      console.log('null....')
-    }
     return this.https.post<any>(`${this.apiUrl}/update-photo`, file)
   }
 
@@ -68,4 +65,8 @@ export class UserService {
     return this.https.post<any>(`${this.apiUrl}/update-user`, form)
       .pipe(map(response => response))
   }
+
+  updateVerify(token: string){
+    return this.https.post<any>(`${this.apiUrl}/update-verify`, {"token": token})
+      .pipe(map(response => response))  }
 }

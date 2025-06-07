@@ -1,6 +1,5 @@
 import {Component, input} from '@angular/core';
 import {Profil} from '../../services/api/user.service';
-import {getAge} from '../helper';
 import {MatIconModule} from '@angular/material/icon';
 import {RouterLink} from '@angular/router';
 import {NgClass} from '@angular/common';
@@ -30,6 +29,7 @@ export class MatchCardComponent {
     birthday: '',
     match_code: 2,
     gender: '',
+    distance_km: 0,
   })
 
   openProfil(){

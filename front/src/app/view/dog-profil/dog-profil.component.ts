@@ -25,7 +25,13 @@ export class DogProfilComponent implements OnInit {
   dogSizes = signal<DogSize[]>([])
   dogGenders = signal<DogGender[]>([])
   dogTemperaments = signal<DogTemperament[]>([])
-  constructor(private dogSizeService : DogSizeService, private dogTemperamentService : DogTemperamentService, private dogGenderService : DogGenderService, private fb: FormBuilder, private dogService : DogService, private toastService : ToastService) {
+  constructor(
+    private dogSizeService : DogSizeService,
+    private dogTemperamentService : DogTemperamentService,
+    private dogGenderService : DogGenderService,
+    private fb: FormBuilder,
+    private dogService : DogService,
+    private toastService : ToastService) {
     this.dogForm = this.fb.group({
       dogs: this.fb.array([])
     })
@@ -50,7 +56,6 @@ export class DogProfilComponent implements OnInit {
     })
 
     this.dogService.dogProfil(this.id()).subscribe((list) => {
-      console.log(list)
       list.forEach((dog: Partial<Dog>) => {
         this.dogsFormArray.push(this.createDogFormGroup(dog))
       });
@@ -87,7 +92,6 @@ export class DogProfilComponent implements OnInit {
       })
     }else{
       this.toastService.showError('Veuillez renseignez tout les champs')
-
     }
   }
 }

@@ -25,10 +25,14 @@ class AuthController extends BaseController
 
         $userModel = new UserModel();
         $user = $userModel->findByEmail($email);
-
         if (!$user || !password_verify($password, $user['password'])) {
             http_response_code(401);
             return json_encode(['error' => 'Identifiants invalides'], JSON_PRETTY_PRINT);
+        }
+
+        if($user['is_verified'] === 0){
+            http_response_code(403);
+            return json_encode(['error' => 'Utilisateur non verifié'], JSON_PRETTY_PRINT);
         }
 
         $bannedModel = new BannedModel;

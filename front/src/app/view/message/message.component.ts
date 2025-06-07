@@ -1,10 +1,10 @@
 import {Component, OnInit, signal} from '@angular/core';
-import {ActivatedRoute, Route} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {MessageService, Message} from '../../services/api/message.service';
 import {MatIconModule} from '@angular/material/icon';
 import {Profil, UserService} from '../../services/api/user.service';
 import {MessageCardComponent} from '../../component/message-card/message-card.component';
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ReportComponent} from '../../component/report/report.component';
 import {environment} from '../../env';
 import {ProfilComponent} from '../../component/profil/profil.component';
@@ -31,6 +31,7 @@ export class MessageComponent implements OnInit {
     birthday: '',
     match_code: 2,
     gender: '',
+    distance_km: 0
   })
   messages = signal<Message[]>([])
   message: FormControl<string> = new FormControl('',{
@@ -46,6 +47,7 @@ export class MessageComponent implements OnInit {
     birthday: '',
     match_code: 2,
     gender: '',
+    distance_km: 0
   })
 
 

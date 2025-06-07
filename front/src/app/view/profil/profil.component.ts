@@ -19,6 +19,7 @@ import {ToastService} from '../../services/toast.service';
   templateUrl: './profil.component.html',
   styleUrl: './profil.component.scss'
 })
+
 export class ProfilComponent implements OnInit {
   userProfil = signal<Profil>({
     id: 0,
@@ -29,6 +30,7 @@ export class ProfilComponent implements OnInit {
     birthday: '',
     match_code: 2,
     gender: '',
+    distance_km: 0,
   })
   profilPhoto = signal<string>('')
   hobbies = signal<Hobby[]>([])
@@ -138,10 +140,6 @@ export class ProfilComponent implements OnInit {
         this.selectedPhoto.set(target.files[0])
       }
     }
-  }
-
-  uploadPhoto(file: File) {
-
   }
 
   onSubmit() {

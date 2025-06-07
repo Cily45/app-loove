@@ -32,6 +32,7 @@ class HobbiesController extends BaseController
         }
 
         try {
+            $data = json_decode(file_get_contents('php://input'), true);
             $model = new HobbiesModel();
             $result = $model->get($id);
             http_response_code(200);

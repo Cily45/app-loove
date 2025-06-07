@@ -7,7 +7,7 @@ import {
 } from '@angular/material/expansion'
 import {MatSliderModule} from '@angular/material/slider'
 import {MatButtonModule} from '@angular/material/button';
-import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -16,6 +16,12 @@ import {HobbiesService, Hobby} from '../../services/api/hobbies.service';
 import {MatIconModule} from '@angular/material/icon';
 import {SubscriptionService} from '../../services/api/subscription.service';
 import {Gender, GenderService} from '../../services/api/gender.service';
+import {DogSize, DogSizeService} from '../../services/api/dog-size.service';
+import {DogTemperament, DogTemperamentService} from '../../services/api/dog-temperament.service';
+import {DogGender, DogGenderService} from '../../services/api/dog-gender.service';
+import {FilterService} from '../../services/api/filter.service';
+import {UserService} from '../../services/api/user.service';
+import {ToastService} from '../../services/toast.service';
 
 @Component({
   selector: 'app-filter',
@@ -40,127 +46,152 @@ import {Gender, GenderService} from '../../services/api/gender.service';
 export class FilterComponent implements OnInit {
   hobbies = signal<Hobby[]>([])
   genders = signal<Gender[]>([])
+  dogSizes = signal<DogSize[]>([])
+  dogGenders = signal<DogGender[]>([])
+  dogTemperaments = signal<DogTemperament[]>([])
   isSubscribe = signal<boolean>(false)
-  private _formBuilder = inject(FormBuilder)
-
-  questions = [
-    {
-      key: 'gender',
-      label: 'Quel genre de chien votre/vos chien(s) tolère-t-il ?',
-      options: [
-        'Mâle castré',
-        'Mâle non castré',
-        'Femelle stérilisée',
-        'Femelle non stérilisé'
-      ]
-    },
-    {
-      key: 'size',
-      label: 'Quelle taille de chien votre/vos chien(s) tolère-t-il ?',
-      options: [
-        'Petit',
-        'Moyen',
-        'Grand',
-        'Très grand'
-      ]
-    },
-    {
-      key: 'temperament',
-      label: 'Quel(s) tempérament(s) de chien votre/vos chien(s) tolère-t-il ?',
-      options: [
-        'Très actif',
-        'Calme mais joueur',
-        'Calme et tranquille',
-        'Nerveux / anxieux'
-      ]
-    }
-  ]
-
-  baseFormGroup: FormGroup = this._formBuilder.group({
-    minAge: new FormControl(25),
-    maxAge: new FormControl(35),
-    distance: new FormControl(80),
-    genders: this._formBuilder.array([])
-  })
-
-  hobbiesFormGroup: FormGroup = this._formBuilder.group({})
-  dogFormGroup: FormGroup = this._formBuilder.group({})
+  filterForm: FormGroup;
 
   constructor(
-    private hobbiesService: HobbiesService,
-    private subscriptionService: SubscriptionService,
-    private genderService: GenderService
+    private fb: FormBuilder,
+    private subcriptionService: SubscriptionService,
+    private toastService : ToastService,
+    private filterService: FilterService
   ) {
+    this.filterForm = this.fb.group({
+      genderFilter: fb.array([]),
+      hobbyFilter: fb.array([]),
+      dogGenderFilter: fb.array([]),
+      dogSizeFilter: fb.array([]),
+      dogTemperamentFilter: fb.array([]),
+      minAge: new FormControl(18),
+      maxAge: new FormControl(110),
+      distance: new FormControl(0)
+    })
+  }
 
-    for (const question of this.questions) {
-      this.dogFormGroup.addControl(question.key, new FormControl([]))
-    }
+  get genderPreferencesArray() {
+    return this.filterForm.get('genderFilter') as FormArray
+  }
+
+  get selectedHobbiesArray() {
+    return this.filterForm.get('hobbyFilter') as FormArray
+  }
+
+  get selectedSizeArray() {
+    return this.filterForm.get('dogSizeFilter') as FormArray
+  }
+
+  get selectedTemperamentArray() {
+    return this.filterForm.get('dogTemperamentFilter') as FormArray
+  }
+
+  get selectedGenderArray() {
+    return this.filterForm.get('dogGenderFilter') as FormArray
+  }
+
+  get minAgeControl() {
+    return this.filterForm.get('minAge') as FormControl
+  }
+
+  get maxAgeControl() {
+    return this.filterForm.get('maxAge') as FormControl
+  }
+
+  get distanceControl() {
+    return this.filterForm.get('distance') as FormControl
   }
 
   ngOnInit(): void {
-    this.hobbiesService.getAll().subscribe(list => {
-      this.hobbies.set(list)
-      const group: { [key: string]: FormControl } = {}
-      for (let hobby of list) {
-        group[hobby.id] = new FormControl(false)
-      }
-      this.hobbiesFormGroup = this._formBuilder.group(group)
-    })
-
-    this.subscriptionService.isSubscribe().subscribe(res => {
+    this.subcriptionService.isSubscribe().subscribe(res => {
       this.isSubscribe.set(res)
     })
 
-    this.genderService.getAll().subscribe(res => {
-      this.genders.set(res)
+    this.filterService.getAll().subscribe(list => {
+      this.hobbies.set(list.hobbies)
+      const hobbiesArray = this.selectedHobbiesArray
+      this.hobbies().forEach(hobby => {
+        hobbiesArray.push(this.fb.control(hobby.selected === 1))
+      });
 
-      const genderControls: { [key: string]: FormControl } = {}
-      for (let gender of res) {
-        genderControls[`gender-${gender.id}`] = new FormControl(false)
-      }
-      this.baseFormGroup = this._formBuilder.group({
-        ...this.baseFormGroup.controls,
-        ...genderControls
-      })
+      this.genders.set(list.genders)
+      const genderArray = this.genderPreferencesArray
+      this.genders().forEach(gender => {
+        genderArray.push(this.fb.control(gender.selected === 1))
+      });
+
+      this.dogSizes.set(list.dog_sizes)
+      const dogSizeArray = this.selectedSizeArray
+      this.dogSizes().forEach(dogSize => {
+        dogSizeArray.push(this.fb.control(dogSize.selected === 1))
+      });
+
+      this.dogGenders.set(list.dog_genders)
+      const dogGenderArray = this.selectedGenderArray
+      this.dogGenders().forEach(dogGender => {
+        dogGenderArray.push(this.fb.control(dogGender.selected === 1))
+      });
+
+      this.dogTemperaments.set(list.dog_temperaments)
+      const dogTemperamentArray = this.selectedTemperamentArray
+      this.dogTemperaments().forEach(dogTemperament => {
+        dogTemperamentArray.push(this.fb.control(dogTemperament.selected === 1))
+      });
+
+      this.minAgeControl.setValue(list.filter.min_age)
+      this.maxAgeControl.setValue(list.filter.max_age)
+      this.distanceControl.setValue(list.filter.distance)
     })
   }
 
-  onSubmit() {
-    const baseValues = this.baseFormGroup.value
-    const hobbiesValues = this.hobbiesFormGroup.value
-    const dogValues = this.dogFormGroup.value
-
-    const selectedGenders = this.genders()
-      .filter(gender => baseValues[`gender-${gender.id}`])
-      .map(gender => gender.id)
-
-    const selectedHobbies = this.hobbies()
-      .filter(hobby => hobbiesValues[hobby.id])
-      .map(hobby => hobby.id)
-
-    const form = {
-      minAge: baseValues.minAge,
-      maxAge: baseValues.maxAge,
-      distance: baseValues.distance,
-      selectedGenders: selectedGenders,
-      selectedHobbies: selectedHobbies,
-      dogPreferences: dogValues
-    }
-
-    console.log('Formulaire soumis:', form)
+  onGenderChange(index: number, event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.genderPreferencesArray.at(index).setValue(target.checked)
   }
 
-  onDogOptionChange(questionKey: string, option: string, event: any) {
-    const control = this.dogFormGroup.get(questionKey);
-    if (control) {
-      const currentValue = control.value || [];
-      if (event.target.checked) {
-        if (!currentValue.includes(option)) {
-          control.setValue([...currentValue, option]);
-        }
-      } else {
-        control.setValue(currentValue.filter((val: string) => val !== option));
-      }
+  onHobbyChange(index: number, event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.selectedHobbiesArray.at(index).setValue(target.checked)
+  }
+
+  onDogSizeChange(index: number, event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.selectedSizeArray.at(index).setValue(target.checked)
+  }
+
+  onDogTemperamentChange(index: number, event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.selectedTemperamentArray.at(index).setValue(target.checked)
+  }
+
+  onDogGenderChange(index: number, event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.selectedGenderArray.at(index).setValue(target.checked)
+  }
+
+  onSubmit() {
+    const formData = {
+      genders: this.genders().filter((_, index) =>
+        this.genderPreferencesArray.at(index).value
+      ),
+      hobbies: this.hobbies().filter((_, index) =>
+        this.selectedHobbiesArray.at(index).value
+      ),
+      dogGender: this.dogGenders().filter((_, index) =>
+        this.selectedGenderArray.at(index).value
+      ),
+      dogSize: this.dogSizes().filter((_, index) =>
+        this.selectedSizeArray.at(index).value
+      ),
+      dogTemperament: this.dogTemperaments().filter((_, index) =>
+        this.selectedTemperamentArray.at(index).value
+      ),
+      minAge: this.minAgeControl.value,
+      maxAge: this.maxAgeControl.value,
+      distance: this.distanceControl.value
     }
+    this.filterService.add(formData).subscribe(res => {
+      console.log(res)
+    })
   }
 }

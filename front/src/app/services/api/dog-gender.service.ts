@@ -5,7 +5,8 @@ import {Observable} from 'rxjs';
 
 export interface DogGender {
   name: string,
-  id: number
+  id: number,
+  selected: number,
 }
 @Injectable({
   providedIn: 'root'

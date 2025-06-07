@@ -4,15 +4,17 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {MatInputModule} from '@angular/material/input'
 import {MatFormFieldModule} from '@angular/material/form-field'
 import {MatButton} from '@angular/material/button';
-import {NgIf} from '@angular/common';
 import {MatIconModule} from '@angular/material/icon'
 import {matchPassword} from '../../component/validator';
 import {UserService} from '../../services/api/user.service';
+import {MailService} from '../../services/api/mail.service';
+import {ToastService} from '../../services/toast.service';
+import {log} from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
 
 
 @Component({
   selector: 'app-account',
-  imports: [MatExpansionModule, FormsModule, MatInputModule, ReactiveFormsModule, MatFormFieldModule, MatButton, MatIconModule, NgIf],
+  imports: [MatExpansionModule, FormsModule, MatInputModule, ReactiveFormsModule, MatFormFieldModule, MatButton, MatIconModule],
   templateUrl: './account.component.html',
   styleUrl: './account.component.scss'
 })
@@ -22,7 +24,7 @@ export class AccountComponent {
   hideConfirm = signal(true)
   id = 12
 
-  constructor(private userService : UserService) {
+  constructor(private userService : UserService, private mailService : MailService, private toastService : ToastService) {
 
   }
   emailFormGroup = new FormGroup({
@@ -52,5 +54,13 @@ export class AccountComponent {
       this.userService.deleteUser(this.id)
 
     }
+  }
+
+  send(){
+    this.mailService.getAll(this.emailFormGroup.value.email).subscribe(res => {
+
+        this.toastService.showInfo(res)
+      }
+    )
   }
 }

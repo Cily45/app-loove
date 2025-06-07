@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import {environment} from '../../env';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {DogGender} from './dog-gender.service';
 
 export interface DogTemperament {
   name: string,
   id: number
+  selected: number,
 }
 @Injectable({
   providedIn: 'root'

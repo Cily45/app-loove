@@ -6,7 +6,7 @@
       <div>
         <p class="font-medium text-lg">{{ message()?.firstname }}</p>
       </div>
-      <p class="text-lg truncate"
+      <p class="text-lg overflow-hidden text-ellipsis max-w-40 md:max-w-80"
          [ngClass]="{'font-semibold text-[#F7A8C5]': message()?.is_view && message()?.is_that_user}">{{ message()?.message }}</p>
     </div>
   </div>
