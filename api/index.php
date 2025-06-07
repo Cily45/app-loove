@@ -72,7 +72,6 @@ $routeur->addRoute(['DELETE'], '/delete/{id}', UsersController::class, 'delete')
 //GENDER
 $routeur->addRoute(['GET'], '/genders', GenderController::class, 'liste');
 $routeur->addRoute(['GET'], '/genders-user/{id}', GenderController::class, 'get');
-$routeur->addRoute(['POST'], '/genders-add', GenderController::class, 'add');
 
 //HOBBY
 $routeur->addRoute(['GET'], '/hobbies', HobbiesController::class, 'liste');

@@ -161,7 +161,6 @@ class UsersController extends BaseController
             }
 
             $model = new UserModel();
-            var_dump($location);
             $result = $model->updateLocation($id, $location);
             return json_encode($result, JSON_PRETTY_PRINT);
         } catch (\Exception $e) {
