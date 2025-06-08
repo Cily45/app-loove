@@ -58,9 +58,9 @@
           @for (dog of dogs(); track dog) {
             <div class="flex flex-col border rounded-3xl p-3 m-3">
               <p>{{ dog.name }}, {{ getAge(dog.birthday) }} ans</p>
-              <p>{{ genre[dog.gender_id] }}</p>
-              <p>{{ size[dog.size_id] }}</p>
-              <p>{{ temperament[dog.temperament_id] }}</p>
+              <p>{{ genre[dog.gender_id-1] }}</p>
+              <p>{{ size[dog.size_id-1] }}</p>
+              <p>{{ temperament[dog.temperament_id-1] }}</p>
             </div>
           }
         </div>
