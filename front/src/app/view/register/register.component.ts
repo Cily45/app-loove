@@ -10,7 +10,6 @@ import {Gender, GenderService} from '../../services/api/gender.service'
 import {birthDateValidator, matchPassword} from '../../component/validator'
 import {MatIconModule} from '@angular/material/icon'
 import {UserService} from '../../services/api/user.service'
-import {firstValueFrom} from 'rxjs'
 import {MatSelectModule} from '@angular/material/select'
 import {NgIf} from '@angular/common';
 

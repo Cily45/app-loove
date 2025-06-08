@@ -10,11 +10,12 @@ import {ToastService} from '../../services/toast.service';
 import {DogSize, DogSizeService} from '../../services/api/dog-size.service';
 import {DogTemperament, DogTemperamentService} from '../../services/api/dog-temperament.service';
 import {DogGender, DogGenderService} from '../../services/api/dog-gender.service';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-dog-profil',
   imports: [
-    MatExpansionModule, MatInputModule, MatFormFieldModule, MatButton, ReactiveFormsModule, MatIconModule
+    MatExpansionModule, MatInputModule, MatFormFieldModule, MatButton, ReactiveFormsModule, MatIconModule, RouterLink
   ],
   templateUrl: './dog-profil.component.html',
   styleUrl: './dog-profil.component.scss'

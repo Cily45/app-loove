@@ -444,18 +444,34 @@ ORDER BY distance_km ASC;
             ]);
     }
 
-    public function updateUserToken(
+    public function updatePassword(
         string $token,
-        string $email
+        string $password
     ): bool
+    {
+
+        return $this
+            ->query("
+                UPDATE `user` SET `password`= :password
+                WHERE token = :token
+                ")
+            ->execute([
+                'token' => $token,
+                'password' => $password
+            ]);
+    }
+
+    public function getUserToken(
+        string $email
+    ): array|bool
     {
         return $this
             ->query("
-            UPDATE `user` SET `token`= :token
+            SELECT `token`
+            FROM `user`
             WHERE email = :email
             ")
-            ->execute([
-                'token' => $token,
+            ->fetch([
                 'email' => $email
             ]);
     }

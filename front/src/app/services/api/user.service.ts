@@ -69,4 +69,8 @@ export class UserService {
   updateVerify(token: string){
     return this.https.post<any>(`${this.apiUrl}/update-verify`, {"token": token})
       .pipe(map(response => response))  }
+
+  updatePassword(form: any){
+    return this.https.post<any>(`${this.apiUrl}/update-password`, form)
+      .pipe(map(response => response))  }
 }

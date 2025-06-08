@@ -64,6 +64,7 @@ $routeur->addRoute(['POST'], '/update-user-admin', UsersController::class, 'upda
 $routeur->addRoute(['POST'], '/update-photo', UsersController::class, 'updatePhoto');
 $routeur->addRoute(['POST'], '/update-user', UsersController::class, 'updateUser');
 $routeur->addRoute(['POST'], '/update-verify', UsersController::class, 'updateVerify');
+$routeur->addRoute(['POST'], '/update-password', UsersController::class, 'updatePassword');
 $routeur->addRoute(['POST'], '/reset-password', UsersController::class, 'resetPassToken');
 
 $routeur->addRoute(['DELETE'], '/delete/{id}', UsersController::class, 'delete');

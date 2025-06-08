@@ -161,6 +161,7 @@ export class ProfilComponent implements OnInit {
         )
       }
       this.userService.updateUser(formData).subscribe(res => {
+        localStorage.setItem('profil', JSON.stringify(res));
         if (res) {
           this.toastService.showSuccess('Votre profil à été mis à jours')
         } else {

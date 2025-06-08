@@ -1,7 +1,8 @@
 <div
-  class="app-dog-profil min-h-[calc(100vh-60px)] w-screen md:w-[calc(100vw-220px)] md:min-h-screen pb-[60px] md:pb-0">
-  <h2 class="mt-6 text-2xl text-center text-[#6A3A71] mb-6">Gestion des chiens</h2>
-  <form class="w-4/5 m-auto" [formGroup]="dogForm">
+  class="app-dog-profil h-[calc(100vh-60px)] w-screen md:w-[calc(100vw-220px)] md:min-h-screen pb-[60px] md:pb-0">
+  <a routerLink="/profil" class="p-6 absolute text-[#6A3A71] text-3xl"><mat-icon>arrow_back</mat-icon></a>
+  <h2 class="text-center text-2xl w-full text-[#6A3A71] bg-gradient-to-b bg-[#b59db8] p-6 md:w-[calc(100vw-220px)]">Gestion des chiens</h2>
+  <form class="w-4/5 mt-6 m-auto" [formGroup]="dogForm">
     <mat-accordion class="shadow-lg shadow-black/25" formArrayName="dogs">
       @for (dogControl of dogsFormArray.controls; track dogControl; let i = $index) {
         <mat-expansion-panel>

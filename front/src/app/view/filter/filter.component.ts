@@ -190,8 +190,14 @@ export class FilterComponent implements OnInit {
       maxAge: this.maxAgeControl.value,
       distance: this.distanceControl.value
     }
+
     this.filterService.add(formData).subscribe(res => {
-      console.log(res)
+      console.log(res +" ok")
+      if(res){
+        this.toastService.showSuccess('Filtre mis à jour')
+      }else{
+        this.toastService.showError('Échec de la mise à jour des filtres')
+      }
     })
   }
 }

@@ -31,7 +31,7 @@ class MailController extends BaseController
             $mail->isHTML(true);
             $mail->Subject = 'Confirmation d\'inscription';
             $body = file_get_contents(__DIR__ . "/../mail-template/emailConfirmation.html");
-            $link = "http://82.65.121.169:4200/confirmation/" . $token;
+            $link = $_ENV['URL'] . "/confirmation/" . $token;
             $body = str_replace('{{verification_link}}', $link, $body);
             $mail->addEmbeddedImage(__DIR__ . "/../../uploads/logo-entier.png", 'logoCID');
             $mail->Body = $body;
@@ -65,7 +65,7 @@ class MailController extends BaseController
             $mail->isHTML(true);
             $mail->Subject = 'Reinitialisation de mot de passe';
             $body = file_get_contents(__DIR__ . "/../mail-template/resetPass.html");
-            $link = "http://82.65.121.169:4200/reinitialisation-mot-de-passe/" . $token;
+            $link = $_ENV['URL'] . "/reinitialisation-mot-de-passe/" . $token;
             $body = str_replace('{{verification_link}}', $link, $body);
             $mail->addEmbeddedImage(__DIR__ . "/../../uploads/logo-entier.png", 'logoCID');
             $mail->Body = $body;

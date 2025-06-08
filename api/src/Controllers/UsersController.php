@@ -33,7 +33,7 @@ class UsersController extends BaseController
             $userModel = new UserModel();
             $response = $userModel->findByEmail($email);
             if (is_array($response)) {
-                http_response_code(400);
+                http_response_code(200);
                 return json_encode(true, JSON_PRETTY_PRINT);
             }
             http_response_code(200);
@@ -392,7 +392,7 @@ class UsersController extends BaseController
                     return json_encode(['error' => 'Erreur avec l\'ajout des preference amoureuseq']);
                 }
             }
-
+            $result = $userModel->getProfil($id);
             http_response_code(201);
             return json_encode($result, JSON_PRETTY_PRINT);
         } catch (\Exception $e) {
@@ -435,15 +435,41 @@ class UsersController extends BaseController
 
         try{
             $model = new UserModel();
-            $token = bin2hex(random_bytes(32));
-            $result = $model->updateUserToken($email, $token);
+            $result = $model->getUserToken($email);
 
-            $mailController = new MailController();
-            $mailController->sendReset($token, $email);
+            if($result) {
+                $mailController = new MailController();
+                $mailController->sendReset($result['token'], $email);
+            }
 
             http_response_code(200);
-            return json_encode($result, JSON_PRETTY_PRINT);
+            return json_encode(true, JSON_PRETTY_PRINT);
         }catch (\Exception $e) {
+            error_log("Erreur avec la maj d'utilisateur: " . $e->getMessage());
+            http_response_code(500);
+            return json_encode(['error' => 'Erreur serveur']);
+        }
+    }
+
+    public function updatePassword(): bool|string
+    {
+        try{
+            $data = json_decode(file_get_contents('php://input'), true);
+            $token = $data['token'] ?? null;
+            $password = $data['password'] ?? null;
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+            if (!$token) {
+                http_response_code(400);
+                return json_encode(['error' => 'Aucun token']);
+            }
+
+            $model = new UserModel();
+            $result = $model->updatePassword($token, $hashedPassword);
+            http_response_code(200);
+            return json_encode($result, JSON_PRETTY_PRINT);
+
+        } catch (\Exception $e) {
             error_log("Erreur avec la maj d'utilisateur: " . $e->getMessage());
             http_response_code(500);
             return json_encode(['error' => 'Erreur serveur']);

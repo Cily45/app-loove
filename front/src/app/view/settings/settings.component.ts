@@ -2,12 +2,14 @@ import { Component } from '@angular/core';
 import {Router, RouterLink} from '@angular/router';
 import {MatButtonModule} from '@angular/material/button';
 import {AuthService} from '../../services/auth/auth.service';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-settings',
   imports: [
     RouterLink,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule
   ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'

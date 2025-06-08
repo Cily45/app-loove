@@ -6,7 +6,7 @@ class SubscriptionModel extends BaseModel
 {
     public function get(
         int $id
-    ): array
+    ): array|bool
     {
         return $this->query("
                 SELECT * 
