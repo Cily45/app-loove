@@ -84,8 +84,8 @@ class UsersController extends BaseController
                 $token
             );
 
-            $mailModel = new MailController();
-            $mailModel->sendConfirm($token, $email);
+            $mailController = new MailController();
+            $mailController->sendConfirm($token, $email);
 
             http_response_code(201);
             return json_encode(['success' => true], JSON_PRETTY_PRINT);
@@ -425,4 +425,28 @@ class UsersController extends BaseController
         }
     }
 
+    public function resetPassToken() {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $email= $data['email'] ?? null;
+        if (!$email) {
+            http_response_code(400);
+            return json_encode(['error' => 'Aucun email']);
+        }
+
+        try{
+            $model = new UserModel();
+            $token = bin2hex(random_bytes(32));
+            $result = $model->updateUserToken($email, $token);
+
+            $mailController = new MailController();
+            $mailController->sendReset($token, $email);
+
+            http_response_code(200);
+            return json_encode($result, JSON_PRETTY_PRINT);
+        }catch (\Exception $e) {
+            error_log("Erreur avec la maj d'utilisateur: " . $e->getMessage());
+            http_response_code(500);
+            return json_encode(['error' => 'Erreur serveur']);
+        }
+    }
 }

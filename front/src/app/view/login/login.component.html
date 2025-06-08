@@ -11,7 +11,7 @@
   </button>
 
   <div *ngIf="showLoginForm"
-       class="p-6 flex flex-col items-center drop-shadow-lg border-[#6A3A71] border-2 bg-[rgba(106,58,113,0.50)] max-w-100 min-w-50 w-2/3 rounded-3xl">
+       class="p-6 flex flex-col items-center drop-shadow-lg border-[#6A3A71] border-2 bg-[rgba(106,58,113,0.50)] max-w-100 min-w-50 w-4/5 rounded-3xl">
     <form method="POST" action="/login" [formGroup]="formGroup" class="flex flex-col items-center justify-between">
       <mat-form-field appearance="fill">
         <mat-label>E-mail</mat-label>
@@ -25,7 +25,6 @@
         />
         @if (formGroup.get('email')?.invalid){
           <mat-error>{{emailErrorMessage()}}</mat-error>
-
         }
 
       </mat-form-field>
@@ -46,7 +45,7 @@
           </button>
         </div>
 
-        @if(formGroup.get('password')?.hasError('invalid')){
+        @if(formGroup.get('password')?.errors?.['invalid']){
           <mat-error>Identifiants invalides</mat-error>
         }
 

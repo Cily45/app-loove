@@ -64,10 +64,9 @@ $routeur->addRoute(['POST'], '/update-user-admin', UsersController::class, 'upda
 $routeur->addRoute(['POST'], '/update-photo', UsersController::class, 'updatePhoto');
 $routeur->addRoute(['POST'], '/update-user', UsersController::class, 'updateUser');
 $routeur->addRoute(['POST'], '/update-verify', UsersController::class, 'updateVerify');
+$routeur->addRoute(['POST'], '/reset-password', UsersController::class, 'resetPassToken');
 
 $routeur->addRoute(['DELETE'], '/delete/{id}', UsersController::class, 'delete');
-
-
 
 //GENDER
 $routeur->addRoute(['GET'], '/genders', GenderController::class, 'liste');
@@ -123,7 +122,7 @@ $routeur->addRoute(['POST'], '/add-filter', FilterController::class, 'add');
 $routeur->addRoute(['GET'], '/reset-filter', FilterController::class, 'reset');
 
 //MAIL
-$routeur->addRoute(['POST'], '/mail-send', MailController::class, 'send');
+$routeur->addRoute(['POST'], '/reset-mail-send', MailController::class, 'sendReset');
 
 
 new Kernel($routeur);

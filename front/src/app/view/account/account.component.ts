@@ -24,7 +24,7 @@ export class AccountComponent {
   hideConfirm = signal(true)
   id = 12
 
-  constructor(private userService : UserService, private mailService : MailService, private toastService : ToastService) {
+  constructor(private userService : UserService) {
 
   }
   emailFormGroup = new FormGroup({
@@ -57,10 +57,5 @@ export class AccountComponent {
   }
 
   send(){
-    this.mailService.getAll(this.emailFormGroup.value.email).subscribe(res => {
-
-        this.toastService.showInfo(res)
-      }
-    )
   }
 }

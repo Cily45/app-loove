@@ -429,11 +429,14 @@ ORDER BY distance_km ASC;
             ]);
     }
 
-    public function updateVerify($token): bool
+    public function updateVerify(
+        string $token
+    ): bool
     {
+
         return $this
             ->query("
-                UPDATE `user` SET `is_verified`= 1 
+                UPDATE `user` SET `is_verified`= 1 , `token`= NULL
                 WHERE token = :token
                 ")
             ->execute([
@@ -441,5 +444,19 @@ ORDER BY distance_km ASC;
             ]);
     }
 
-
+    public function updateUserToken(
+        string $token,
+        string $email
+    ): bool
+    {
+        return $this
+            ->query("
+            UPDATE `user` SET `token`= :token
+            WHERE email = :email
+            ")
+            ->execute([
+                'token' => $token,
+                'email' => $email
+            ]);
+    }
 }

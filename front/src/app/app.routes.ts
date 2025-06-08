@@ -20,6 +20,7 @@ import {SubscriptionComponent} from './view/subscription/subscription.component'
 import {NewSubscriptionComponent} from './view/new-subscription/new-subscription.component';
 import {DogProfilComponent} from './view/dog-profil/dog-profil.component';
 import {ConfirmEmailComponent} from './view/confirm-email/confirm-email.component';
+import {PasswordResetComponent} from './view/password-reset/password-reset.component';
 
 export const routes: Routes = [
   {
@@ -164,6 +165,15 @@ export const routes: Routes = [
       hideFooter: true,
       hideAsideMenu: true
     },
+  },
+  {
+    title: 'Réinitialisation de mot de passe',
+    path: 'reinitialisation-mot-de-passe/:token',
+    component: PasswordResetComponent,
+    data: {
+      hideFooter: true,
+      hideAsideMenu: true,
+    }
   },
   {
     path: '',
