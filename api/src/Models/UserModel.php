@@ -169,13 +169,13 @@ WHERE u.id != :id
         )
     )
     -- Filtre de distance (si des filtres existent)
-    AND (
-        NOT EXISTS (SELECT 1 FROM user_filter WHERE user_id = :id AND distance IS NOT NULL)
-        OR ST_Distance_Sphere(
-            u.location, 
-            (SELECT location FROM user WHERE id = :id)
-        ) / 1000 <= (SELECT distance FROM user_filter WHERE user_id = :id AND distance IS NOT NULL LIMIT 1)
-    )
+ --   AND (
+  --      NOT EXISTS (SELECT 1 FROM user_filter WHERE user_id = :id AND distance IS NOT NULL)
+  --      OR ST_Distance_Sphere(
+   --         u.location, 
+   --         (SELECT location FROM user WHERE id = :id)
+    --    ) / 1000 <= (SELECT distance FROM user_filter WHERE user_id = :id AND distance IS NOT NULL LIMIT 1)
+  --  )
     -- Filtre de genre (si des filtres existent)
     AND (
         NOT EXISTS (SELECT 1 FROM user_filter_gender WHERE user_id = :id)
