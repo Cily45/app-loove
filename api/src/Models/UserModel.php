@@ -436,7 +436,7 @@ ORDER BY distance_km ASC;
 
         return $this
             ->query("
-                UPDATE `user` SET `is_verified`= 1 , `token`= NULL
+                UPDATE `user` SET `is_verified`= 1
                 WHERE token = :token
                 ")
             ->execute([
