@@ -154,6 +154,7 @@ FROM user u
 -- Suppression des LEFT JOIN qui causent les doublons
 WHERE u.id != :id 
     AND u.lastname IS NOT NULL
+    AND u.profil_photo IS NOT NULL
     AND u.is_verified = 1
         AND u.id NOT IN (
         SELECT user_id_1 

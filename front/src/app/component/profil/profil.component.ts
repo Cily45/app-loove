@@ -1,4 +1,4 @@
-import {Component, effect, input, OnInit, signal} from '@angular/core';
+import {Component, effect, input, signal} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Profil, UserService} from '../../services/api/user.service';
 import {HobbiesService, Hobby} from '../../services/api/hobbies.service';

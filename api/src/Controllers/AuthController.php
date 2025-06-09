@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Core\Response;
 use App\Models\BannedModel;
 use App\Models\UserModel;
 use Firebase\JWT\JWT;
@@ -37,6 +36,7 @@ class AuthController extends BaseController
 
         $bannedModel = new BannedModel;
         $banned = $bannedModel->get($user['id']);
+
         if($banned){
             if($banned['end_date'] < date('Y-m-d')){
                 $bannedModel->delete($user['id']);

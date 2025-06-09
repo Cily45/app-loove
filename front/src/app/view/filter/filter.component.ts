@@ -12,15 +12,14 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCardModule} from '@angular/material/card';
-import {HobbiesService, Hobby} from '../../services/api/hobbies.service';
+import { Hobby} from '../../services/api/hobbies.service';
 import {MatIconModule} from '@angular/material/icon';
 import {SubscriptionService} from '../../services/api/subscription.service';
-import {Gender, GenderService} from '../../services/api/gender.service';
-import {DogSize, DogSizeService} from '../../services/api/dog-size.service';
-import {DogTemperament, DogTemperamentService} from '../../services/api/dog-temperament.service';
-import {DogGender, DogGenderService} from '../../services/api/dog-gender.service';
+import {Gender} from '../../services/api/gender.service';
+import {DogSize} from '../../services/api/dog-size.service';
+import {DogTemperament} from '../../services/api/dog-temperament.service';
+import {DogGender} from '../../services/api/dog-gender.service';
 import {FilterService} from '../../services/api/filter.service';
-import {UserService} from '../../services/api/user.service';
 import {ToastService} from '../../services/toast.service';
 
 @Component({

@@ -50,7 +50,10 @@
       </div>
     } @else if (profils().length === 0) {
       Aucun profil à montré
-    } @else {
+    } @else if(userProfil().profil_photo === null) {
+      Veuillez ajouter une photo de profil afin de pouvoir accéder au système de matching.
+    } @else
+    {
       En cours de chargement
     }
   </div>

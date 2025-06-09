@@ -7,10 +7,7 @@ import {MatButton} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon'
 import {matchPassword} from '../../component/validator';
 import {Profil, UserService} from '../../services/api/user.service';
-import {MailService} from '../../services/api/mail.service';
 import {ToastService} from '../../services/toast.service';
-import {log} from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
-import {MatSnackBar} from '@angular/material/snack-bar';
 
 
 @Component({

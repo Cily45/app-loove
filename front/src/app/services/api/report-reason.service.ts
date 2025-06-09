@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {environment} from '../../env';
 import {HttpClient} from '@angular/common/http';
-import {map, Observable} from 'rxjs';
+import { Observable} from 'rxjs';
 
 export interface ReportReason {
   id: number,

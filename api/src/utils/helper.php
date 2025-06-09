@@ -1,7 +1,7 @@
 <?php
 function cleanString(string $value): string
 {
-    return trim(htmlspecialchars($value, ENT_QUOTES));
+    return trim(preg_replace('/[^a-zA-ZÀ-ÿ\s\'-]/', '', $value));
 }
 
 function toDate(string $value): string

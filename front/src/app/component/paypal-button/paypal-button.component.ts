@@ -1,7 +1,7 @@
-import {Component, AfterViewInit, ElementRef, ViewChild, signal, OnInit, input} from '@angular/core';
+import {Component, AfterViewInit, ElementRef, ViewChild, input} from '@angular/core';
 import {loadScript, PayPalNamespace} from '@paypal/paypal-js';
 import {environment} from '../../env';
-import {Price, PriceService} from '../../services/api/price.service';
+import {Price} from '../../services/api/price.service';
 import {SubscriptionService} from '../../services/api/subscription.service';
 import {ToastService} from '../../services/toast.service';
 import {Router} from '@angular/router';

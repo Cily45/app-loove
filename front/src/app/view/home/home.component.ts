@@ -29,18 +29,35 @@ export class HomeComponent implements OnInit {
   profils = signal<Profil[]>([])
   index = 0
   isSubscribe = signal<boolean>(false)
+  showReport = signal<boolean>(false)
+  showProfil = signal<boolean>(false)
+
+  userProfil = signal<Profil>({
+    id: 0,
+    lastname: '',
+    firstname: '',
+    profil_photo: '',
+    description: '',
+    birthday: '',
+    match_code: 2,
+    gender: '',
+    distance_km: 0,
+  })
 
   constructor(private userService: UserService, private matchService: MatchService, private subscriptionService: SubscriptionService, private toastService: ToastService) {
   }
 
   ngOnInit(): void {
-    this.userService.getAllProfil().subscribe(list => {
-        this.profils.set(list)
-      }
-    )
-    this.subscriptionService.isSubscribe().subscribe(res => {
-      this.isSubscribe.set(res)
-    })
+    this.userProfil.set(JSON.parse(<string>localStorage.getItem('profil')))
+    if (this.userProfil().profil_photo !== null) {
+      this.userService.getAllProfil().subscribe(list => {
+          this.profils.set(list)
+        }
+      )
+      this.subscriptionService.isSubscribe().subscribe(res => {
+        this.isSubscribe.set(res)
+      })
+    }
   }
 
   get currentUserId(): number | undefined {
@@ -67,13 +84,14 @@ export class HomeComponent implements OnInit {
     this.index++
   }
 
-  openProfil(){
+  openProfil() {
     document.getElementById(`profil-${this.profils()[this.index].id}`)?.classList.remove('hidden');
   }
 
-  openReport(){
+  openReport() {
     document.getElementById(`report-${this.profils()[this.index].id}`)?.classList.remove('hidden');
   }
+
   protected readonly getAge = getAge;
   protected readonly environment = environment;
   protected readonly Math = Math;

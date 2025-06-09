@@ -111,6 +111,7 @@ export class ProfilComponent implements OnInit {
 
   protected readonly environment = environment
 
+
   updateUserProfil<K extends keyof Profil>(key: K, event: Event) {
     const target = event.target as HTMLInputElement
     if (target) {

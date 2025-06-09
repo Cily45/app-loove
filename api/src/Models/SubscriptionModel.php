@@ -53,6 +53,11 @@ class SubscriptionModel extends BaseModel
         int $id
     ): bool
     {
+        $this->query("DELETE FROM user_filter_dog_sizes WHERE user_id = :id")->execute(['id' => $id]);
+        $this->query("DELETE FROM user_filter_dog_genders WHERE user_id = :id")->execute(['id' => $id]);
+        $this->query("DELETE FROM user_filter_dog_temperament WHERE user_id = :id")->execute(['id' => $id]);
+        $this->query("DELETE FROM user_filter_hobbies WHERE user_id = :id")->execute(['id' => $id]);
+
         return $this
             ->query("
                 DELETE FROM `subscription` 

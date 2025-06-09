@@ -2,7 +2,6 @@ import {Component, input, OnInit, signal} from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
 import {NgClass} from '@angular/common';
 import {RouterLink} from '@angular/router';
-import {Profil} from '../../services/api/user.service';
 import {Message} from '../../services/api/message.service';
 import {environment} from '../../env';
 

@@ -298,7 +298,7 @@ class UsersController extends BaseController
             $tmpName = $_FILES['photo']['tmp_name'];
             $fileName = 'profil-photo-' . $id . '.jpg';
             $targetPath = $uploadDir . $fileName;
-
+            var_dump($uploadDir);
             if (move_uploaded_file($tmpName, $targetPath)) {
                 $webpName = pathinfo($fileName, PATHINFO_FILENAME) . '.webp';
                 $webpPath = $uploadDir . $webpName;
@@ -317,19 +317,19 @@ class UsersController extends BaseController
                     }
 
                 } else {
-                    echo json_encode([
+                    return json_encode([
                         'error' => 'Conversion WebP échouée'
                     ]);
                 }
             } else {
                 http_response_code(500);
-                echo json_encode(['error' => 'Erreur lors du déplacement du fichier']);
+                return json_encode(['error' => 'Erreur lors du déplacement du fichier']);
             }
 
 
         } else {
             http_response_code(400);
-            echo json_encode(['error' => 'Aucun fichier envoyé']);
+            return json_encode(['error' => 'Aucun fichier envoyé']);
         }
     }
 

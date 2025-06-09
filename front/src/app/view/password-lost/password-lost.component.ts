@@ -7,7 +7,6 @@ import {MatIconModule} from '@angular/material/icon';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {NgIf} from '@angular/common';
 import {MailService} from '../../services/api/mail.service';
-import {log} from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
 import {ToastService} from '../../services/toast.service';
 
 @Component({
