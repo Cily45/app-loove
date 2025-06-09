@@ -8,6 +8,7 @@ import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ReportComponent} from '../../component/report/report.component';
 import {environment} from '../../env';
 import {ProfilComponent} from '../../component/profil/profil.component';
+import {log} from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
 
 @Component({
   selector: 'app-message',
@@ -58,20 +59,23 @@ export class MessageComponent implements OnInit {
   ngOnInit(): void {
     let id = parseInt(<string>this.route.snapshot.paramMap.get('id'))
     this.userProfil.set(JSON.parse(<string>localStorage.getItem('profil')))
+
     this.messagesService.messagesById(this.userProfil().id, id).subscribe(list => {
       this.messages.set(list.reverse())
+
       if (id !== null) {
         this.userService.userProfil(id).subscribe(res => {
           if (res) {
             this.profil.set(res)
           }
         })
+      }
 
+      if (this.messages().length > 0 && this.messages()[this.messages().length-1].is_view !== 1 && this.messages()[this.messages().length-1].is_that_user !== 1) {
+        this.messagesService.updateMessage(this.messages()[this.messages().length-1].id).subscribe()
       }
     })
-    if (this.messages().length > 0 && !this.messages()[this.messages().length].is_that_user && !this.messages()[this.messages().length].is_view) {
-      this.messagesService.updateMessage(this.messages()[this.messages().length].id).subscribe()
-    }
+
   }
 
   onSubmit() {

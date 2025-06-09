@@ -57,7 +57,9 @@ $routeur->addRoute(['GET'], '/matchs', UsersController::class, 'matchs');
 $routeur->addRoute(['GET'], '/profil-admin/{id}', UsersController::class, 'profilAdmin');
 $routeur->addRoute(['GET'], '/user-count', UsersController::class, 'count');
 $routeur->addRoute(['GET'], '/email/{email}', UsersController::class, 'isEmailUsed');
+$routeur->addRoute(['GET'], '/user-notifications', UsersController::class, 'getNotifications');
 
+$routeur->addRoute(['POST'], '/update', UsersController::class, 'update');
 $routeur->addRoute(['POST'], '/update-location', UsersController::class, 'updateLocation');
 $routeur->addRoute(['POST'], '/create-user', UsersController::class, 'create');
 $routeur->addRoute(['POST'], '/update-user-admin', UsersController::class, 'updateProfilAdmin');
@@ -78,7 +80,7 @@ $routeur->addRoute(['GET'], '/hobbies', HobbiesController::class, 'liste');
 $routeur->addRoute(['GET'], '/user-hobbies/{id}', HobbiesController::class, 'get');
 
 //MESSAGE
-$routeur->addRoute(['POST'], '/messages', MessagesController::class, 'messages');
+$routeur->addRoute(['GET'], '/messages', MessagesController::class, 'messages');
 $routeur->addRoute(['GET'], '/messages/{id0}/{id1}', MessagesController::class, 'messagesById');
 $routeur->addRoute(['POST'], '/send-message', MessagesController::class, 'addMessage');
 $routeur->addRoute(['GET'], '/vue/{id}', MessagesController::class, 'viewed');
@@ -123,7 +125,6 @@ $routeur->addRoute(['POST'], '/add-filter', FilterController::class, 'add');
 $routeur->addRoute(['GET'], '/reset-filter', FilterController::class, 'reset');
 
 //MAIL
-$routeur->addRoute(['POST'], '/reset-mail-send', MailController::class, 'sendReset');
-
+$routeur->addRoute(['POST'], '/send-contact', MailController::class, 'sendContact');
 
 new Kernel($routeur);

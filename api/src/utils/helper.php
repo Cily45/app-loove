@@ -1,7 +1,7 @@
 <?php
 function cleanString(string $value): string
 {
-    return trim(preg_replace('/[^a-zA-ZÀ-ÿ\s\'-]/', '', $value));
+    return trim(preg_replace('/[^a-zA-ZÀ-ÿ0-9\s\p{P}]/u', '', $value));
 }
 
 function toDate(string $value): string

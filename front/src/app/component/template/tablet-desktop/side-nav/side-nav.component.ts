@@ -19,13 +19,11 @@ import {MatIconModule} from '@angular/material/icon';
 export class SideNavComponent {
 isSettingsOpen = signal<boolean>(false)
   constructor(
-    public authService: AuthService,
-    private router: Router
+    public authService: AuthService
   ) {}
 
   onLogout() {
     this.authService.logout();
-    this.router.navigate(['/connection']);
   }
 
 

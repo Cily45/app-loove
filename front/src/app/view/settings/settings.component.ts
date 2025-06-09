@@ -21,6 +21,5 @@ export class SettingsComponent {
   ) {}
   onLogout() {
     this.authService.logout();
-    this.router.navigate(['/connection']);
   }
 }

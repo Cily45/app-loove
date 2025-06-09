@@ -15,4 +15,8 @@ export class MailService {
   sendReset(email: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/reset-password`, email)
   }
+
+  sendContact(form: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/send-contact`, form)
+  }
 }

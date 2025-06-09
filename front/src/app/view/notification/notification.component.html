@@ -1,44 +1,59 @@
-<div class="app-notifications m-auto p-12 md:px-24">
+<div class="app-notifications m-auto p-12 md:px-24 flex flex-col">
   <h2 class="text-[#6A3A71] text-center text-3xl mb-12">Notifications</h2>
-  <div class="bg-[#6A3A71] rounded-3xl p-6 shadow-lg shadow-black/25 text-white">
+  <form [formGroup]="notificationFormGroup" class="bg-[#6A3A71] rounded-3xl p-6 shadow-lg shadow-black/25 text-white">
     <div>
       <h3 class="mb-6">Messages</h3>
       <div>
+
         <div class="flex justify-around space-y-6">
           <p>Push</p>
           <label class="switch">
-            <input type="checkbox">
+            <input
+              type="checkbox"
+              formControlName="message_push">
             <span class="slider"></span>
           </label>
         </div>
+
         <div class="flex justify-around">
           <p>Email</p>
           <label class="switch">
-            <input type="checkbox">
+            <input
+              type="checkbox"
+              formControlName="message_email">
+
             <span class="slider"></span>
           </label>
         </div>
       </div>
       <hr class="mt-6"/>
     </div>
-   <div>
-      <h3 class="mb-6">Messages</h3>
+    <div>
+      <h3 class="mb-6">Matchs</h3>
       <div>
+
         <div class="flex justify-around space-y-6">
           <p>Push</p>
           <label class="switch">
-            <input type="checkbox">
+            <input
+              type="checkbox"
+              formControlName="match_push">
             <span class="slider"></span>
           </label>
         </div>
+
         <div class="flex justify-around">
           <p>Email</p>
           <label class="switch">
-            <input type="checkbox">
+            <input
+              type="checkbox"
+              formControlName="match_email">
             <span class="slider"></span>
           </label>
         </div>
       </div>
     </div>
-  </div>
+  </form>
+  <button mat-raised-button class="w-fit self-end mt-6" (click)="onSubmit()">Valider</button>
+
 </div>

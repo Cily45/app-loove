@@ -10,28 +10,22 @@ class MessagesModel extends BaseModel
     {
         return $this
             ->query("
-            WITH ranked_messages AS (
-                SELECT m.*, 
-                       CASE 
-                           WHEN sender_id = :id THEN receiver_id 
-                           ELSE sender_id 
-                       END AS other_user_id,
+            SELECT rm.message, rm.date, rm.hour, rm.is_view,
+                   rm.sender_id = :id AS is_that_user,
+                   u.id, u.firstname, u.lastname, u.profil_photo
+            FROM (
+                SELECT m.*,
+                       CASE WHEN sender_id = :id THEN receiver_id ELSE sender_id END AS other_user_id,
                        ROW_NUMBER() OVER (
-                           PARTITION BY CASE 
-                                           WHEN sender_id = :id THEN receiver_id 
-                                           ELSE sender_id 
-                                       END
+                           PARTITION BY CASE WHEN sender_id = :id THEN receiver_id ELSE sender_id END
                            ORDER BY date DESC, hour DESC
                        ) AS rn
                 FROM messages m
                 WHERE sender_id = :id OR receiver_id = :id
-            )
-            SELECT rm.message, rm.date, rm.hour, rm.is_view,
-                   u.id, u.firstname, u.lastname, u.profil_photo
-            FROM ranked_messages rm
+            ) rm
             JOIN user u ON u.id = rm.other_user_id
             WHERE rm.rn = 1
-            ORDER BY rm.date DESC, rm.hour DESC
+            ORDER BY rm.date DESC, rm.hour DESC;
             ")
             ->fetchAll([
                 'id' => $id
@@ -81,19 +75,17 @@ class MessagesModel extends BaseModel
     }
 
     public function updateMessage(
-        int $id,
-        int $id2
+        int $id
     ): bool
     {
         return $this
             ->query("
             UPDATE messages 
             SET is_view = 1
-            WHERE sender_id = :id2 AND receiver_id = :id
+            WHERE id = :id
             ")
             ->execute([
-                'id' => $id,
-                'id2' => $id2,
+                'id' => $id
             ]);
     }
 

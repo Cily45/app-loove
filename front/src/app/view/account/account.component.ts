@@ -8,16 +8,17 @@ import {MatIconModule} from '@angular/material/icon'
 import {matchPassword} from '../../component/validator';
 import {Profil, UserService} from '../../services/api/user.service';
 import {ToastService} from '../../services/toast.service';
+import {NgIf} from '@angular/common';
+import {AuthService} from '../../services/auth/auth.service';
 
 
 @Component({
   selector: 'app-account',
-  imports: [MatExpansionModule, FormsModule, MatInputModule, ReactiveFormsModule, MatFormFieldModule, MatButton, MatIconModule],
+  imports: [MatExpansionModule, FormsModule, MatInputModule, ReactiveFormsModule, MatFormFieldModule, MatButton, MatIconModule, NgIf],
   templateUrl: './account.component.html',
   styleUrl: './account.component.scss'
 })
-export class AccountComponent implements OnInit{
-  hideOldPassword = signal(true)
+export class AccountComponent implements OnInit {
   hidePassword = signal(true)
   hideConfirm = signal(true)
   userProfil = signal<Profil>({
@@ -31,11 +32,15 @@ export class AccountComponent implements OnInit{
     gender: '',
     distance_km: 0,
   })
-  constructor(private userService : UserService,private toastService : ToastService) {
+  userMail = signal<string>('')
+
+  constructor(private userService: UserService, private toastService: ToastService, private authService: AuthService) {
   }
 
   ngOnInit() {
     this.userProfil.set(JSON.parse(<string>localStorage.getItem('profil')))
+    this.userMail.set(<string>localStorage.getItem('email'))
+
   }
 
   emailFormGroup = new FormGroup({
@@ -48,7 +53,6 @@ export class AccountComponent implements OnInit{
   )
 
   passwordFormGroup = new FormGroup({
-    oldPassword: new FormControl('',Validators.required),
     password: new FormControl('', [
       Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/)
@@ -60,13 +64,46 @@ export class AccountComponent implements OnInit{
     input: new FormControl('', [Validators.required, Validators.pattern("Supprimer")])
   })
 
-  delete() {
-    if(this.deleteFormGroup.valid && confirm("La suppression de votre compte est irréversible. Êtes-vous sûr de vouloir supprimer votre compte ?")){
-      this.userService.deleteUser(this.userProfil().id)
+  onSubmitDelete() {
+    if (this.deleteFormGroup.valid && confirm("La suppression de votre compte est irréversible. Êtes-vous sûr de vouloir supprimer votre compte ?")) {
+      this.userService.deleteUser(this.userProfil().id).subscribe(res => {
+        if (res) {
+          this.authService.logout()
+          this.toastService.showSuccess('Votre compte a bien été supprimé.')
+        }
+      })
     }
   }
 
-  send(){
-    this.toastService.showInfo('Vous avez un nouveau message de')
+  onSubmitEmail() {
+    if (this.emailFormGroup.valid) {
+      this.userService.isMailUsed(this.emailFormGroup.get('email')?.value ?? '').subscribe(res => {
+        if (res) {
+          this.emailFormGroup.get('email')?.setErrors({'emailUsed': true})
+        } else {
+          this.userService.update(this.emailFormGroup.value).subscribe(res => {
+            if (res) {
+              this.userMail.set(this.emailFormGroup.get('email')?.value ?? '')
+              localStorage.setItem('email', this.emailFormGroup.get('email')?.value ?? '');
+              this.toastService.showSuccess('Adresse e-mail mis à jour')
+            } else {
+              this.toastService.showError('Erreur lors de la mise à jour de l\'adresse mail')
+            }
+          })
+        }
+      })
+    }
+  }
+
+  onSubmitPassword() {
+    if (this.passwordFormGroup.valid) {
+      this.userService.update(this.passwordFormGroup.value).subscribe(res => {
+        if (res) {
+          this.toastService.showSuccess('Adresse e-mail mis à jour')
+        } else {
+          this.toastService.showError('Erreur lors de la mise à jour de l\'adresse mail')
+        }
+      })
+    }
   }
 }

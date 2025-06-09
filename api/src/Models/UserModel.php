@@ -50,7 +50,7 @@ class UserModel extends BaseModel
 
     public function findByEmail(
         string $email
-    ): array | bool
+    ): array|bool
     {
         return $this->query("
             SELECT 
@@ -94,7 +94,7 @@ class UserModel extends BaseModel
             ]);
 
         $id = $this->lastInsertId();
-        if(!$result){
+        if (!$result) {
             return $result;
         }
 
@@ -474,6 +474,43 @@ ORDER BY distance_km ASC;
             ")
             ->fetch([
                 'email' => $email
+            ]);
+    }
+
+    public function update($user, $id): bool
+    {
+        $setParts = [];
+
+        foreach ($user as $key => $value) {
+            if ($value === null) {
+                continue;
+            }
+            $dbColumn = $key;
+            $setParts[] = "`{$dbColumn}` = '{$value}'";
+        }
+
+
+        if (empty($setParts)) {
+            return false;
+        }
+
+        return $this
+            ->query("UPDATE `user` SET " . implode(', ', $setParts) . " WHERE `id` = :id")
+            ->execute([
+                'id' => $id
+            ]);
+    }
+
+    public function getNotifications(int $id)
+    {
+        return $this
+            ->query("
+            SELECT `message_push`, `message_email`, `match_push`, `match_email`
+            FROM `user`
+            WHERE id = :id
+            ")
+            ->fetch([
+                'id' => $id
             ]);
     }
 }

@@ -21,12 +21,10 @@ export class ChatComponent implements OnInit {
 
   ngOnInit(): void {
     this.messagesService.messages().subscribe(list => {
-      if(list.length > 0){
+      if (list.length > 0) {
         this.messages.set(list)
       }
-
     })
-
   }
 
 

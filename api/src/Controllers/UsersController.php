@@ -190,20 +190,26 @@ class UsersController extends BaseController
     }
 
     public
-    function delete(int $id): bool|string
+    function delete(int $idUser): bool|string
     {
         if (!$this->isAdmin()) {
-            http_response_code(401);
-            return json_encode(['error' => 'Erreur de token']);
+            $id = $this->getId();
+            if(!$id || (int)$id !== $idUser) {
+                http_response_code(401);
+                return json_encode(['error' => 'Erreur de token']);
+            }
         }
 
         try {
             $uploadDir = __DIR__ . '/../../uploads/photo-user/';
-            $targetPath = $uploadDir . 'profil-photo-' . $id . '.webp';
-            unlink($targetPath);
+            $targetPath = $uploadDir . 'profil-photo-' . $idUser . '.webp';
+
+            if (file_exists($targetPath)) {
+                unlink($targetPath);
+            }
 
             $model = new UserModel();
-            $result = $model->delete($id);
+            $result = $model->delete($idUser);
 
             return json_encode($result, JSON_PRETTY_PRINT);
         } catch (\Exception $e) {
@@ -404,7 +410,7 @@ class UsersController extends BaseController
 
     public function updateVerify(): bool|string
     {
-        try{
+        try {
             $data = json_decode(file_get_contents('php://input'), true);
             $token = $data['token'] ?? null;
 
@@ -425,26 +431,27 @@ class UsersController extends BaseController
         }
     }
 
-    public function resetPassToken() {
+    public function resetPassToken()
+    {
         $data = json_decode(file_get_contents('php://input'), true);
-        $email= $data['email'] ?? null;
+        $email = $data['email'] ?? null;
         if (!$email) {
             http_response_code(400);
             return json_encode(['error' => 'Aucun email']);
         }
 
-        try{
+        try {
             $model = new UserModel();
             $result = $model->getUserToken($email);
 
-            if($result) {
+            if ($result) {
                 $mailController = new MailController();
                 $mailController->sendReset($result['token'], $email);
             }
 
             http_response_code(200);
             return json_encode(true, JSON_PRETTY_PRINT);
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             error_log("Erreur avec la maj d'utilisateur: " . $e->getMessage());
             http_response_code(500);
             return json_encode(['error' => 'Erreur serveur']);
@@ -453,7 +460,7 @@ class UsersController extends BaseController
 
     public function updatePassword(): bool|string
     {
-        try{
+        try {
             $data = json_decode(file_get_contents('php://input'), true);
             $token = $data['token'] ?? null;
             $password = $data['password'] ?? null;
@@ -471,6 +478,55 @@ class UsersController extends BaseController
 
         } catch (\Exception $e) {
             error_log("Erreur avec la maj d'utilisateur: " . $e->getMessage());
+            http_response_code(500);
+            return json_encode(['error' => 'Erreur serveur']);
+        }
+    }
+
+    public function update()
+    {
+        $id = $this->getId();
+
+        if (!$id) {
+            http_response_code(401);
+            return json_encode(['error' => 'Erreur de token']);
+        }
+
+        $data = json_decode(file_get_contents('php://input'), true);
+        $user = [
+            'email' => isset($data['email']) ? filter_var($data['email'], FILTER_VALIDATE_EMAIL) : null,
+            'password' => isset($data['password']) ? password_hash(trim($data['password']), PASSWORD_DEFAULT) : null,
+            'message_push' => isset($data['message_push']) ? (int)$data['message_push'] : null,
+            'message_email' => isset($data['message_email']) ? (int)$data['message_email'] : null,
+            'match_push' => isset($data['match_push']) ? (int)$data['match_push'] : null,
+            'match_email' => isset($data['match_email']) ? (int)$data['match_email'] : null,
+        ];
+
+        try {
+            $model = new UserModel();
+            $result = $model->update($user, $id);
+            return json_encode($result, JSON_PRETTY_PRINT);
+        } catch (\Exception $e) {
+            error_log("Erreur avec la maj d'utilisateur: " . $e->getMessage());
+            http_response_code(500);
+            return json_encode(['error' => 'Erreur serveur']);
+        }
+    }
+
+    public function getNotifications()
+    {
+        $id = $this->getId();
+        if (!$id) {
+            http_response_code(401);
+            return json_encode(['error' => 'Erreur de token']);
+        }
+
+        try {
+            $model = new UserModel();
+            $result = $model->getNotifications($id);
+            return json_encode($result, JSON_PRETTY_PRINT);
+        } catch (\Exception $e) {
+            error_log("Erreur avec la recuperation des notifications: " . $e->getMessage());
             http_response_code(500);
             return json_encode(['error' => 'Erreur serveur']);
         }

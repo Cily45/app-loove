@@ -12,20 +12,18 @@
 
   <div *ngIf="showLoginForm"
        class="p-6 flex flex-col items-center drop-shadow-lg border-[#6A3A71] border-2 bg-[rgba(106,58,113,0.50)] max-w-100 min-w-50 w-4/5 rounded-3xl">
-    <form method="POST" action="/login" [formGroup]="formGroup" class="flex flex-col items-center justify-between">
-      <mat-form-field appearance="fill">
+    <form method="POST" action="/login" [formGroup]="formGroup" class="flex flex-col items-center justify-between space-y-3">
+      <mat-form-field appearance="fill"
+      >
         <mat-label>E-mail</mat-label>
         <input
           matInput
           formControlName="email"
           placeholder="pat@example.com"
           name="email"
-          (blur)="updateEmailErrorMessage()"
           required
         />
-        @if (formGroup.get('email')?.invalid){
-          <mat-error>{{emailErrorMessage()}}</mat-error>
-        }
+        <mat-error *ngIf="formGroup.get('email')?.errors?.['required']">E-mail requis</mat-error>
 
       </mat-form-field>
 
@@ -45,12 +43,9 @@
           </button>
         </div>
 
-        @if(formGroup.get('password')?.errors?.['invalid']){
-          <mat-error>Identifiants invalides</mat-error>
-        }
-
+        <mat-error *ngIf="formGroup.get('password')?.errors?.['required']">Mot de passe requis</mat-error>
       </mat-form-field>
-      <button mat-flat-button class="mb-6 mt-3" (click)="onSubmit()">Se connecter</button>
+      <button mat-flat-button class="mb-6 mt-3" type="submit" (click)="onSubmit()">Se connecter</button>
     </form>
     <a routerLink="/oublie-mot-de-passe" class="text-[#f7a8c5]">Mot de passe oublier?</a>
   </div>

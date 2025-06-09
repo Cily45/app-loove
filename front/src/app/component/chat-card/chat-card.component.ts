@@ -4,6 +4,7 @@ import {NgClass} from '@angular/common';
 import {RouterLink} from '@angular/router';
 import {Message} from '../../services/api/message.service';
 import {environment} from '../../env';
+import {Profil} from '../../services/api/user.service';
 
 @Component({
   selector: 'app-chat-card',
@@ -20,10 +21,12 @@ export class ChatCardComponent implements OnInit {
   time = signal<string>('')
 
 
+
   ngOnInit(): void {
       if(this.message()) {
         // @ts-ignore
         this.time.set(this.getTime(this.message().date, this.message().hour))
+
       }
   }
 

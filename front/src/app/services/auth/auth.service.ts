@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import { firstValueFrom} from 'rxjs';
+import {firstValueFrom} from 'rxjs';
 import {environment} from '../../env';
 import {UserService} from '../api/user.service';
 import {ToastService} from '../toast.service';
+import {Router} from '@angular/router';
 
 interface LoginResponse {
   token?: string
@@ -26,17 +27,27 @@ export interface LoginCredentials {
 export class AuthService {
   private apiUrl = environment.apiUrl;
 
-  constructor(private https: HttpClient, private userService: UserService, private toastService : ToastService) {
+  constructor(private https: HttpClient,
+              private userService: UserService,
+              private toastService: ToastService,
+              private router: Router) {
   }
+
   async login(credentials: LoginCredentials): Promise<boolean> {
     try {
       const response = await firstValueFrom(
         this.https.post<LoginResponse>(`${this.apiUrl}/login`, credentials)
       );
+
       if (response.token) {
         localStorage.setItem('authToken', response.token);
         this.userService.userProfil(response.id).subscribe((res) => {
           localStorage.setItem('profil', JSON.stringify(res));
+          localStorage.setItem('email', credentials.email);
+        })
+
+        this.userService.getNotifications().subscribe(list => {
+          localStorage.setItem('notifications', JSON.stringify(list));
         })
         navigator.geolocation.getCurrentPosition(
           (position) => {
@@ -65,10 +76,8 @@ export class AuthService {
   logout() {
     localStorage.removeItem('authToken')
     localStorage.removeItem('profil')
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem('authToken')
+    localStorage.removeItem('notifications')
+    this.router.navigate(['/connection']);
   }
 
   isAuthenticated(): boolean {

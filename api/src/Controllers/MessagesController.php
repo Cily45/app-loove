@@ -85,15 +85,14 @@ class MessagesController extends AuthController
 
     public function viewed(int $id)
     {
-        $userId = (int)$this->getId();
-        if (!$userId) {
+        if (!$this->verifyToken()) {
             http_response_code(401);
             return json_encode(['error' => 'Token Invalid.']);
         }
 
         try {
             $model = new MessagesModel();
-            return json_encode($model->updateMessage($userId, $id));
+            return json_encode($model->updateMessage($id));
 
         } catch (\Throwable $e) {
             error_log("Erreur d'actualisation de vue: " . $e->getMessage());

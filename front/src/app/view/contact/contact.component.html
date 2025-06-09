@@ -1,9 +1,9 @@
-<div class="app-contact mx-auto w-10/12 md:w-8/12 lg:w-1/2">
+<div class="app-contact mx-auto pb-6 w-10/12 md:w-8/12 lg:w-1/2">
   <img class="min-w-25 max-w-50 w-1/2 my-10 mx-auto" routerLink="/" src="assets/image/logo-entier.png"
        alt="logo pawfect match">
   <h2 class="text-center text-[#6A3A71] text-2xl font-bold mb-6">Formulaire de contact</h2>
   <p class="mb-6 text-center">Merci de nous laisser vos questions, commentaires ou suggestions en complétant ce formulaire.</p>
-  <form [formGroup]="formGroup" class="pl-6 bg-[rgba(106,58,113,0.50)] rounded-3xl mb-6 p-6 drop-shadow-lg border-[#6A3A71] border-2">
+  <form [formGroup]="formGroup" class="pl-6 bg-[rgba(106,58,113,0.50)] rounded-3xl mb-[60px] p-6 drop-shadow-lg border-[#6A3A71] border-2">
     <div class="flex flex-col md:flex-row">
     <mat-form-field class="w-full md:mr-3" appearance="fill">
       <mat-label>Nom</mat-label>
@@ -11,8 +11,10 @@
         matInput
         placeholder="Dupont"
         name="lastname"
+        formControlName="lastname"
         required
       />
+      <mat-error *ngIf="formGroup.get('lastname')?.errors?.['required']">Nom requis</mat-error>
     </mat-form-field>
 
   <mat-form-field class="w-full" appearance="fill">
@@ -21,8 +23,10 @@
       matInput
       placeholder="Michel"
       name="firstname"
+      formControlName="firstname"
       required
     />
+    <mat-error *ngIf="formGroup.get('firstname')?.errors?.['required']">Prénom requis</mat-error>
   </mat-form-field>
 </div>
     <mat-form-field class="w-full" appearance="fill">
@@ -30,18 +34,22 @@
       <input
         matInput
         placeholder="pat@example.com"
+        formControlName="email"
         name="mail"
         required
       />
+      <mat-error *ngIf="formGroup.get('email')?.errors?.['required']">Email requis</mat-error>
+      <mat-error *ngIf="formGroup.get('email')?.errors?.['pattern']">Email non valide</mat-error>
+
     </mat-form-field>
 
     <mat-form-field class="w-full">
-      <mat-label>Cars</mat-label>
-      <select matNativeControl required>
-        <option value="volvo">Volvo</option>
-        <option value="saab">Saab</option>
-        <option value="mercedes">Mercedes</option>
-        <option value="audi">Audi</option>
+      <mat-label>Sur quoi porte votre demande ?</mat-label>
+      <select matNativeControl formControlName="select" required>
+        <option value="informations">Demande d'informations</option>
+        <option value="compte">Problème avec mon compte</option>
+        <option value="abonnement">Problème avec mon abonnement</option>
+        <option value="technique">Problème technique avec l'application</option>
       </select>
     </mat-form-field>
 
@@ -51,12 +59,14 @@
         class="w-full"
         oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
         matInput
+        formControlName="textarea"
         name="textarea"
         required
       ></textarea>
+      <mat-error *ngIf="formGroup.get('textarea')?.errors?.['required']">Demande requise</mat-error>
     </mat-form-field>
     <div class="flex justify-end">
-      <button mat-raised-button routerLinkActive="/match">Envoyer</button>
+      <button mat-raised-button routerLinkActive="/match" (click)="onSubmit()">Envoyer</button>
     </div>
 
   </form>

@@ -25,7 +25,7 @@ class AuthController extends BaseController
         $userModel = new UserModel();
         $user = $userModel->findByEmail($email);
         if (!$user || !password_verify($password, $user['password'])) {
-            http_response_code(401);
+            http_response_code(400);
             return json_encode(['error' => 'Identifiants invalides'], JSON_PRETTY_PRINT);
         }
 

@@ -73,4 +73,13 @@ export class UserService {
   updatePassword(form: any){
     return this.https.post<any>(`${this.apiUrl}/update-password`, form)
       .pipe(map(response => response))  }
+
+
+  update(form: any): Observable<any>{
+    return this.https.post<any>(`${this.apiUrl}/update`, form)
+  }
+
+  getNotifications(): Observable<Profil> {
+    return this.https.get<Profil>(`${this.apiUrl}/user-notifications`)
+  }
 }
