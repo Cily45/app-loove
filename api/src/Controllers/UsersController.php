@@ -298,7 +298,7 @@ class UsersController extends BaseController
             $tmpName = $_FILES['photo']['tmp_name'];
             $fileName = 'profil-photo-' . $id . '.jpg';
             $targetPath = $uploadDir . $fileName;
-            var_dump($uploadDir);
+
             if (move_uploaded_file($tmpName, $targetPath)) {
                 $webpName = pathinfo($fileName, PATHINFO_FILENAME) . '.webp';
                 $webpPath = $uploadDir . $webpName;
