@@ -46,7 +46,7 @@
               required
             />
             <mat-error *ngIf="firstFormGroup.get('birthday')?.errors?.['required']">Date de naissance requise</mat-error>
-            <mat-error *ngIf="firstFormGroup.get('birthday')?.errors?.['invalidAge']">Age non réglmentaire</mat-error>
+            <mat-error *ngIf="firstFormGroup.get('birthday')?.errors?.['invalidAge']">Age non réglementaire</mat-error>
             <mat-error *ngIf="firstFormGroup.get('birthday')?.errors?.['invalidDate']">
               Date de naissance non valide
             </mat-error>

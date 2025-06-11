@@ -15,7 +15,7 @@ abstract class BaseModel {
     public function __construct(string $dsn = '')
     {
         if(empty($dsn)) {
-            $dsn = "mysql:host={$_ENV['DB_HOST']};dbname={$_ENV['DB_NAME']};charset=utf8";
+            $dsn = "mysql:host={$_ENV['DB_HOST']};dbname={$_ENV['DB_NAME']};charset=utf8mb4";
         }
 
         $this->connection = new PDO($dsn, $_ENV['DB_USER'], $_ENV['DB_PASS'], [

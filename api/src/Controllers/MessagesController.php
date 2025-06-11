@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\MessagesModel;
 use App\utils\AuthService;
+use Pusher\Pusher;
 
 class MessagesController extends AuthController
 {
@@ -57,19 +58,48 @@ class MessagesController extends AuthController
         try {
             $data = json_decode(file_get_contents('php://input'), true);
             $receiverId = isset($data['receiver_id']) ? (int)$data['receiver_id'] : null;
-            $message = isset($data['message']) ? cleanString($data['message']) : null;
-
+            $message = isset($data['message']) ? $data['message'] : null;
             date_default_timezone_set('Europe/Paris');
             $date = date('Y-m-d');
             $hour = date("H:i:s");
-            $model = new MessagesModel();
+
+
 
             if (!$receiverId || !$message) {
                 http_response_code(400);
                 return json_encode(['error' => 'Champs manquants.']);
             }
 
+
+
+            $model = new MessagesModel();
             $model->addMessage($receiverId, $senderId, $message, $date, $hour);
+
+            $options = [
+                'cluster' => 'eu',
+                'useTLS' => true
+            ];
+
+            $pusher = new Pusher(
+                $_ENV['PUSHER_KEY'],
+                $_ENV['PUSHER_SECRET'],
+                $_ENV['PUSHER_ID'],
+                $options
+            );
+            $channel = 'private-users-' . ($senderId > $receiverId ? $senderId .'-'. $receiverId : $receiverId .'-'. $senderId) ;
+
+            $pusher->trigger($channel, 'new-message', [
+                'sender' => $senderId,
+                'message' => $message,
+                'date' => $date,
+                'hour' => $hour
+            ]);
+
+            $channel = 'private-user-message-' .  $receiverId;
+
+            $pusher->trigger($channel, 'new-message', [
+                'sender' => $senderId,
+            ]);
 
             http_response_code(201);
             return json_encode(['success' => true], JSON_PRETTY_PRINT);
@@ -77,7 +107,6 @@ class MessagesController extends AuthController
             error_log("Erreur récuperation conversation: " . $e->getMessage());
             http_response_code(500);
             return json_encode(['error' => 'Erreur serveur']);
-
         }
 
 

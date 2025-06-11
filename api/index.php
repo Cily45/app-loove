@@ -13,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 use App\Controllers\AuthAdminController;
+use App\Controllers\AuthPusherController;
 use App\Controllers\BannedController;
 use App\Controllers\DogController;
 use App\Controllers\DogGenderController;
@@ -47,6 +48,7 @@ $routeur = new Routeur();
 // AUTH
 $routeur->addRoute(['POST'], '/login', AuthController::class, 'login');
 $routeur->addRoute(['POST'], '/login-admin', AuthAdminController::class, 'login');
+$routeur->addRoute(['POST'], '/auth-pusher', AuthPusherController::class, 'authPusher');
 
 // USER
 $routeur->addRoute(['GET'], '/users/{id}', UsersController::class, 'user');

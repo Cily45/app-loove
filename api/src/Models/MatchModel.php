@@ -35,4 +35,21 @@ class MatchModel extends BaseModel
                 ')
             ->fetchColumn();
     }
+
+    public function isMatch(
+       int $userId0,
+       int $userId1,
+    )
+    {
+        return is_array($this
+            ->query('
+            SELECT * FROM `matches` 
+            WHERE (`user_id_0` = :userId0 AND `user_id_1` = :userId1) OR (`user_id_0` = :userId1 AND `user_id_1` = :userId0) AND `is_skiped` = 0')
+            ->fetch(
+                [
+                    'userId0' => $userId0,
+                    'userId1' => $userId1,
+                ]
+            ));
+    }
 }

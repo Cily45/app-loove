@@ -8,7 +8,7 @@ import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ReportComponent} from '../../component/report/report.component';
 import {environment} from '../../env';
 import {ProfilComponent} from '../../component/profil/profil.component';
-import {log} from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
+import {PusherService} from '../../services/pusher.service';
 
 @Component({
   selector: 'app-message',
@@ -50,11 +50,9 @@ export class MessageComponent implements OnInit {
     gender: '',
     distance_km: 0
   })
-
-
-  constructor(private route: ActivatedRoute, private messagesService: MessageService, private userService: UserService
-  ) {
-  }
+  channel = ''
+  constructor(private route: ActivatedRoute, private messagesService: MessageService, private userService: UserService, private pusher: PusherService
+  ) {}
 
   ngOnInit(): void {
     let id = parseInt(<string>this.route.snapshot.paramMap.get('id'))
@@ -67,6 +65,24 @@ export class MessageComponent implements OnInit {
         this.userService.userProfil(id).subscribe(res => {
           if (res) {
             this.profil.set(res)
+            this.channel = ('private-users-' + (this.userProfil().id > this.profil().id ? this.userProfil().id +'-'+ this.profil().id  : this.profil().id +'-'+  this.userProfil().id ))
+            this.pusher.subscribeMessageChannel(this.channel, 'new-message', (data: any) => {
+              const currentUserId = this.userProfil().id;
+              const fromUser = data.sender === currentUserId;
+              this.messages.update(current => [{
+                id: data.sender,
+                message: data.message,
+                date: data.date,
+                hour: data.hour,
+                is_view: 1,
+                firstname: fromUser ? this.userProfil().firstname : this.profil().firstname,
+                lastname: fromUser ? this.userProfil().lastname : this.profil().lastname,
+                profil_photo: fromUser ? this.userProfil().profil_photo : this.profil().profil_photo,
+                is_that_user: fromUser ? 0 : 1
+              },
+                ...current
+              ])
+            })
           }
         })
       }
@@ -74,6 +90,7 @@ export class MessageComponent implements OnInit {
       if (this.messages().length > 0 && this.messages()[this.messages().length-1].is_view !== 1 && this.messages()[this.messages().length-1].is_that_user !== 1) {
         this.messagesService.updateMessage(this.messages()[this.messages().length-1].id).subscribe()
       }
+
     })
 
   }

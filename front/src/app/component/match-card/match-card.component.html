@@ -2,7 +2,7 @@
   <div class=" w-[calc(80vw)] h-[calc(80vh-60px)] md:w-[calc(80vw-220px)] md:h-[calc(80vh-)] relative rounded-3xl drop-shadow-2xl"
        [ngClass]="{'drop-shadow-pink-500/50': profil().match_code === 0}"
   >
-    @if(!isSubcribe() && (profil().match_code === 1 || profil().match_code === 2)) {
+    @if(!isSubcribe() && profil().match_code !== 0) {
       <div class="absolute z-50 w-[calc(80vw)] h-[calc(80vh-60px)] md:w-[calc(80vw-220px)] md:h-[calc(80vh-)] rounded-3xl bg-white/30 backdrop-blur-xl" [routerLink]="['/nouvel-abonnement']"></div>
     }
     <img src="{{environment.apiUrl}}/uploads/photo-user/{{profil().profil_photo}}"

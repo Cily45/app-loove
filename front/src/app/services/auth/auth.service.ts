@@ -5,6 +5,7 @@ import {environment} from '../../env';
 import {UserService} from '../api/user.service';
 import {ToastService} from '../toast.service';
 import {Router} from '@angular/router';
+import {PusherService} from '../pusher.service';
 
 interface LoginResponse {
   token?: string
@@ -44,6 +45,7 @@ export class AuthService {
         this.userService.userProfil(response.id).subscribe((res) => {
           localStorage.setItem('profil', JSON.stringify(res));
           localStorage.setItem('email', credentials.email);
+
         })
 
         this.userService.getNotifications().subscribe(list => {
