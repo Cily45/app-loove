@@ -54,6 +54,8 @@ class AuthAdminController extends BaseController
             'id' => $admin['id']
         ]));
 
+
+
         header("Content-Type: application/json");
         return $response->getBody();
     }

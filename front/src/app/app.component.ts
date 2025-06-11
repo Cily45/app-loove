@@ -33,8 +33,6 @@ export class AppComponent implements OnInit {
   constructor(private router: Router,
               private breakpointObserver: BreakpointObserver,
               private authService: AuthService,
-              private pusher: PusherService,
-              private toastService: ToastService
               ) {
   }
 
@@ -44,24 +42,12 @@ export class AppComponent implements OnInit {
       .subscribe(() => {
         window.scrollTo({top: 0, behavior: 'smooth'})
         this.isAuth.set(this.authService.isAuthenticated())
+
       })
 
     this.breakpointObserver.observe(['(min-width: 768px)'])
       .subscribe(result => {
         this.isMobile.set(!result.matches)
       })
-
-    const id = (JSON.parse(<string>localStorage.getItem('profil'))).id
-    const channelMessage = 'private-user-message-' + id
-    const channelMatch = 'private-user-match-' + id
-    this.toastService.showInfo('Vous avez un nouveau message!')
-    this.pusher.subscribeMessageNotification(channelMessage, 'new-message', (data: any) => {
-      this.toastService.showInfo('Vous avez un nouveau match!')
-    })
-
-    this.pusher.subscribeMatchNotification(channelMatch, 'new-match', (data: any) => {
-      alert('it\'s a match')
-
-    })
   }
 }
