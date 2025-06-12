@@ -28,8 +28,9 @@ class StatisticsController extends BaseController
                 'subcrib' => (new SubscriptionModel())->count(),
             ];
         } catch (Exception $e) {
-            error_log("Error fetching dashboard stats: " . $e->getMessage());
-            $response = ['error' => 'Unable to fetch statistics'];
+            error_log("Erreur de récuperation des statistique: " . $e->getMessage());
+            http_response_code(500);
+            return json_encode(['error' => 'Erreur serveur']);
         }
 
         return json_encode($response);

@@ -3,14 +3,13 @@
 namespace App\Controllers;
 
 use Pusher\Pusher;
-use const Dom\VALIDATION_ERR;
+use Pusher\PushNotifications\PushNotifications;
 
 class AuthPusherController extends BaseController
 {
     public function authPusher()
     {
         $id = (int)$this->getId();
-
         if (!$id) {
             http_response_code(401);
             return json_encode(['error' => 'Token Invalid.']);
@@ -18,7 +17,6 @@ class AuthPusherController extends BaseController
 
         $options = ['cluster' => 'eu', 'useTLS' => true];
         $pusher = new Pusher($_ENV['PUSHER_KEY'], $_ENV['PUSHER_SECRET'], $_ENV['PUSHER_ID'], $options);
-
 
         try {
             $socket_id = $_POST['socket_id'];
@@ -66,5 +64,18 @@ class AuthPusherController extends BaseController
             return json_encode(['error' => 'Erreur serveur']);
         }
 
+    }
+
+    public function beamsToken(int $id)
+    {
+        $beamsClient = new PushNotifications([
+            "instanceId" => $_ENV['BEAMS_ID'],
+            "secretKey" => $_ENV['BEAMS_KEY'],
+        ]);
+
+        $publishableToken = $beamsClient->generateToken($id);
+        var_dump($publishableToken);
+        header('Content-Type: application/json');
+        return json_encode(['token' => $publishableToken]);
     }
 }

@@ -125,4 +125,75 @@ class MailController extends BaseController
             return false;
         }
     }
+
+    function sendMatch(string $userName, string $userPhoto, int $userId, string $mailUser): bool
+    {
+        $mail = new PHPMailer(true);
+        $from = 'no-reply@example.com';
+        $fromName = 'Pawfect-match';
+
+        try {
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'pawfect.match.system@gmail.com';
+            $mail->Password = 'aoru ffue fdej gqvn';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+
+            $mail->setFrom($from, $fromName);
+            $mail->addAddress($mailUser);
+
+            $mail->isHTML(true);
+            $mail->Subject = 'Vous avez un nouveau pawfect match!';
+            $body = file_get_contents(__DIR__ . "/../mail-template/matchNotification.html");
+            $link = $_ENV['URL'] . "/messagerie/discussion/" . $userId;
+            $body = str_replace('{{ chatLink }}', $link, $body);
+            $body = str_replace('{{ username }}', $userName, $body);
+            $mail->addEmbeddedImage(__DIR__ . "/../../uploads/photo-user/" . $userPhoto, 'user-photo');
+            $mail->Body = $body;
+            var_dump($mail);
+            $mail->send();
+            return true;
+        } catch (Exception $e) {
+            error_log("Erreur d'envoi de mail : {$mail->ErrorInfo}");
+            return false;
+        }
+    }
+
+    function sendMessage(string $userName, string $userPhoto, int $userId, string $message, string $mailUser): bool
+    {
+        $mail = new PHPMailer(true);
+        $from = 'no-reply@example.com';
+        $fromName = 'Pawfect-match';
+
+        try {
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'pawfect.match.system@gmail.com';
+            $mail->Password = 'aoru ffue fdej gqvn';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+
+            $mail->setFrom($from, $fromName);
+            $mail->addAddress($mailUser);
+
+            $mail->isHTML(true);
+            $mail->Subject = 'Vous avez un nouveau message';
+            $body = file_get_contents(__DIR__ . "/../mail-template/messageNotification.html");
+            $link = $_ENV['URL'] . "/messagerie/discussion/" . $userId;
+            $body = str_replace('{{ chatLink }}', $link, $body);
+            $body = str_replace('{{ senderName }}', $userName, $body);
+            $body = str_replace('{{ messageSnippet }}', $message, $body);
+            $mail->addEmbeddedImage(__DIR__ . "/../../uploads/photo-user/" . $userPhoto, 'user-photo');
+            $mail->Body = $body;
+            var_dump($mail);
+            $mail->send();
+            return true;
+        } catch (Exception $e) {
+            error_log("Erreur d'envoi de mail : {$mail->ErrorInfo}");
+            return false;
+        }
+    }
 }

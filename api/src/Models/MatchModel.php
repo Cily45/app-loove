@@ -41,15 +41,16 @@ class MatchModel extends BaseModel
        int $userId1,
     )
     {
-        return is_array($this
+        $result = $this
             ->query('
             SELECT * FROM `matches` 
             WHERE (`user_id_0` = :userId0 AND `user_id_1` = :userId1) OR (`user_id_0` = :userId1 AND `user_id_1` = :userId0) AND `is_skiped` = 0')
-            ->fetch(
+            ->fetchAll(
                 [
                     'userId0' => $userId0,
                     'userId1' => $userId1,
                 ]
-            ));
+            );
+        return count($result) === 2;
     }
 }

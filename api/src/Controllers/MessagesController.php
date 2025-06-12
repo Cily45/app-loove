@@ -3,8 +3,10 @@
 namespace App\Controllers;
 
 use App\Models\MessagesModel;
+use App\Models\UserModel;
 use App\utils\AuthService;
 use Pusher\Pusher;
+use Pusher\PushNotifications\PushNotifications;
 
 class MessagesController extends AuthController
 {
@@ -104,6 +106,15 @@ class MessagesController extends AuthController
             $pusher->trigger($channel, 'new-message', [
                 'sender' => $senderId,
             ]);
+
+            $mail = new MailController();
+            $userModel = new UserModel();
+            $userReceiver = $userModel->get($receiverId);
+            $userSender = $userModel->get($senderId);
+
+            if($userReceiver['message_email'] === 1){
+               $mail->sendMessage($userSender['firstname'], $userSender['profil_photo'], $userSender['id'], $message, $userReceiver['email']);
+            }
 
             http_response_code(201);
             return json_encode(['success' => true], JSON_PRETTY_PRINT);

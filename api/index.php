@@ -49,6 +49,7 @@ $routeur = new Routeur();
 $routeur->addRoute(['POST'], '/login', AuthController::class, 'login');
 $routeur->addRoute(['POST'], '/login-admin', AuthAdminController::class, 'login');
 $routeur->addRoute(['POST'], '/auth-pusher', AuthPusherController::class, 'authPusher');
+$routeur->addRoute(['GET'], '/beams-token', AuthController::class, 'beamsToken');
 
 // USER
 $routeur->addRoute(['GET'], '/users/{id}', UsersController::class, 'user');

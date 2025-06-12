@@ -26,6 +26,7 @@ class ComposerStaticInitf0816ceee822a958111e0b71c8cd8980
         ),
         'P' => 
         array (
+            'Pusher\\PushNotifications\\' => 25,
             'Pusher\\' => 7,
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
@@ -84,6 +85,10 @@ class ComposerStaticInitf0816ceee822a958111e0b71c8cd8980
         'SpomkyLabs\\Pki\\' => 
         array (
             0 => __DIR__ . '/..' . '/spomky-labs/pki-framework/src',
+        ),
+        'Pusher\\PushNotifications\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/pusher/pusher-push-notifications/src',
         ),
         'Pusher\\' => 
         array (

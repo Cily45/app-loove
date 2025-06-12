@@ -8,17 +8,25 @@ class PriceController extends BaseController
 {
     public function get(): bool|string
     {
-        if(!$this->verifyToken()){
+        if (!$this->verifyToken()) {
             http_response_code(401);
             return json_encode(['error' => 'Token invalid']);
         }
-        $model = new PriceModel();
-        return json_encode($model->get(), JSON_PRETTY_PRINT);
+
+        try {
+            $model = new PriceModel();
+            $result = $model->get();
+            return json_encode($result, JSON_PRETTY_PRINT);
+        } catch (\Exception $e) {
+            error_log("Erreur avec la recuperation des prix: " . $e->getMessage());
+            http_response_code(500);
+            return json_encode(['error' => 'Erreur serveur']);
+        }
     }
 
     public function update(): bool|string
     {
-        if(!$this->isAdmin()){
+        if (!$this->isAdmin()) {
             http_response_code(401);
             return json_encode(['error' => 'Token invalid']);
         }
@@ -33,7 +41,7 @@ class PriceController extends BaseController
         $model = new PriceModel();
 
         try {
-            foreach($data as $item) {
+            foreach ($data as $item) {
                 if (!isset($item['id']) || !isset($item['price'])) {
                     http_response_code(400);
                     return json_encode(['error' => 'Missing id or price in data']);

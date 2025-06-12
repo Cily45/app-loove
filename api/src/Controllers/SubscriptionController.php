@@ -73,7 +73,7 @@ class SubscriptionController extends BaseController
         try {
             $isActif = json_decode($this->isActif());
             $data = json_decode(file_get_contents('php://input'), true);
-            $time = isset($data['time']) ? (int) $data['time'] : time();
+            $time = isset($data['time']) ? (int)$data['time'] : time();
 
             if ($isActif) {
                 $this->update($id, $time);
@@ -91,7 +91,7 @@ class SubscriptionController extends BaseController
 
             http_response_code(200);
             return json_encode(true);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             error_log("Erreur avec l'aabonnement: " . $e->getMessage());
             http_response_code(500);
             return json_encode(['error' => 'Erreur serveur'], JSON_PRETTY_PRINT);
@@ -100,13 +100,13 @@ class SubscriptionController extends BaseController
 
     public function update($id, $time): bool|string
     {
-        if(!$this->verifyToken()){
+        if (!$this->verifyToken()) {
             http_response_code(401);
             return json_encode(['error' => 'Erreur de token']);
         }
 
-        try{
-            if(!$time || !$id){
+        try {
+            if (!$time || !$id) {
                 http_response_code(400);
                 return json_encode(['error' => 'Champs manquants.']);
             }
@@ -120,11 +120,10 @@ class SubscriptionController extends BaseController
             $date_end = $date_end->format('Y-m-d');
             $result = $model->update($id, $date_end);
             return json_encode(['abonnement' => $result], JSON_PRETTY_PRINT);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             error_log("Erreur avec la màj de l'aabonnement: " . $e->getMessage());
             http_response_code(500);
             return json_encode(['error' => 'Erreur serveur'], JSON_PRETTY_PRINT);
         }
-
     }
 }

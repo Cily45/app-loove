@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>💕 C'est un match !</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f6f9fc;
+      color: #333;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .header {
+      text-align: center;
+    }
+    .header h1 {
+      color:  #6A3A71;
+    }
+    .match-info {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 12px 25px;
+      background-color:  #6A3A71;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+    }
+    .footer {
+      margin-top: 40px;
+      font-size: 12px;
+      color: #aaa;
+      text-align: center;
+    }
+    span {
+      color: #f7a8c5;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>💕 C'est un match !</h1>
+    <p>Bonne nouvelle, vous avez fait un <span>pawfect match</span> avec {{ username }} !</p>
+  </div>
+  <img src="cid:user-photo" alt="Logo" width="120" height="auto"  style="display: block; margin: 20px auto; max-width:100%; height:auto;"  />
+
+  <div class="match-info">
+    <p>Vous pouvez maintenant discuter et faire connaissance 🐾</p>
+    <a href="{{ chatLink }}" class="btn" style="display: inline-block; background-color: #6A3A71; color: white !important; padding: 12px 20px; text-decoration: none; border-radius: 5px;">Commencer à discuter</a>
+  </div>
+
+  <div class="footer">
+    Cet email vous a été envoyé par Pawfect Match<br>
+    Vous pouvez gérer vos notifications dans vos paramètres.
+  </div>
+</div>
+</body>
+</html>

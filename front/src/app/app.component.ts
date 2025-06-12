@@ -10,6 +10,7 @@ import {MenuMobileComponent} from './component/template/mobile/menu-mobile/menu-
 import {AuthService} from './services/auth/auth.service';
 import {PusherService} from './services/pusher.service';
 import {ToastService} from './services/toast.service';
+import {PusherBeamsService} from './services/pusher-beams.service';
 
 @Component({
   selector: 'app-root',
@@ -33,6 +34,7 @@ export class AppComponent implements OnInit {
   constructor(private router: Router,
               private breakpointObserver: BreakpointObserver,
               private authService: AuthService,
+              private pusherBeamsService : PusherBeamsService
               ) {
   }
 
@@ -49,5 +51,9 @@ export class AppComponent implements OnInit {
       .subscribe(result => {
         this.isMobile.set(!result.matches)
       })
+
+    const id = (JSON.parse(<string>localStorage.getItem('profil'))).id
+
+    this.pusherBeamsService.start()
   }
 }

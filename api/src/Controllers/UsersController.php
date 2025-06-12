@@ -12,18 +12,41 @@ class UsersController extends BaseController
 
     public function liste(int $quantity, int $page)
     {
-        $quantity = cleanString($quantity);
-        $page = cleanString($page);
-        $model = new UserModel();
-        $offset = ($page - 1) * $quantity;
-        $res = $model->all($quantity, $offset);
-        return json_encode($res, JSON_PRETTY_PRINT);
+        if (!$this->isAdmin()) {
+            http_response_code(401);
+            return json_encode(['error' => 'Erreur de token']);
+        }
+
+        try {
+            $model = new UserModel();
+            $offset = ($page - 1) * $quantity;
+            $result = $model->all($quantity, $offset);
+            return json_encode($result, JSON_PRETTY_PRINT);
+
+        } catch (\Exception $e) {
+            error_log("Erreur avec la recuperations de utilisateurs: " . $e->getMessage());
+            http_response_code(500);
+            return json_encode(['error' => 'Erreur serveur'], JSON_PRETTY_PRINT);
+        }
+
     }
 
     public function user(string $id)
     {
-        $model = new UserModel();
-        return json_encode($model->get($id), JSON_PRETTY_PRINT);
+        if (!$this->isAdmin() && !$this->verifyToken()) {
+            http_response_code(401);
+            return json_encode(['error' => 'Erreur de token']);
+        }
+
+        try {
+            $model = new UserModel();
+            $result = $model->get($id);
+            return json_encode($model->get($id), JSON_PRETTY_PRINT);
+        } catch (\Exception $e) {
+            error_log("Erreur avec la recuperation de l'utilisateur: " . $e->getMessage());
+            http_response_code(500);
+            return json_encode(['error' => 'Erreur serveur'], JSON_PRETTY_PRINT);
+        }
     }
 
     public function isEmailUsed(string $email): bool|string
@@ -43,7 +66,6 @@ class UsersController extends BaseController
             http_response_code(500);
             return json_encode(['error' => 'Erreur serveur']);
         }
-
     }
 
     public function create(): string
@@ -140,19 +162,28 @@ class UsersController extends BaseController
             http_response_code(401);
             return json_encode(['error' => 'Erreur de token']);
         }
-        $model = new UserModel();
 
-        return json_encode($model->getAllProfilMatch($id));
+        try {
+            $model = new UserModel();
+            $result = $model->getAllProfilMatch($id);
+            return json_encode($result, JSON_PRETTY_PRINT);
+
+        } catch (\Exception $e) {
+            error_log("Erreur avec la recuperation des profil matché: " . $e->getMessage());
+            http_response_code(500);
+            return json_encode(['error' => 'Erreur serveur'], JSON_PRETTY_PRINT);
+        }
     }
 
     public function updateLocation()
     {
+        $id = $this->getId();
+        if (!$id) {
+            http_response_code(401);
+            return json_encode(['error' => 'Erreur de token']);
+        }
+
         try {
-            $id = $this->getId();
-            if (!$id) {
-                http_response_code(401);
-                return json_encode(['error' => 'Erreur de token']);
-            }
             $data = json_decode(file_get_contents('php://input'), true);
             $location = isset($data['location']) ? cleanString($data['location']) : null;
             if (!$location) {
@@ -194,7 +225,7 @@ class UsersController extends BaseController
     {
         if (!$this->isAdmin()) {
             $id = $this->getId();
-            if(!$id || (int)$id !== $idUser) {
+            if (!$id || (int)$id !== $idUser) {
                 http_response_code(401);
                 return json_encode(['error' => 'Erreur de token']);
             }

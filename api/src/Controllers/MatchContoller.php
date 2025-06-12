@@ -3,13 +3,13 @@
 namespace App\Controllers;
 
 use App\Models\MatchModel;
+use App\Models\UserModel;
 use Pusher\Pusher;
 
 class MatchContoller extends BaseController
 {
     public function addMatch()
     {
-
         $user0 = (int)$this->getId();
 
         if (!$user0) {
@@ -35,31 +35,21 @@ class MatchContoller extends BaseController
             $model->addMatch($user0, $user1, $date, $is_skiped);
 
             if ($is_skiped === 0) {
-                $options = [
-                    'cluster' => 'eu',
-                    'useTLS' => true
-                ];
-
-                $pusher = new Pusher(
-                    $_ENV['PUSHER_KEY'],
-                    $_ENV['PUSHER_SECRET'],
-                    $_ENV['PUSHER_ID'],
-                    $options
-                );
-
                 $res = $model->isMatch($user0, $user1);
 
                 if ($res) {
-                    $channel0 = 'private-user-match-' . $user0;
-                    $channel1 = 'private-user-match-' . $user1;
+                    $mail = new MailController();
+                    $userModel = new UserModel();
+                    $user0 = $userModel->get($user0);
+                    $user1 = $userModel->get($user1);
 
-                    $pusher->trigger($channel0, 'new-match', [
-                        'match' => $user1,
-                    ]);
+                    if($user0['match_email'] === 1){
+                        $mail->sendMatch($user1['firstname'], $user1['profil_photo'], $user1['id'], $user0['email']);
+                    }
 
-                    $pusher->trigger($channel1, 'new-match', [
-                        'match' => $user0,
-                    ]);
+                    if($user1['match_email'] === 1){
+                         $mail->sendMatch($user0['firstname'], $user0['profil_photo'], $user0['id'], $user1['email']);
+                    }
                 }
             }
 

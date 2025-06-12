@@ -61,17 +61,6 @@ export class AuthService {
               if (res) {
                 this.toastService.showSuccess("Geolocalisation réussi")
                 const id = (JSON.parse(<string>localStorage.getItem('profil'))).id
-                const channelMessage = 'private-user-message-' + id
-                const channelMatch = 'private-user-match-' + id
-                this.toastService.showInfo('Vous avez un nouveau message!')
-                this.pusher.subscribeMessageNotification(channelMessage, 'new-message', (data: any) => {
-                  this.toastService.showInfo('Vous avez un nouveau match!')
-                })
-
-                this.pusher.subscribeMatchNotification(channelMatch, 'new-match', (data: any) => {
-                  alert('it\'s a match')
-
-                })
               } else {
                 this.toastService.showError("Geolocalisation échoué")
 

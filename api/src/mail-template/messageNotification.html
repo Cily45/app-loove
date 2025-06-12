@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>📬 Nouveau message reçu</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f6f9fc;
+      color: #333;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .header {
+      text-align: center;
+    }
+    .header h1 {
+      color: #6A3A71;
+    }
+    .message-preview {
+      margin: 30px 0;
+      background-color: #f2e5f5;
+      border-left: 4px solid #6A3A71;
+      padding: 15px 20px;
+      font-style: italic;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 25px;
+      background-color: #6A3A71;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+    }
+    .footer {
+      margin-top: 40px;
+      font-size: 12px;
+      color: #aaa;
+      text-align: center;
+    }
+    span {
+      color: #f7a8c5;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>📬 Nouveau message privé</h1>
+    <p><span>{{ senderName }}</span> vous a envoyé un message !</p>
+  </div>
+
+  <div style="text-align: center;">
+    <img src="cid:user-photo" alt="Photo de {{ senderName }}" width="100" style="border-radius: 15%; margin: 20px auto; display: block;" />
+  </div>
+
+  <div class="message-preview">
+    "{{ messageSnippet }}"
+  </div>
+
+  <div style="text-align: center;">
+    <a href="{{ chatLink }}" class="btn" style="display: inline-block; background-color: #6A3A71; color: white !important; padding: 12px 20px; text-decoration: none; border-radius: 5px;">Lire le message</a>
+  </div>
+
+  <div class="footer">
+    Cet email vous a été envoyé par Pawfect Match<br>
+    Vous pouvez gérer vos notifications dans vos paramètres.
+  </div>
+</div>
+</body>
+</html>
