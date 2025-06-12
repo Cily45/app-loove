@@ -18,9 +18,8 @@ export class MessageCardComponent{
     date: '',
     hour: '',
     is_view: 0,
-    firstname: '',
-    lastname: '',
-    profil_photo: '',
+    sender_id: 0,
+    receiver_id: 0,
     is_that_user: 0,
   })
   photo = input<string>()

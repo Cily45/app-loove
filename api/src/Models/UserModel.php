@@ -246,34 +246,43 @@ ORDER BY distance_km ASC;
     {
         return $this
             ->query("
-            SELECT
-                u.id,
-                u.firstname,
-                u.lastname,
-                u.profil_photo,
-                u.description,
-                u.birthday,
-                CASE
-                    WHEN COUNT(*) = 2 THEN 0
-                    WHEN MAX(direction) = 1 THEN 1
-                    WHEN MAX(direction) = 2 THEN 2
-                END AS match_code
-            FROM (
-                SELECT
-                    CASE
-                        WHEN user_id_0 = :id THEN user_id_1
-                        ELSE user_id_0
-                    END AS other_user_id,
-                    CASE
-                        WHEN user_id_1 = :id AND is_skiped = 0 THEN 1
-                        WHEN user_id_0 = :id AND is_skiped = 0 THEN 2
-                    END AS direction
-                FROM matches
-                WHERE (user_id_0 = :id OR user_id_1 = :id)
-                  AND is_skiped = 0
-            ) AS filtered_matches
-            JOIN user u ON u.id = filtered_matches.other_user_id
-            GROUP BY u.id, u.firstname, u.lastname, u.profil_photo
+        SELECT
+    u.id,
+    u.firstname,
+    u.lastname,
+    u.profil_photo,
+    u.description,
+    u.birthday,
+    CASE
+        WHEN COUNT(*) = 2 THEN 0
+        WHEN MAX(direction) = 1 THEN 1
+        WHEN MAX(direction) = 2 THEN 2
+    END AS match_code
+FROM (
+    SELECT
+        CASE
+            WHEN user_id_0 = :id THEN user_id_1
+            ELSE user_id_0
+        END AS other_user_id,
+        CASE
+            WHEN user_id_1 = :id THEN 1
+            WHEN user_id_0 = :id THEN 2
+        END AS direction
+    FROM matches
+    WHERE (user_id_0 = :id OR user_id_1 = :id)
+) AS filtered_matches
+JOIN user u ON u.id = filtered_matches.other_user_id
+WHERE NOT EXISTS (
+    SELECT 1 FROM matches m
+    WHERE
+        (
+            (m.user_id_0 = :id AND m.user_id_1 = u.id) OR
+            (m.user_id_1 = :id AND m.user_id_0 = u.id)
+        )
+        AND m.is_skiped = 1
+)
+GROUP BY u.id, u.firstname, u.lastname, u.profil_photo, u.description, u.birthday
+
         ")
             ->fetchAll(['id' => $id]);
     }

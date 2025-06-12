@@ -1,45 +1,57 @@
+@if(!isSkiped()){
 <div class="shrink-0 snap-center bg-second bg-white/30">
-  <div class=" w-[calc(80vw)] h-[calc(80vh-60px)] md:w-[calc(80vw-220px)] md:h-[calc(80vh-)] relative rounded-3xl drop-shadow-2xl"
-       [ngClass]="{'drop-shadow-pink-500/50': profil().match_code === 0}"
+  <div
+    class=" w-[calc(80vw)] h-[calc(80vh-60px)] md:w-[calc(80vw-220px)] md:h-[calc(80vh-)] relative rounded-3xl drop-shadow-2xl"
+    [ngClass]="{'drop-shadow-pink-500/50': profil().match_code === 0}"
   >
-    @if(!isSubcribe() && profil().match_code !== 0) {
-      <div class="absolute z-50 w-[calc(80vw)] h-[calc(80vh-60px)] md:w-[calc(80vw-220px)] md:h-[calc(80vh-)] rounded-3xl bg-white/30 backdrop-blur-xl" [routerLink]="['/nouvel-abonnement']"></div>
+    @if (!isSubcribe() && profil().match_code !== 0) {
+      <div
+        class="absolute z-50 w-[calc(80vw)] h-[calc(80vh-60px)] md:w-[calc(80vw-220px)] md:h-[calc(80vh-)] rounded-3xl bg-white/30 backdrop-blur-xl"
+        [routerLink]="['/nouvel-abonnement']"></div>
     }
     <img src="{{environment.apiUrl}}/uploads/photo-user/{{profil().profil_photo}}"
-         class="w-[calc(80vw)] h-[calc(80vh-60px)] object-cover object-center rounded-3xl " alt="Photo" />
+         class="w-[calc(80vw)] h-[calc(80vh-60px)] object-cover object-center rounded-3xl " alt="Photo"/>
 
-    <div class="text-white text-4xl absolute bottom-2 left-0 w-full z-20 opacity-75  px-4 py-2 flex flex-col justify-between">
-      @if(isSubcribe() && profil().match_code === 1){
+    <div
+      class="text-white text-4xl absolute bottom-2 left-0 w-full z-20 opacity-75  px-4 py-2 flex flex-col justify-between">
+      @if (isSubcribe() && profil().match_code === 1) {
         <div class="flex justify-between">
           <div
-            class="h-10 w-10 bg-[#6A3A71] rounded-full flex items-center justify-center shadow-lg shadow-black/25">
+            class="h-10 w-10 bg-[#6A3A71] rounded-full flex items-center justify-center shadow-lg shadow-black/25 cursor-pointer"
+            (click)="skiped()"
+          >
             <mat-icon>close</mat-icon>
           </div>
           <div
-            class="h-10 w-10 bg-pink-300 rounded-full flex items-center justify-center shadow-lg shadow-black/25">
+            class="h-10 w-10 bg-pink-300 rounded-full flex items-center justify-center shadow-lg shadow-black/25 cursor-pointer"
+            (click)="matched()"
+          >
             <mat-icon>favorite</mat-icon>
-          </div></div>
+          </div>
+        </div>
       }
       <div class="flex flex-row justify-between">
         <a (click)="openProfil()" class="cursor-pointer">
-        <mat-icon>article_person</mat-icon>
-      </a >
-      <div class="flex truncate">
-        {{ profil().firstname }}
-        <div [routerLink]="['/messagerie/discussion', profil().id]" class="ml-3 cursor-pointer">
-          <mat-icon>chat_bubble</mat-icon>
+          <mat-icon>article_person</mat-icon>
+        </a>
+        <div class="flex truncate">
+          {{ profil().firstname }}
+          <div [routerLink]="['/messagerie/discussion', profil().id]" class="ml-3 cursor-pointer">
+            <mat-icon>chat_bubble</mat-icon>
+          </div>
         </div>
+        <a (click)="openReport()" class="cursor-pointer">
+          <mat-icon>flag</mat-icon>
+        </a>
       </div>
-      <a (click)="openReport()" class="cursor-pointer">
-        <mat-icon>flag</mat-icon>
-      </a>
-    </div>
     </div>
     <div
       class="absolute bottom-0 rounded-b-3xl left-0 w-full h-32 bg-gradient-to-t from-black/75 to-transparent z-10"></div>
-    <p class="absolute z-50 w-[calc(80vw)] md:w-[calc(80vw-220px)] text-center text-3xl text-white">{{profil().match_code === 0 ? "Pawfect" : ""}}</p>
+    <p
+      class="absolute z-50 w-[calc(80vw)] md:w-[calc(80vw-220px)] text-center text-3xl text-white">{{ profil().match_code === 0 ? "Pawfect" : "" }}</p>
 
   </div>
-    <app-report [id]="profil().id"></app-report>
-    <app-profil [id]="profil().id"></app-profil>
+  <app-report [id]="profil().id"></app-report>
+  <app-profil [id]="profil().id"></app-profil>
 </div>
+}

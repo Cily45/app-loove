@@ -40,7 +40,9 @@ class MessagesController extends AuthController
 
         try {
             $model = new MessagesModel();
-            return json_encode($model->allMessageByIdById($id0, $id1));
+            $result = $model->allMessageByIdById($id0, $id1);
+      //      var_dump($result);
+            return json_encode($result, JSON_PRETTY_PRINT);
         } catch (\Exception $e) {
             error_log("Erreur récuperation conversation: " . $e->getMessage());
             http_response_code(500);
@@ -73,7 +75,7 @@ class MessagesController extends AuthController
 
 
             $model = new MessagesModel();
-            $model->addMessage($receiverId, $senderId, $message, $date, $hour);
+            $result = $model->addMessage($receiverId, $senderId, $message, $date, $hour);
 
             $options = [
                 'cluster' => 'eu',
@@ -89,6 +91,8 @@ class MessagesController extends AuthController
             $channel = 'private-users-' . ($senderId > $receiverId ? $senderId .'-'. $receiverId : $receiverId .'-'. $senderId) ;
 
             $pusher->trigger($channel, 'new-message', [
+                'id' => $result,
+                'receiver' => $receiverId,
                 'sender' => $senderId,
                 'message' => $message,
                 'date' => $date,
@@ -121,7 +125,8 @@ class MessagesController extends AuthController
 
         try {
             $model = new MessagesModel();
-            return json_encode($model->updateMessage($id));
+            $result = json_encode($model->updateMessage($id));
+            return JSON_encode($result, JSON_PRETTY_PRINT);
 
         } catch (\Throwable $e) {
             error_log("Erreur d'actualisation de vue: " . $e->getMessage());

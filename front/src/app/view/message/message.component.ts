@@ -1,5 +1,5 @@
 import {Component, OnInit, signal} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {MessageService, Message} from '../../services/api/message.service';
 import {MatIconModule} from '@angular/material/icon';
 import {Profil, UserService} from '../../services/api/user.service';
@@ -18,6 +18,7 @@ import {PusherService} from '../../services/pusher.service';
     ReactiveFormsModule,
     ReportComponent,
     ProfilComponent,
+    RouterLink,
   ],
   templateUrl: './message.component.html',
   styleUrl: './message.component.scss'
@@ -60,7 +61,10 @@ export class MessageComponent implements OnInit {
 
     this.messagesService.messagesById(this.userProfil().id, id).subscribe(list => {
       this.messages.set(list.reverse())
-
+      if (this.messages().length > 0 && this.messages()[0].is_view !== 1 && this.messages()[0].is_that_user !== 1) {
+        this.messagesService.updateMessage(this.messages()[0].id).subscribe(res =>{
+        })
+      }
       if (id !== null) {
         this.userService.userProfil(id).subscribe(res => {
           if (res) {
@@ -68,29 +72,27 @@ export class MessageComponent implements OnInit {
             this.channel = ('private-users-' + (this.userProfil().id > this.profil().id ? this.userProfil().id +'-'+ this.profil().id  : this.profil().id +'-'+  this.userProfil().id ))
             this.pusher.subscribeMessageChannel(this.channel, 'new-message', (data: any) => {
               const currentUserId = this.userProfil().id;
-              const fromUser = data.sender === currentUserId;
+              const fromUser = data.sender == currentUserId;
               this.messages.update(current => [{
-                id: data.sender,
+                id: data.id,
                 message: data.message,
                 date: data.date,
                 hour: data.hour,
-                is_view: 1,
-                firstname: fromUser ? this.userProfil().firstname : this.profil().firstname,
-                lastname: fromUser ? this.userProfil().lastname : this.profil().lastname,
-                profil_photo: fromUser ? this.userProfil().profil_photo : this.profil().profil_photo,
-                is_that_user: fromUser ? 0 : 1
+                is_view: 0,
+                sender_id: data.sender,
+                receiver_id: data.receiver,
+                is_that_user: fromUser ? 1 : 0
               },
                 ...current
               ])
+              if (this.messages().length > 0 && this.messages()[0].is_view !== 1 && this.messages()[0].is_that_user !== 1) {
+                this.messagesService.updateMessage(this.messages()[0].id).subscribe(res =>{
+                })
+              }
             })
           }
         })
       }
-
-      if (this.messages().length > 0 && this.messages()[this.messages().length-1].is_view !== 1 && this.messages()[this.messages().length-1].is_that_user !== 1) {
-        this.messagesService.updateMessage(this.messages()[this.messages().length-1].id).subscribe()
-      }
-
     })
 
   }

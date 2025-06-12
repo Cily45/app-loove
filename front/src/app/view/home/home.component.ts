@@ -64,7 +64,7 @@ export class HomeComponent implements OnInit {
     return this.profils()[this.index]?.id;
   }
 
-  leftAnimation(): void {
+  skiped(): void {
     if (this.currentUserId !== undefined) {
       this.matchService.match({
         userId1: this.currentUserId,
@@ -74,7 +74,7 @@ export class HomeComponent implements OnInit {
     this.index++
   }
 
-  rightAnimation(): void {
+  matched(): void {
     if (this.currentUserId !== undefined) {
       this.matchService.match({
         userId1: this.currentUserId,

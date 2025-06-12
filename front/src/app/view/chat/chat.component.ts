@@ -1,6 +1,6 @@
 import {Component, OnInit, signal} from '@angular/core';
 import {ChatCardComponent} from '../../component/chat-card/chat-card.component';
-import {MessageService, Message} from '../../services/api/message.service';
+import {MessageService, Message, MessageCard} from '../../services/api/message.service';
 
 
 @Component({
@@ -12,7 +12,7 @@ import {MessageService, Message} from '../../services/api/message.service';
   styleUrl: './chat.component.scss'
 })
 export class ChatComponent implements OnInit {
-  messages = signal<Message[]>([])
+  messages = signal<MessageCard[]>([])
 
   constructor(
     private messagesService: MessageService

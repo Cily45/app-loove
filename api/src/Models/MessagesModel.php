@@ -58,9 +58,9 @@ class MessagesModel extends BaseModel
         string $message,
         string $date,
         string $hour
-    ): bool
+    )
     {
-        return $this
+        $result = $this
             ->query("
             INSERT INTO messages (receiver_id, sender_id, message, date, hour)
             VALUES (:receiverId, :sender_id, :message, :date, :hour)
@@ -72,6 +72,11 @@ class MessagesModel extends BaseModel
                 'date' => $date,
                 'hour' => $hour,
             ]);
+        if(!$result){
+            return $result;
+        }
+
+        return $this->lastInsertId();
     }
 
     public function updateMessage(

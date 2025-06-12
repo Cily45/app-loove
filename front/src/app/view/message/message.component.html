@@ -2,14 +2,16 @@
   <div class="flex justify-between items-center bg-[#b59db8] p-6 w-full">
 
     <div class="w-screen flex items-center justify-between text-[#6A3A71]">
+      <div class="flex items-center">
+      <a routerLink="/messagerie" class="p-2 text-[#6A3A71] text-3xl"><mat-icon>arrow_back</mat-icon></a>
       <a (click)="openProfil()" class="flex items-center cursor-pointer">
         <img src="{{environment.apiUrl}}/uploads/photo-user/{{profil().profil_photo}}" alt="photo de profil"
              class="w-25 h-25 object-cover rounded-2xl mr-3 shadow-lg shadow-black/25">
-        <div class="flex-col  text-2xl ">
-          <p>{{ profil().firstname }} </p>
-          <p>{{ profil().lastname }}</p>
+        <div class="flex-col  text-2xl truncate w-[calc(25vw)]">
+          <p class="truncate">{{ profil().firstname }} </p>
+          <p class="truncate">{{ profil().lastname }}</p>
         </div>
-      </a>
+      </a></div>
       <div>
         @if (profil().lastname !== '') {
           <a (click)="openReport()" class="cursor-pointer px-4 py-2">

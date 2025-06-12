@@ -9,9 +9,20 @@ export interface Message {
   date: string
   hour: string
   is_view: number
-  firstname: string,
-  lastname: string,
-  profil_photo: string,
+  sender_id: number
+  receiver_id: number
+  is_that_user: number
+}
+
+export interface MessageCard {
+  id: number
+  message: string
+  date: string
+  hour: string
+  is_view: number
+  lastname: string
+  firstname: string
+  profil_photo: string
   is_that_user: number
 }
 
@@ -24,8 +35,8 @@ export class MessageService {
   constructor(private http: HttpClient) {}
 
 
-  messages(): Observable<Message[]> {
-    return this.http.get<Message[]>(`${this.apiUrl}/messages`)
+  messages(): Observable<MessageCard[]> {
+    return this.http.get<MessageCard[]>(`${this.apiUrl}/messages`)
   }
 
     messagesById(id: number, id1: number): Observable<Message[]> {
