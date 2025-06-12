@@ -12,3 +12,4 @@
 /front-backoffice/src/app/env.ts
 /api/uploads/photo-user/
 node_modules/
+/front-backoffice/node_modules/
