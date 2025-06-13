@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import {Router, RouterLink} from '@angular/router';
+import {Component} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {MatButtonModule} from '@angular/material/button';
 import {AuthService} from '../../services/auth/auth.service';
 import {MatIconModule} from '@angular/material/icon';
@@ -17,8 +17,9 @@ import {MatIconModule} from '@angular/material/icon';
 export class SettingsComponent {
   constructor(
     public authService: AuthService,
-    private router: Router
-  ) {}
+  ) {
+  }
+
   onLogout() {
     this.authService.logout();
   }

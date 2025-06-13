@@ -43,11 +43,10 @@ export class LoginComponent {
   hide = signal(true)
 
   updateEmailErrorMessage() {
-    // @ts-ignore
-    if (this.formGroup.get('email').hasError('required')) {
+    if (this.formGroup.get('email')?.hasError('required')) {
       this.emailErrorMessage.set('Email valide requis');
-    } else { // @ts-ignore
-      if (this.formGroup.get('email').hasError('email')) {
+    } else {
+      if (this.formGroup.get('email')?.hasError('email')) {
             this.emailErrorMessage.set('Email invalides');
           } else {
             this.emailErrorMessage.set('');
@@ -65,11 +64,8 @@ export class LoginComponent {
       if (res) {
          await this.router.navigate(['/statistiques']);
       }else{
-        // @ts-ignore
-        this.formGroup.get('email').setErrors({'invalid': true})
-
-        // @ts-ignore
-        this.formGroup.get('password').setErrors({'invalid': true})
+        this.formGroup.get('email')?.setErrors({'invalid': true})
+        this.formGroup.get('password')?.setErrors({'invalid': true})
 
       }
 

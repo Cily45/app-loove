@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {catchError, firstValueFrom, Observable, throwError} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import { firstValueFrom, } from 'rxjs';
 import {environment} from '../../env';
 import {UserService} from '../api/user.service';
 import {DogService} from '../api/dog.service';
@@ -26,7 +26,7 @@ export interface LoginCredentials {
 export class AuthService {
   private apiUrl = environment.apiUrl;
 
-  constructor(private https: HttpClient, private userService: UserService, private dogService : DogService) {
+  constructor(private https: HttpClient) {
   }
   async login(credentials: LoginCredentials): Promise<boolean> {
     try {

@@ -8,6 +8,7 @@ import {FormsModule} from '@angular/forms';
 import {ToastService} from '../../services/toast.service';
 import {UserService} from '../../services/api/user.service';
 import {BannedService} from '../../services/api/banned.service';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-report',
@@ -37,9 +38,9 @@ export class ReportComponent implements OnInit {
 
   constructor(
     private reportService: ReportService,
-    private bannedService : BannedService,
+    private bannedService: BannedService,
     private route: ActivatedRoute,
-    private userService : UserService,
+    private userService: UserService,
     private toastService: ToastService,
     private router: Router
   ) {
@@ -66,26 +67,24 @@ export class ReportComponent implements OnInit {
       case "Bannissement": {
         if (confirm(`Êtes-vous sûr de vouloir bannir l'utilisateur n°${this.report().accused_id} pendant ${this.selectedTime} mois?`)) {
           isActionValidate = true
-          this.bannedService.add(this.report().accused_id, this.selectedTime).subscribe(res => {
-            if (res) {
-              this.toastService.showSuccess(`L'utilisateur n°${this.report().accused_id} a été supprimé`)
-            } else {
-              this.toastService.showError('Une erreur est survenue')
-            }
-          });
+          const res = await firstValueFrom(this.bannedService.add(this.report().accused_id, this.selectedTime))
+          if (res) {
+            this.toastService.showSuccess(`L'utilisateur n°${this.report().accused_id} a été supprimé`)
+          } else {
+            this.toastService.showError('Une erreur est survenue')
+          }
         }
         break
       }
       case "Suppression de compte": {
         if (confirm(`Êtes-vous sûr de vouloir supprimer l'utilisateur n°${this.report().accused_id} ?`)) {
           isActionValidate = true
-          this.userService.deleteUser(this.report().accused_id).subscribe(res => {
-            if (res) {
-              this.toastService.showSuccess(`L'utilisateur n°${this.report().accused_id} a été supprimé`)
-            } else {
-              this.toastService.showError('Une erreur est survenue')
-            }
-          });
+          const res = await firstValueFrom(this.userService.deleteUser(this.report().accused_id))
+          if (res) {
+            this.toastService.showSuccess(`L'utilisateur n°${this.report().accused_id} a été supprimé`)
+          } else {
+            this.toastService.showError('Une erreur est survenue')
+          }
         }
         break
       }
@@ -94,16 +93,14 @@ export class ReportComponent implements OnInit {
         break
       }
     }
-    if(isActionValidate) {
-      this.reportService.update(this.report().id).subscribe(res => {
-          if (res) {
-            this.toastService.showSuccess('Signalement traité')
-            this.router.navigate(['/signalements'])
-          } else {
-            this.toastService.showError('Une erreur est survenue')
-          }
-        }
-      )
+    if (isActionValidate) {
+      const res = await firstValueFrom(this.reportService.update(this.report().id))
+      if (res) {
+        this.toastService.showSuccess('Signalement traité')
+        this.router.navigate(['/signalements'])
+      } else {
+        this.toastService.showError('Une erreur est survenue')
+      }
     }
   }
 }

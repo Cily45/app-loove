@@ -3,6 +3,7 @@ import {ReportReason, ReportReasonService} from '../../services/api/report-reaso
 import {ReportService} from '../../services/api/report.service';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ToastService} from '../../services/toast.service';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-report',
@@ -13,44 +14,45 @@ import {ToastService} from '../../services/toast.service';
   standalone: true,
   styleUrl: './report.component.css'
 })
-export class ReportComponent implements OnChanges{
+export class ReportComponent implements OnChanges {
   reportReasons = signal<ReportReason[]>([])
   id = input<number>(0)
-report = new FormControl('', Validators.required)
+  report = new FormControl('', Validators.required)
   hidden = input<boolean>(true)
 
-  constructor(private reportReasonService : ReportReasonService, private reportService : ReportService, private toastService : ToastService
-  ){}
+  constructor(
+    private reportReasonService: ReportReasonService,
+    private reportService: ReportService,
+    private toastService: ToastService
+  ) {
+  }
 
   form = new FormGroup({
     report: this.report
   })
 
-  ngOnChanges(changes: SimpleChanges): void {
+  async ngOnChanges(changes: SimpleChanges) {
     if (!changes['hidden'].currentValue) {
-      this.reportReasonService.getAll().subscribe(list => {
-        this.reportReasons.set(list)
-      })
+      this.reportReasons.set(await firstValueFrom(this.reportReasonService.getAll()))
     }
   }
 
-  close(){
+  close() {
     document.getElementById(`report-${this.id()}`)?.classList.add('hidden');
   }
-  onSubmit(){
+
+  async onSubmit() {
     if (this.report.value !== '' && this.report.value !== null) {
       let report = {
         id: this.id(),
         reason: parseInt(this.report.value)
       }
-      this.reportService.createReport(report).subscribe( response => {
-        if(response['error']){
-          this.toastService.showError('Déjà signaler');
-        }else{
-          this.toastService.showSuccess('Signalement effectuer');
-        }
-        }
-      )
+      const response = await firstValueFrom(this.reportService.createReport(report))
+      if (response['error']) {
+        this.toastService.showError('Déjà signaler');
+      } else {
+        this.toastService.showSuccess('Signalement effectuer');
+      }
     }
   }
 }

@@ -6,7 +6,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ProfilAdminView, UserService} from '../../services/api/user.service';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {birthDateValidator, matchPassword} from '../../component/validator';
+import {birthDateValidator} from '../../component/validator';
 import {firstValueFrom} from 'rxjs';
 import {MatButton} from '@angular/material/button';
 import {NgIf} from '@angular/common';
@@ -14,7 +14,19 @@ import {ToastService} from '../../services/toast.service';
 
 @Component({
   selector: 'app-profil',
-  imports: [MatIconModule, MatIconModule, MatFormFieldModule, MatInputModule, MatExpansionModule, ReactiveFormsModule, FormsModule, MatButton, MatInput, NgIf, ReactiveFormsModule, RouterLink],
+  imports: [
+    MatIconModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatExpansionModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatButton,
+    MatInput,
+    NgIf,
+    ReactiveFormsModule,
+    RouterLink],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss'
 })
@@ -28,7 +40,10 @@ export class UserComponent implements OnInit {
   })
 
   constructor(
-    private userService: UserService, private route: ActivatedRoute, private toastService: ToastService, private router: Router) {
+    private userService: UserService,
+    private route: ActivatedRoute,
+    private toastService: ToastService,
+    private router: Router) {
   }
 
   formGroup = new FormGroup({
@@ -65,23 +80,21 @@ export class UserComponent implements OnInit {
       emailControl.setErrors(null)
     }
     if (this.userProfil().id === 0) {
-      this.userService.createUser(this.formGroup.value).subscribe(res => {
-        if (res) {
-          this.toastService.showSuccess('Utilisateur créé')
-          this.router.navigate(['/utilisateurs'])
-        } else {
-          this.toastService.showError('Une erreur est survenue')
-        }
-      })
+      const res = await firstValueFrom(this.userService.createUser(this.formGroup.value))
+      if (res) {
+        this.toastService.showSuccess('Utilisateur créé')
+        this.router.navigate(['/utilisateurs'])
+      } else {
+        this.toastService.showError('Une erreur est survenue')
+      }
     } else {
-      this.userService.userUpdate(this.formGroup.value).subscribe(res => {
-        if (res) {
-          this.toastService.showSuccess('Utilisateur à été mis à jour')
-          this.router.navigate(['/utilisateurs'])
-        } else {
-          this.toastService.showError('Une erreur est survenue')
-        }
-      })
+      const res = await firstValueFrom(this.userService.userUpdate(this.formGroup.value))
+      if (res) {
+        this.toastService.showSuccess('Utilisateur à été mis à jour')
+        this.router.navigate(['/utilisateurs'])
+      } else {
+        this.toastService.showError('Une erreur est survenue')
+      }
     }
   }
 

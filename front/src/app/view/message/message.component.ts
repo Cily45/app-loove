@@ -9,6 +9,7 @@ import {ReportComponent} from '../../component/report/report.component';
 import {environment} from '../../env';
 import {ProfilComponent} from '../../component/profil/profil.component';
 import {PusherService} from '../../services/pusher.service';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-message',
@@ -36,7 +37,7 @@ export class MessageComponent implements OnInit {
     distance_km: 0
   })
   messages = signal<Message[]>([])
-  message: FormControl<string> = new FormControl('',{
+  message: FormControl<string> = new FormControl('', {
     nonNullable: true,
     validators: [Validators.required],
   });
@@ -52,49 +53,53 @@ export class MessageComponent implements OnInit {
     distance_km: 0
   })
   channel = ''
-  constructor(private route: ActivatedRoute, private messagesService: MessageService, private userService: UserService, private pusher: PusherService
-  ) {}
 
-  ngOnInit(): void {
+  constructor(
+    private route: ActivatedRoute,
+    private messagesService: MessageService,
+    private userService: UserService,
+    private pusher: PusherService
+  ) {
+  }
+
+  async ngOnInit() {
     let id = parseInt(<string>this.route.snapshot.paramMap.get('id'))
     this.userProfil.set(JSON.parse(<string>localStorage.getItem('profil')))
 
-    this.messagesService.messagesById(this.userProfil().id, id).subscribe(list => {
-      this.messages.set(list.reverse())
-      if (this.messages().length > 0 && this.messages()[0].is_view !== 1 && this.messages()[0].is_that_user !== 1) {
-        this.messagesService.updateMessage(this.messages()[0].id).subscribe(res =>{
-        })
-      }
-      if (id !== null) {
-        this.userService.userProfil(id).subscribe(res => {
-          if (res) {
-            this.profil.set(res)
-            this.channel = ('private-users-' + (this.userProfil().id > this.profil().id ? this.userProfil().id +'-'+ this.profil().id  : this.profil().id +'-'+  this.userProfil().id ))
-            this.pusher.subscribeMessageChannel(this.channel, 'new-message', (data: any) => {
-              const currentUserId = this.userProfil().id;
-              const fromUser = data.sender == currentUserId;
-              this.messages.update(current => [{
-                id: data.id,
-                message: data.message,
-                date: data.date,
-                hour: data.hour,
-                is_view: 0,
-                sender_id: data.sender,
-                receiver_id: data.receiver,
-                is_that_user: fromUser ? 1 : 0
-              },
-                ...current
-              ])
-              if (this.messages().length > 0 && this.messages()[0].is_view !== 1 && this.messages()[0].is_that_user !== 1) {
-                this.messagesService.updateMessage(this.messages()[0].id).subscribe(res =>{
-                })
-              }
-            })
+    const messages = await firstValueFrom(this.messagesService.messagesById(this.userProfil().id, id))
+    this.messages.set(messages.reverse())
+
+    if (this.messages().length > 0 && this.messages()[0].is_view !== 1 && this.messages()[0].is_that_user !== 1) {
+      this.messagesService.updateMessage(this.messages()[0].id).subscribe(res => {
+      })
+    }
+
+    if (id !== null) {
+      const res = await firstValueFrom(this.userService.userProfil(id))
+      if (res) {
+        this.profil.set(res)
+        this.channel = ('private-users-' + (this.userProfil().id > this.profil().id ? this.userProfil().id + '-' + this.profil().id : this.profil().id + '-' + this.userProfil().id))
+        this.pusher.subscribeMessageChannel(this.channel, 'new-message', (data: any) => {
+          const currentUserId = this.userProfil().id;
+          const fromUser = data.sender == currentUserId;
+          this.messages.update(current => [{
+            id: data.id,
+            message: data.message,
+            date: data.date,
+            hour: data.hour,
+            is_view: 0,
+            sender_id: data.sender,
+            receiver_id: data.receiver,
+            is_that_user: fromUser ? 1 : 0
+          },
+            ...current
+          ])
+          if (this.messages().length > 0 && this.messages()[0].is_view !== 1 && this.messages()[0].is_that_user !== 1) {
+            this.messagesService.updateMessage(this.messages()[0].id)
           }
         })
       }
-    })
-
+    }
   }
 
   onSubmit() {
@@ -106,11 +111,11 @@ export class MessageComponent implements OnInit {
     this.message.reset()
   }
 
-  openProfil(){
+  openProfil() {
     document.getElementById(`profil-${this.profil().id}`)?.classList.remove('hidden');
   }
 
-  openReport(){
+  openReport() {
     document.getElementById(`report-${this.profil().id}`)?.classList.remove('hidden');
   }
 

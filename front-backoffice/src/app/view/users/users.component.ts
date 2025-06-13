@@ -6,11 +6,15 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 import {ToastService} from '../../services/toast.service';
 import {BannedService} from '../../services/api/banned.service';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-users',
   imports: [
-    RouterLink, MatTableModule, MatIconModule, MatPaginatorModule
+    RouterLink,
+    MatTableModule,
+    MatIconModule,
+    MatPaginatorModule
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css'
@@ -31,73 +35,62 @@ export class UsersComponent implements OnInit {
   length = signal<number>(100)
   pageEvent?: PageEvent
 
-  constructor(private bannedService: BannedService, private userService: UserService, private toastService: ToastService) {
+  constructor(
+    private bannedService: BannedService,
+    private userService: UserService,
+    private toastService: ToastService) {
   }
 
-  ngOnInit() {
-    this.userService.getAllProfil(this.quantity(), this.page()).subscribe(list => {
-      this.users.set(list)
-    })
-    this.userService.count().subscribe(res => {
-      this.length.set(res)
-    })
+  async ngOnInit() {
+    this.users.set(await firstValueFrom(this.userService.getAllProfil(this.quantity(), this.page())))
+    this.length.set(await firstValueFrom(this.userService.count()))
   }
 
-  handlePageEvent(e: PageEvent) {
+  async handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
     this.quantity.set(e.pageSize);
     this.page.set(e.pageIndex + 1)
-    this.userService.getAllProfil(this.quantity(), this.page()).subscribe(list => {
-      this.users.set(list)
-    })
+    this.users.set(await firstValueFrom(this.userService.getAllProfil(this.quantity(), this.page())))
   }
 
-  banned(id: number, isBaned: boolean) {
+  async banned(id: number, isBaned: boolean) {
     if (isBaned) {
       if (confirm(`Êtes-vous sûr de vouloir débannir l'utilisateur n°${id}?`)) {
-        this.bannedService.delete(id).subscribe(res => {
-          if (res) {
-            this.toastService.showSuccess(`Utilisateur n°${id} n'est plus banni`)
-            this.userService.getAllProfil(this.quantity(), this.page()).subscribe(list => {
-              this.users.set(list)
-            })
-          } else {
-            this.toastService.showError('Erreur lors du débannissement')
-          }
-        })
+        const res = await firstValueFrom(this.bannedService.delete(id))
+        if (res) {
+          this.toastService.showSuccess(`Utilisateur n°${id} n'est plus banni`)
+          this.users.set(await firstValueFrom(this.userService.getAllProfil(this.quantity(), this.page())))
+        } else {
+          this.toastService.showError('Erreur lors du débannissement')
+        }
       }
     } else {
       if (confirm(`Êtes-vous sûr de vouloir bannir l'utilisateur n°${id} pendant 1 mois?`)) {
-        this.bannedService.add(id, 1).subscribe(res => {
-          if (res) {
-            this.toastService.showSuccess(`Utilisateur n°${id} est maintenant banni`)
-            this.userService.getAllProfil(this.quantity(), this.page()).subscribe(list => {
-              this.users.set(list)
-            })
-          } else {
-            this.toastService.showError('Erreur lors de la suppression')
-          }
-        })
+        const res = await firstValueFrom(this.bannedService.add(id, 1))
+        if (res) {
+          this.toastService.showSuccess(`Utilisateur n°${id} est maintenant banni`)
+          this.userService.getAllProfil(this.quantity(), this.page()).subscribe(list => {
+            this.users.set(list)
+          })
+        } else {
+          this.toastService.showError('Erreur lors de la suppression')
+        }
       }
     }
 
   }
 
-  delete(id: number) {
+  async delete(id: number) {
     if (confirm(`Êtes-vous sûr de vouloir supprimer l\'utilisateur n°${id}?`)) {
-      this.userService.deleteUser(id).subscribe(res => {
-          if (res) {
-            this.toastService.showSuccess(`Utilisateur n°${id} est maintenant supprimer`)
-            this.userService.getAllProfil(this.quantity(), this.page()).subscribe(list => {
-              this.users.set(list)
-            })
-          } else {
-            this.toastService.showError('Erreur lors de la suppression')
-          }
-        }
-      )
+      const res = await firstValueFrom(this.userService.deleteUser(id))
+      if (res) {
+        this.toastService.showSuccess(`Utilisateur n°${id} est maintenant supprimer`)
+        this.userService.getAllProfil(this.quantity(), this.page()).subscribe(list => {
+          this.users.set(list)
+        })
+      } else {
+        this.toastService.showError('Erreur lors de la suppression')
+      }
     }
   }
-
-
 }

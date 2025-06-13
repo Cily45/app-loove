@@ -15,7 +15,9 @@ export class PaypalButtonComponent implements AfterViewInit {
   private id = environment.paypalId
   price = input<Price | null>(null)
 
-  constructor(private subscriptionService: SubscriptionService, private toastService: ToastService, private router : Router) {
+  constructor(
+    private subscriptionService: SubscriptionService,
+    private toastService: ToastService, private router : Router) {
   }
 
   async ngAfterViewInit() {

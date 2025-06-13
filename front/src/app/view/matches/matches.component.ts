@@ -2,6 +2,7 @@ import {Component, OnInit, signal} from '@angular/core';
 import {SubscriptionService} from '../../services/api/subscription.service';
 import {Profil, UserService} from '../../services/api/user.service';
 import {MatchCardComponent} from '../../component/match-card/match-card.component';
+import {firstValueFrom, Observable} from 'rxjs';
 
 @Component({
   selector: 'app-matches',
@@ -15,15 +16,13 @@ export class MatchesComponent implements OnInit {
   isSubscribe = signal<boolean>(false)
   matchs = signal<Profil[]>([])
 
-  constructor(private subcriptionService: SubscriptionService, private userService : UserService) {
+  constructor(
+    private subcriptionService: SubscriptionService,
+    private userService : UserService) {
   }
 
-  ngOnInit() {
-    this.subcriptionService.isSubscribe().subscribe(res => {
-      this.isSubscribe.set(res)
-    })
-    this.userService.getMatchsProfil().subscribe(list => {
-      this.matchs.set(list)
-    })
+  async ngOnInit() {
+      this.isSubscribe.set(await firstValueFrom(this.subcriptionService.isSubscribe()))
+      this.matchs.set(await firstValueFrom(this.userService.getMatchsProfil()))
   }
 }

@@ -12,10 +12,19 @@ import {HobbiesService, Hobby} from '../../services/api/hobbies.service';
 import {Gender, GenderService} from '../../services/api/gender.service';
 import {getDate} from '../../component/helper';
 import {ToastService} from '../../services/toast.service';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-profil',
-  imports: [MatIconModule, RouterLink, MatIconModule, MatFormFieldModule, MatInputModule, MatExpansionModule, MatButton, ReactiveFormsModule],
+  imports: [
+    MatIconModule,
+    RouterLink,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatExpansionModule,
+    MatButton,
+    ReactiveFormsModule],
   templateUrl: './profil.component.html',
   styleUrl: './profil.component.scss'
 })
@@ -54,7 +63,7 @@ export class ProfilComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.userProfil.set(JSON.parse(<string>localStorage.getItem('profil')))
     this.profilPhoto.set(environment.apiUrl + "/uploads/photo-user/" + this.userProfil()?.profil_photo)
 
@@ -66,15 +75,11 @@ export class ProfilComponent implements OnInit {
       profil_photo: this.userProfil().profil_photo
     });
 
-    this.hobbiesService.getAllByUser(this.userProfil().id).subscribe(list => {
-      this.hobbies.set(list)
-      this.initializeHobbies()
-    })
+    this.hobbies.set(await firstValueFrom(this.hobbiesService.getAllByUser(this.userProfil().id)))
+    this.initializeHobbies()
 
-    this.genderService.get(this.userProfil().id).subscribe(list => {
-      this.genders.set(list)
-      this.initializeGenders()
-    })
+    this.genders.set(await firstValueFrom(this.genderService.get(this.userProfil().id)))
+    this.initializeGenders()
   }
 
   get genderPreferencesArray() {
@@ -109,9 +114,6 @@ export class ProfilComponent implements OnInit {
     this.selectedHobbiesArray.at(index).setValue(target.checked)
   }
 
-  protected readonly environment = environment
-
-
   updateUserProfil<K extends keyof Profil>(key: K, event: Event) {
     const target = event.target as HTMLInputElement
     if (target) {
@@ -143,7 +145,7 @@ export class ProfilComponent implements OnInit {
     }
   }
 
-  onSubmit() {
+  async onSubmit() {
     const count = this.genderPreferencesArray.value.filter((val: boolean) => val).length
     if (this.profilForm.valid && count > 0) {
       if (this.selectedPhoto() !== null) {
@@ -161,18 +163,18 @@ export class ProfilComponent implements OnInit {
           this.selectedHobbiesArray.at(index).value
         )
       }
-      this.userService.updateUser(formData).subscribe(res => {
-        localStorage.setItem('profil', JSON.stringify(res));
-        if (res) {
-          this.toastService.showSuccess('Votre profil à été mis à jours')
-        } else {
-          this.toastService.showSuccess('Echec de la mis à jours de votre profil')
-        }
-      })
+      const res = await firstValueFrom(this.userService.updateUser(formData))
+      localStorage.setItem('profil', JSON.stringify(res));
+      if (res) {
+        this.toastService.showSuccess('Votre profil à été mis à jours')
+      } else {
+        this.toastService.showSuccess('Echec de la mis à jours de votre profil')
+      }
     } else {
       this.toastService.showError('Veuillez renseigner tout les champs')
     }
   }
 
+  protected readonly environment = environment
   protected readonly getDate = getDate;
 }

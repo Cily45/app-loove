@@ -8,6 +8,7 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {NgIf} from '@angular/common';
 import {MailService} from '../../services/api/mail.service';
 import {ToastService} from '../../services/toast.service';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-password-lost',
@@ -25,21 +26,22 @@ import {ToastService} from '../../services/toast.service';
 })
 export class PasswordLostComponent {
 
-  constructor(private mailService: MailService, private toastService: ToastService) {
+  constructor(
+    private mailService: MailService,
+    private toastService: ToastService
+  ) {
   }
 
   formGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i)])
   })
 
-  onSubmit() {
+  async onSubmit() {
     if (this.formGroup.valid) {
-      this.mailService.sendReset(this.formGroup.value).subscribe(res => {
-          if (res) {
-            this.toastService.showSuccess('Mail envoyer')
-          }
-        }
-      )
+      const res = await firstValueFrom(this.mailService.sendReset(this.formGroup.value))
+      if (res) {
+        this.toastService.showSuccess('Mail envoyer')
+      }
     }
   }
 }

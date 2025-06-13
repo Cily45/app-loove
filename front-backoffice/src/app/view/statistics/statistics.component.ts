@@ -2,6 +2,7 @@ import {Component, OnInit, signal} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {StatisticsService, Stats} from '../../services/api/statistics.service';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-statistics',
@@ -12,7 +13,7 @@ import {StatisticsService, Stats} from '../../services/api/statistics.service';
   templateUrl: './statistics.component.html',
   styleUrl: './statistics.component.css'
 })
-export class StatisticsComponent implements OnInit{
+export class StatisticsComponent implements OnInit {
   statistics = signal<Stats>({
     users: 0,
     messagesSend: 0,
@@ -24,12 +25,10 @@ export class StatisticsComponent implements OnInit{
   })
 
 
-constructor(public statisticsService : StatisticsService) {
-}
-  ngOnInit() :void {
-    this.statisticsService.get().subscribe(list =>{
-       this.statistics.set(list)
-      }
-    )
+  constructor(public statisticsService: StatisticsService) {
+  }
+
+  async ngOnInit() {
+    this.statistics.set(await firstValueFrom(this.statisticsService.get()))
   }
 }

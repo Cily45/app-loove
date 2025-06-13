@@ -7,6 +7,7 @@ import {environment} from '../../env';
 import {MatIconModule} from '@angular/material/icon';
 import {Gender, GenderService} from '../../services/api/gender.service';
 import {Dog, DogService} from '../../services/api/dog.service';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-profil',
@@ -54,8 +55,11 @@ export class ProfilComponent implements OnChanges {
   dogs = signal<Dog[]>([])
   hidden = input<boolean>(true)
 
-  constructor(private userService: UserService, private hobbiesService: HobbiesService, private dogService: DogService, private genderService: GenderService) {
-
+  constructor(
+    private userService: UserService,
+    private hobbiesService: HobbiesService,
+    private dogService: DogService,
+    private genderService: GenderService) {
   }
 
 
@@ -63,25 +67,18 @@ export class ProfilComponent implements OnChanges {
     document.getElementById(`profil-${this.id()}`)?.classList.add('hidden');
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  async ngOnChanges(changes: SimpleChanges) {
     if (!changes['hidden'].currentValue) {
       if (this.id() !== 0) {
-        this.userService.userProfil(this.id()).subscribe(profil => {
-          this.profil.set(profil)
-          this.hobbiesService.getAllByUser(this.profil().id).subscribe(list => {
-            this.hobbies.set(list)
-          })
-          this.genderService.get(this.id()).subscribe(genders => {
-            this.gendersPreference.set(genders)
-          })
-          this.dogService.dogProfil(this.id()).subscribe(dogs => {
-            this.dogs.set(dogs)
-          })
-        })
+        this.profil.set(await firstValueFrom(this.userService.userProfil(this.id())))
+        this.hobbies.set(await firstValueFrom(this.hobbiesService.getAllByUser(this.profil().id)))
+        this.gendersPreference.set(await firstValueFrom(this.genderService.get(this.id())))
+        this.dogs.set(await firstValueFrom(this.dogService.dogProfil(this.id())))
       }
     }
   }
 
-  protected readonly getAge = getAge;
-  protected readonly environment = environment;
+
+protected readonly getAge = getAge;
+protected readonly environment = environment;
 }

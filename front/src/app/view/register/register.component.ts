@@ -12,6 +12,7 @@ import {MatIconModule} from '@angular/material/icon'
 import {UserService} from '../../services/api/user.service'
 import {MatSelectModule} from '@angular/material/select'
 import {NgIf} from '@angular/common';
+import {firstValueFrom} from 'rxjs';
 
 
 @Component({
@@ -75,38 +76,33 @@ export class RegisterComponent implements OnInit {
   async onSubmit(stepper: MatStepper) {
     const emailControl = this.thirdFormGroup.get('email')
     const email: string = this.thirdFormGroup.get('email')?.value || 'error'
-    let isEmailUsed = true
-    this.userService.isMailUsed(email).subscribe(res => {
-      isEmailUsed = res
+    let isEmailUsed = await firstValueFrom(this.userService.isMailUsed(email))
 
-      if (!emailControl) {
-        return
-      }
-      if (isEmailUsed) {
-        emailControl.setErrors({'emailUsed': true})
-        return
-      }
-      emailControl.setErrors(null)
+    if (!emailControl) {
+      return
+    }
 
-      const form = {
-        ...this.firstFormGroup.value,
-        ...this.secondFormGroup.value,
-        ...this.thirdFormGroup.value
-      }
-      this.userService.createUser(form).subscribe(res => {
-        stepper.next()
-      })
-    })
+    if (isEmailUsed) {
+      emailControl.setErrors({'emailUsed': true})
+      return
+    }
 
+    emailControl.setErrors(null)
+
+    const form = {
+      ...this.firstFormGroup.value,
+      ...this.secondFormGroup.value,
+      ...this.thirdFormGroup.value
+    }
+    const res = this.userService.createUser(form)
+    if (res) {
+      stepper.next()
+    }
   }
 
-  ngOnInit(): void {
-    this.breakpointObserver.observe(['(min-width: 768px)'])
-      .subscribe(result => {
-        this.stepperOrientation = result.matches ? 'horizontal' : 'vertical'
-      })
-    this.genderService.getAll().subscribe(list => {
-      this.genders = list
-    })
+  async ngOnInit() {
+    const res = await firstValueFrom(this.breakpointObserver.observe(['(min-width: 768px)']))
+    this.stepperOrientation = res.matches ? 'horizontal' : 'vertical'
+    this.genders = await firstValueFrom(this.genderService.getAll())
   }
 }

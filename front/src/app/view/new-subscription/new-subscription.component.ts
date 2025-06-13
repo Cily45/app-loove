@@ -1,7 +1,8 @@
 import {Component, OnInit, signal} from '@angular/core';
-import { NgxPayPalModule } from 'ngx-paypal';
+import {NgxPayPalModule} from 'ngx-paypal';
 import {PaypalButtonComponent} from '../../component/paypal-button/paypal-button.component';
 import {Price, PriceService} from '../../services/api/price.service';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-new-subscription',
@@ -13,19 +14,18 @@ import {Price, PriceService} from '../../services/api/price.service';
   templateUrl: './new-subscription.component.html',
   styleUrl: './new-subscription.component.css'
 })
-export class NewSubscriptionComponent implements OnInit{
+export class NewSubscriptionComponent implements OnInit {
   prices = signal<Price[]>([])
   price = signal<Price | null>(null)
-  constructor(private priceService : PriceService) {
-  }
-  ngOnInit() {
-    this.priceService.getAll().subscribe(list => {
-        this.prices.set(list)
-      }
-    )
+
+  constructor(private priceService: PriceService) {
   }
 
-  setPrice(price :Price) :void {
+  async ngOnInit() {
+    this.prices.set(await firstValueFrom(this.priceService.getAll()))
+  }
+
+  setPrice(price: Price): void {
     this.price.set(price)
   }
 

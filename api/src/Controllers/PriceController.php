@@ -35,7 +35,7 @@ class PriceController extends BaseController
 
         if (!$data || !is_array($data)) {
             http_response_code(400);
-            return json_encode(['error' => 'Invalid data format']);
+            return json_encode(false, JSON_PRETTY_PRINT);
         }
 
         $model = new PriceModel();
@@ -50,8 +50,7 @@ class PriceController extends BaseController
                 $model->update((int)$item['id'], (float)$item['price']);
             }
 
-            return json_encode(['success' => 'Prices updated successfully']);
-
+            return json_encode(true, JSON_PRETTY_PRINT);
         } catch (\Exception $e) {
             http_response_code(500);
             return json_encode(['error' => $e->getMessage()]);

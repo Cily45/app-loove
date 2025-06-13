@@ -16,6 +16,7 @@ import {MatIcon} from '@angular/material/icon'
 import {NgIf} from '@angular/common';
 import {UserService} from '../../services/api/user.service';
 import {ToastService} from '../../services/toast.service';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-password-reset',
@@ -38,7 +39,7 @@ export class PasswordResetComponent {
   hidePassword = signal(true)
   hideConfirm = signal(true)
 
-  constructor(private userService: UserService, private toastService: ToastService, private route: ActivatedRoute, private router : Router) {
+  constructor(private userService: UserService, private toastService: ToastService, private route: ActivatedRoute, private router: Router) {
   }
 
   formGroup = new FormGroup({
@@ -49,21 +50,20 @@ export class PasswordResetComponent {
     passwordConfirm: new FormControl('', Validators.required)
   }, {validators: matchPassword()})
 
-  onSubmit() {
+  async onSubmit() {
     if (this.formGroup.valid) {
       const token: string = <string>this.route.snapshot.paramMap.get('token')
 
-      this.userService.updatePassword({
+      const res = await firstValueFrom(this.userService.updatePassword({
         'token': token,
         'password': this.formGroup.get('password')?.value
-      }).subscribe(res => {
-        if (res) {
-          this.router.navigate(['/connection']);
-          this.toastService.showSuccess('Mot de passe mis à jour')
-        } else {
-          this.toastService.showError(' Erreur lors de la mise à jour du mot de passe')
-        }
-      })
+      }))
+      if (res) {
+        this.router.navigate(['/connection']);
+        this.toastService.showSuccess('Mot de passe mis à jour')
+      } else {
+        this.toastService.showError(' Erreur lors de la mise à jour du mot de passe')
+      }
     }
   }
 }
