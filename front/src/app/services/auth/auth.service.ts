@@ -46,11 +46,13 @@ export class AuthService {
 
       if (response.token) {
         localStorage.setItem('authToken', response.token);
-        this.userService.userProfil(response.id).subscribe((res) => {
-          localStorage.setItem('profil', JSON.stringify(res));
+        const profil = await firstValueFrom( this.userService.userProfil(response.id))
+          localStorage.setItem('profil', JSON.stringify(profil));
           localStorage.setItem('email', credentials.email);
           const beams = this.pusherBeams.start(response.id);
-        })
+
+
+
 
         this.userService.getNotifications().subscribe(list => {
           localStorage.setItem('notifications', JSON.stringify(list));

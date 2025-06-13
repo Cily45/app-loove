@@ -12,7 +12,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCardModule} from '@angular/material/card';
-import { Hobby} from '../../services/api/hobbies.service';
+import {Hobby} from '../../services/api/hobbies.service';
 import {MatIconModule} from '@angular/material/icon';
 import {SubscriptionService} from '../../services/api/subscription.service';
 import {Gender} from '../../services/api/gender.service';
@@ -21,6 +21,7 @@ import {DogTemperament} from '../../services/api/dog-temperament.service';
 import {DogGender} from '../../services/api/dog-gender.service';
 import {FilterService} from '../../services/api/filter.service';
 import {ToastService} from '../../services/toast.service';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-filter',
@@ -54,7 +55,7 @@ export class FilterComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private subcriptionService: SubscriptionService,
-    private toastService : ToastService,
+    private toastService: ToastService,
     private filterService: FilterService
   ) {
     this.filterForm = this.fb.group({
@@ -101,46 +102,43 @@ export class FilterComponent implements OnInit {
     return this.filterForm.get('distance') as FormControl
   }
 
-  ngOnInit(): void {
-    this.subcriptionService.isSubscribe().subscribe(res => {
-      this.isSubscribe.set(res)
-    })
+  async ngOnInit() {
+    this.isSubscribe.set(await firstValueFrom(this.subcriptionService.isSubscribe()))
 
-    this.filterService.getAll().subscribe(list => {
-      this.hobbies.set(list.hobbies)
-      const hobbiesArray = this.selectedHobbiesArray
-      this.hobbies().forEach(hobby => {
-        hobbiesArray.push(this.fb.control(hobby.selected === 1))
-      });
+    const filters = await firstValueFrom(this.filterService.getAll())
+    this.hobbies.set(filters.hobbies)
+    const hobbiesArray = this.selectedHobbiesArray
+    this.hobbies().forEach(hobby => {
+      hobbiesArray.push(this.fb.control(hobby.selected === 1))
+    });
 
-      this.genders.set(list.genders)
-      const genderArray = this.genderPreferencesArray
-      this.genders().forEach(gender => {
-        genderArray.push(this.fb.control(gender.selected === 1))
-      });
+    this.genders.set(filters.genders)
+    const genderArray = this.genderPreferencesArray
+    this.genders().forEach(gender => {
+      genderArray.push(this.fb.control(gender.selected === 1))
+    });
 
-      this.dogSizes.set(list.dog_sizes)
-      const dogSizeArray = this.selectedSizeArray
-      this.dogSizes().forEach(dogSize => {
-        dogSizeArray.push(this.fb.control(dogSize.selected === 1))
-      });
+    this.dogSizes.set(filters.dog_sizes)
+    const dogSizeArray = this.selectedSizeArray
+    this.dogSizes().forEach(dogSize => {
+      dogSizeArray.push(this.fb.control(dogSize.selected === 1))
+    });
 
-      this.dogGenders.set(list.dog_genders)
-      const dogGenderArray = this.selectedGenderArray
-      this.dogGenders().forEach(dogGender => {
-        dogGenderArray.push(this.fb.control(dogGender.selected === 1))
-      });
+    this.dogGenders.set(filters.dog_genders)
+    const dogGenderArray = this.selectedGenderArray
+    this.dogGenders().forEach(dogGender => {
+      dogGenderArray.push(this.fb.control(dogGender.selected === 1))
+    });
 
-      this.dogTemperaments.set(list.dog_temperaments)
-      const dogTemperamentArray = this.selectedTemperamentArray
-      this.dogTemperaments().forEach(dogTemperament => {
-        dogTemperamentArray.push(this.fb.control(dogTemperament.selected === 1))
-      });
+    this.dogTemperaments.set(filters.dog_temperaments)
+    const dogTemperamentArray = this.selectedTemperamentArray
+    this.dogTemperaments().forEach(dogTemperament => {
+      dogTemperamentArray.push(this.fb.control(dogTemperament.selected === 1))
+    });
 
-      this.minAgeControl.setValue(list.filter.min_age)
-      this.maxAgeControl.setValue(list.filter.max_age)
-      this.distanceControl.setValue(list.filter.distance)
-    })
+    this.minAgeControl.setValue(filters.filter.min_age)
+    this.maxAgeControl.setValue(filters.filter.max_age)
+    this.distanceControl.setValue(filters.filter.distance)
   }
 
   onGenderChange(index: number, event: Event) {
@@ -168,7 +166,7 @@ export class FilterComponent implements OnInit {
     this.selectedGenderArray.at(index).setValue(target.checked)
   }
 
-  onSubmit() {
+  async onSubmit() {
     const formData = {
       genders: this.genders().filter((_, index) =>
         this.genderPreferencesArray.at(index).value
@@ -190,13 +188,11 @@ export class FilterComponent implements OnInit {
       distance: this.distanceControl.value
     }
 
-    this.filterService.add(formData).subscribe(res => {
-      console.log(res +" ok")
-      if(res){
-        this.toastService.showSuccess('Filtre mis à jour')
-      }else{
-        this.toastService.showError('Échec de la mise à jour des filtres')
-      }
-    })
+    const res = await firstValueFrom(this.filterService.add(formData))
+    if (res) {
+      this.toastService.showSuccess('Filtre mis à jour')
+    } else {
+      this.toastService.showError('Échec de la mise à jour des filtres')
+    }
   }
 }

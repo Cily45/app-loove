@@ -11,6 +11,7 @@ import {SubscriptionService} from '../../services/api/subscription.service';
 import {ToastService} from '../../services/toast.service';
 import {environment} from '../../env';
 import {ProfilComponent} from '../../component/profil/profil.component';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -47,16 +48,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userProfil.set(JSON.parse(<string>localStorage.getItem('profil')))
-    if (this.userProfil().profil_photo !== null) {
-      this.userService.getAllProfil().subscribe(list => {
-          this.profils.set(list)
-        }
-      )
-      this.subscriptionService.isSubscribe().subscribe(res => {
-        this.isSubscribe.set(res)
-      })
-    }
+    this.reload()
   }
 
   get currentUserId(): number | undefined {
@@ -71,7 +63,7 @@ export class HomeComponent implements OnInit {
       }).subscribe();
     }
     this.index++
-    if(this.index > 9){
+    if (this.index > 9) {
       this.reload()
     }
   }
@@ -84,22 +76,18 @@ export class HomeComponent implements OnInit {
       }).subscribe();
     }
     this.index++
-    if(this.index > 9){
+    if (this.index > 9) {
       this.reload()
     }
   }
 
-  reload() {
+  async reload() {
     this.index = 0
     this.userProfil.set(JSON.parse(<string>localStorage.getItem('profil')))
+
     if (this.userProfil().profil_photo !== null) {
-      this.userService.getAllProfil().subscribe(list => {
-          this.profils.set(list)
-        }
-      )
-      this.subscriptionService.isSubscribe().subscribe(res => {
-        this.isSubscribe.set(res)
-      })
+      this.profils.set(await firstValueFrom(this.userService.getAllProfil()))
+      this.isSubscribe.set(await firstValueFrom(this.subscriptionService.isSubscribe()))
     }
   }
 
@@ -113,7 +101,7 @@ export class HomeComponent implements OnInit {
     document.getElementById(`report-${this.profils()[this.index].id}`)?.classList.remove('hidden')
   }
 
-  protected readonly getAge = getAge;
-  protected readonly environment = environment;
-  protected readonly Math = Math;
+  getAge = getAge;
+  environment = environment;
+  Math = Math;
 }

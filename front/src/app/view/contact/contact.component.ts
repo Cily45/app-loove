@@ -8,6 +8,7 @@ import {RouterLink, RouterLinkActive} from '@angular/router'
 import {NgIf} from '@angular/common';
 import {MailService} from '../../services/api/mail.service';
 import {ToastService} from '../../services/toast.service';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-contact',
@@ -23,8 +24,7 @@ export class ContactComponent {
   formGroup = new FormGroup({
     firstname: new FormControl('', [Validators.required]),
     lastname: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i)
-    ]),
+    email: new FormControl('', [Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i)]),
     select: new FormControl('', [Validators.required]),
     textarea: new FormControl('', [Validators.required]),
   })
@@ -32,15 +32,14 @@ export class ContactComponent {
   constructor(private mailService: MailService, private toastService: ToastService) {
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.formGroup.valid) {
-      this.mailService.sendContact(this.formGroup.value).subscribe(res => {
+      const res = await firstValueFrom(this.mailService.sendContact(this.formGroup.value))
         if (res) {
           this.toastService.showSuccess('Demande envoyée au support');
         } else {
           this.toastService.showError('Erreur lors de l\'envoi de la demande');
         }
-      })
     }
   }
 }

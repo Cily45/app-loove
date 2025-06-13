@@ -10,6 +10,7 @@ import {Profil, UserService} from '../../services/api/user.service';
 import {ToastService} from '../../services/toast.service';
 import {NgIf} from '@angular/common';
 import {AuthService} from '../../services/auth/auth.service';
+import {firstValueFrom} from 'rxjs';
 
 
 @Component({
@@ -40,7 +41,6 @@ export class AccountComponent implements OnInit {
   ngOnInit() {
     this.userProfil.set(JSON.parse(<string>localStorage.getItem('profil')))
     this.userMail.set(<string>localStorage.getItem('email'))
-
   }
 
   emailFormGroup = new FormGroup({
@@ -64,46 +64,43 @@ export class AccountComponent implements OnInit {
     input: new FormControl('', [Validators.required, Validators.pattern("Supprimer")])
   })
 
-  onSubmitDelete() {
+  async onSubmitDelete() {
     if (this.deleteFormGroup.valid && confirm("La suppression de votre compte est irréversible. Êtes-vous sûr de vouloir supprimer votre compte ?")) {
-      this.userService.deleteUser(this.userProfil().id).subscribe(res => {
-        if (res) {
-          this.authService.logout()
-          this.toastService.showSuccess('Votre compte a bien été supprimé.')
-        }
-      })
+      const res = await firstValueFrom(this.userService.deleteUser(this.userProfil().id))
+      if (res) {
+        this.authService.logout()
+        this.toastService.showSuccess('Votre compte a bien été supprimé.')
+      }
+
     }
   }
 
-  onSubmitEmail() {
+  async onSubmitEmail() {
     if (this.emailFormGroup.valid) {
-      this.userService.isMailUsed(this.emailFormGroup.get('email')?.value ?? '').subscribe(res => {
+      const res = await firstValueFrom(this.userService.isMailUsed(this.emailFormGroup.get('email')?.value ?? ''))
+      if (res) {
+        this.emailFormGroup.get('email')?.setErrors({'emailUsed': true})
+      } else {
+        const res = await firstValueFrom(this.userService.update(this.emailFormGroup.value))
         if (res) {
-          this.emailFormGroup.get('email')?.setErrors({'emailUsed': true})
-        } else {
-          this.userService.update(this.emailFormGroup.value).subscribe(res => {
-            if (res) {
-              this.userMail.set(this.emailFormGroup.get('email')?.value ?? '')
-              localStorage.setItem('email', this.emailFormGroup.get('email')?.value ?? '');
-              this.toastService.showSuccess('Adresse e-mail mis à jour')
-            } else {
-              this.toastService.showError('Erreur lors de la mise à jour de l\'adresse mail')
-            }
-          })
-        }
-      })
-    }
-  }
-
-  onSubmitPassword() {
-    if (this.passwordFormGroup.valid) {
-      this.userService.update(this.passwordFormGroup.value).subscribe(res => {
-        if (res) {
+          this.userMail.set(this.emailFormGroup.get('email')?.value ?? '')
+          localStorage.setItem('email', this.emailFormGroup.get('email')?.value ?? '');
           this.toastService.showSuccess('Adresse e-mail mis à jour')
         } else {
           this.toastService.showError('Erreur lors de la mise à jour de l\'adresse mail')
         }
-      })
+      }
+    }
+  }
+
+  async onSubmitPassword() {
+    if (this.passwordFormGroup.valid) {
+      const res = await firstValueFrom(this.userService.update(this.passwordFormGroup.value))
+      if (res) {
+        this.toastService.showSuccess('Adresse e-mail mis à jour')
+      } else {
+        this.toastService.showError('Erreur lors de la mise à jour de l\'adresse mail')
+      }
     }
   }
 }

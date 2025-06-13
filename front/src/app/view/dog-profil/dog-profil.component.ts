@@ -11,6 +11,7 @@ import {DogSize, DogSizeService} from '../../services/api/dog-size.service';
 import {DogTemperament, DogTemperamentService} from '../../services/api/dog-temperament.service';
 import {DogGender, DogGenderService} from '../../services/api/dog-gender.service';
 import {RouterLink} from '@angular/router';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-dog-profil',
@@ -26,13 +27,14 @@ export class DogProfilComponent implements OnInit {
   dogSizes = signal<DogSize[]>([])
   dogGenders = signal<DogGender[]>([])
   dogTemperaments = signal<DogTemperament[]>([])
+
   constructor(
-    private dogSizeService : DogSizeService,
-    private dogTemperamentService : DogTemperamentService,
-    private dogGenderService : DogGenderService,
+    private dogSizeService: DogSizeService,
+    private dogTemperamentService: DogTemperamentService,
+    private dogGenderService: DogGenderService,
     private fb: FormBuilder,
-    private dogService : DogService,
-    private toastService : ToastService) {
+    private dogService: DogService,
+    private toastService: ToastService) {
     this.dogForm = this.fb.group({
       dogs: this.fb.array([])
     })
@@ -83,16 +85,16 @@ export class DogProfilComponent implements OnInit {
     });
   }
 
-  onSubmit() {
-    if(this.dogsFormArray.length > 0 && this.dogForm.valid) {
-      this.dogService.addDogs(this.dogForm.value).subscribe(() => {
-        this.dogService.dogProfil(this.id()).subscribe((list) => {
-          console.log(list)
-          this.toastService.showSuccess('Màj de vos chien effectué')
-        })
-      })
-    }else{
-      this.toastService.showError('Veuillez renseignez tout les champs')
+  async onSubmit() {
+    if (this.dogsFormArray.length > 0 && this.dogForm.valid) {
+      const res = await firstValueFrom(this.dogService.addDogs(this.dogForm.value))
+      if (res) {
+        this.toastService.showSuccess('Màj de  vos/votre chien(s) effectué')
+      } else {
+        this.toastService.showError('La mise à jour de vos/votre chien(s) a échoué')
+      }
+    } else {
+      this.toastService.showError('Veuillez renseigner tous les champs')
     }
   }
 }

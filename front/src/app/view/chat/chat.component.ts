@@ -1,6 +1,7 @@
 import {Component, OnInit, signal} from '@angular/core';
 import {ChatCardComponent} from '../../component/chat-card/chat-card.component';
 import {MessageService, Message, MessageCard} from '../../services/api/message.service';
+import {firstValueFrom} from 'rxjs';
 
 
 @Component({
@@ -19,12 +20,11 @@ export class ChatComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
-    this.messagesService.messages().subscribe(list => {
-      if (list.length > 0) {
-        this.messages.set(list)
+  async ngOnInit() {
+    const messages = await firstValueFrom(this.messagesService.messages())
+      if (messages.length > 0) {
+        this.messages.set(messages)
       }
-    })
   }
 
 
