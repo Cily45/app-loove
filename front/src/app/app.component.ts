@@ -34,7 +34,6 @@ export class AppComponent implements OnInit {
   constructor(private router: Router,
               private breakpointObserver: BreakpointObserver,
               private authService: AuthService,
-              private pusherBeamsService : PusherBeamsService
               ) {
   }
 
@@ -51,9 +50,5 @@ export class AppComponent implements OnInit {
       .subscribe(result => {
         this.isMobile.set(!result.matches)
       })
-
-    const id = (JSON.parse(<string>localStorage.getItem('profil'))).id
-
-    this.pusherBeamsService.start()
   }
 }

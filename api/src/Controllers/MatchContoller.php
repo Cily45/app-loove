@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\MatchModel;
 use App\Models\UserModel;
+use App\Services\NotificationService;
 use Pusher\Pusher;
 
 class MatchContoller extends BaseController
@@ -42,13 +43,21 @@ class MatchContoller extends BaseController
                     $userModel = new UserModel();
                     $user0 = $userModel->get($user0);
                     $user1 = $userModel->get($user1);
-
+                    $notification = new NotificationService();
                     if($user0['match_email'] === 1){
                         $mail->sendMatch($user1['firstname'], $user1['profil_photo'], $user1['id'], $user0['email']);
                     }
 
+                    if($user0['match_push'] === 1){
+                        $notification->send_notification_new_match($user0['id'], $user1['firstname'], $user1['id']);
+                    }
+
                     if($user1['match_email'] === 1){
                          $mail->sendMatch($user0['firstname'], $user0['profil_photo'], $user0['id'], $user1['email']);
+                    }
+
+                    if($user1['match_push'] === 1){
+                        $notification->send_notification_new_match($user1['id'], $user0['firstname'], $user0['id']);
                     }
                 }
             }

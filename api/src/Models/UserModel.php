@@ -235,7 +235,7 @@ WHERE u.id != :id
             )
         )
     )
-ORDER BY distance_km ASC;
+ORDER BY distance_km ASC LIMIT 10;
 ")
             ->fetchAll(['id' => $id]);
     }

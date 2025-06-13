@@ -4,7 +4,7 @@
     class="h-[calc(100vh-60px)] flex items-center justify-center relative md:h-screen"
   >
     @if (profils().length > 0) {
-      <div class="w-4/5 h-[80vh] lg:w-3/5   relative rounded-3xl shadow-lg shadow-black/25">
+      <div class="w-4/5 h-[80vh] lg:w-3/5 relative rounded-3xl shadow-lg shadow-black/25">
 
         <img src="{{environment.apiUrl}}/uploads/photo-user/{{profils()[index].profil_photo}}"
              class="w-full h-full object-cover object-center rounded-3xl" alt="Photo"/>
@@ -59,12 +59,11 @@
     {
       En cours de chargement
     }
+
   </div>
 </div>
+
 @if (profils().length > 0) {
-  <app-report [id]="profils()[index].id"></app-report>
-
-  <app-profil [id]="profils()[index].id"></app-profil>
+  <app-report [hidden]="isReportHidden()" [id]="profils()[index].id"></app-report>
+  <app-profil [hidden]="isProfilHidden()" [id]="profils()[index].id"></app-profil>
 }
-
-

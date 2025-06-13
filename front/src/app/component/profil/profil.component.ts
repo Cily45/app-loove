@@ -1,4 +1,4 @@
-import {Component, effect, input, signal} from '@angular/core';
+import {Component, input, OnChanges, signal, SimpleChanges} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Profil, UserService} from '../../services/api/user.service';
 import {HobbiesService, Hobby} from '../../services/api/hobbies.service';
@@ -18,7 +18,7 @@ import {Dog, DogService} from '../../services/api/dog.service';
   templateUrl: './profil.component.html',
   styleUrl: './profil.component.css'
 })
-export class ProfilComponent {
+export class ProfilComponent implements OnChanges {
   genre = [
     'Mâle castré',
     'Mâle non castré',
@@ -52,9 +52,19 @@ export class ProfilComponent {
   hobbies = signal<Hobby[]>([])
   gendersPreference = signal<Gender[]>([])
   dogs = signal<Dog[]>([])
+  hidden = input<boolean>(true)
 
   constructor(private userService: UserService, private hobbiesService: HobbiesService, private dogService: DogService, private genderService: GenderService) {
-    effect(() => {
+
+  }
+
+
+  close() {
+    document.getElementById(`profil-${this.id()}`)?.classList.add('hidden');
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (!changes['hidden'].currentValue) {
       if (this.id() !== 0) {
         this.userService.userProfil(this.id()).subscribe(profil => {
           this.profil.set(profil)
@@ -69,11 +79,7 @@ export class ProfilComponent {
           })
         })
       }
-    })
-  }
-
-  close() {
-    document.getElementById(`profil-${this.id()}`)?.classList.add('hidden');
+    }
   }
 
   protected readonly getAge = getAge;

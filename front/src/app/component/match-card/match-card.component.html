@@ -51,7 +51,7 @@
       class="absolute z-50 w-[calc(80vw)] md:w-[calc(80vw-220px)] text-center text-3xl text-white">{{ profil().match_code === 0 ? "Pawfect" : "" }}</p>
 
   </div>
-  <app-report [id]="profil().id"></app-report>
-  <app-profil [id]="profil().id"></app-profil>
+  <app-report [hidden]="isReportHidden()" [id]="profil().id"></app-report>
+  <app-profil [hidden]="isProfilHidden()" [id]="profil().id"></app-profil>
 </div>
 }

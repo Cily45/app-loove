@@ -29,9 +29,6 @@ export class HomeComponent implements OnInit {
   profils = signal<Profil[]>([])
   index = 0
   isSubscribe = signal<boolean>(false)
-  showReport = signal<boolean>(false)
-  showProfil = signal<boolean>(false)
-
   userProfil = signal<Profil>({
     id: 0,
     lastname: '',
@@ -43,6 +40,8 @@ export class HomeComponent implements OnInit {
     gender: '',
     distance_km: 0,
   })
+  isProfilHidden = signal<boolean>(true)
+  isReportHidden = signal<boolean>(true)
 
   constructor(private userService: UserService, private matchService: MatchService, private subscriptionService: SubscriptionService, private toastService: ToastService) {
   }
@@ -72,6 +71,9 @@ export class HomeComponent implements OnInit {
       }).subscribe();
     }
     this.index++
+    if(this.index > 9){
+      this.reload()
+    }
   }
 
   matched(): void {
@@ -82,14 +84,33 @@ export class HomeComponent implements OnInit {
       }).subscribe();
     }
     this.index++
+    if(this.index > 9){
+      this.reload()
+    }
+  }
+
+  reload() {
+    this.index = 0
+    this.userProfil.set(JSON.parse(<string>localStorage.getItem('profil')))
+    if (this.userProfil().profil_photo !== null) {
+      this.userService.getAllProfil().subscribe(list => {
+          this.profils.set(list)
+        }
+      )
+      this.subscriptionService.isSubscribe().subscribe(res => {
+        this.isSubscribe.set(res)
+      })
+    }
   }
 
   openProfil() {
-    document.getElementById(`profil-${this.profils()[this.index].id}`)?.classList.remove('hidden');
+    this.isProfilHidden.update(u => false)
+    document.getElementById(`profil-${this.profils()[this.index].id}`)?.classList.remove('hidden')
   }
 
   openReport() {
-    document.getElementById(`report-${this.profils()[this.index].id}`)?.classList.remove('hidden');
+    this.isReportHidden.update(u => false)
+    document.getElementById(`report-${this.profils()[this.index].id}`)?.classList.remove('hidden')
   }
 
   protected readonly getAge = getAge;

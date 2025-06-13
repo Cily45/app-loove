@@ -34,11 +34,13 @@ export class MatchCardComponent {
     gender: '',
     distance_km: 0,
   })
-
+  isProfilHidden = signal<boolean>(true)
+  isReportHidden = signal<boolean>(true)
   constructor(private matchService : MatchService) {
   }
 
   openProfil(){
+    this.isProfilHidden.update(u => false)
     document.getElementById(`profil-${this.profil().id}`)?.classList.remove('hidden');
   }
 
@@ -62,6 +64,7 @@ export class MatchCardComponent {
     }
   }
   openReport(){
+    this.isReportHidden.update(u => false)
     document.getElementById(`report-${this.profil().id}`)?.classList.remove('hidden');
   }
   isSubcribe = input<boolean>()

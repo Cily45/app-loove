@@ -1,4 +1,4 @@
-import {Component, input, OnInit, signal} from '@angular/core';
+import {Component, input, OnChanges, signal, SimpleChanges} from '@angular/core';
 import {ReportReason, ReportReasonService} from '../../services/api/report-reason.service';
 import {ReportService} from '../../services/api/report.service';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
@@ -13,10 +13,12 @@ import {ToastService} from '../../services/toast.service';
   standalone: true,
   styleUrl: './report.component.css'
 })
-export class ReportComponent implements OnInit{
+export class ReportComponent implements OnChanges{
   reportReasons = signal<ReportReason[]>([])
   id = input<number>(0)
 report = new FormControl('', Validators.required)
+  hidden = input<boolean>(true)
+
   constructor(private reportReasonService : ReportReasonService, private reportService : ReportService, private toastService : ToastService
   ){}
 
@@ -24,10 +26,12 @@ report = new FormControl('', Validators.required)
     report: this.report
   })
 
-  ngOnInit(): void {
-    this.reportReasonService.getAll().subscribe(list =>{
-      this.reportReasons.set(list)
-    })
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!changes['hidden'].currentValue) {
+      this.reportReasonService.getAll().subscribe(list => {
+        this.reportReasons.set(list)
+      })
+    }
   }
 
   close(){

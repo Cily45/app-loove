@@ -152,7 +152,6 @@ class MailController extends BaseController
             $body = str_replace('{{ username }}', $userName, $body);
             $mail->addEmbeddedImage(__DIR__ . "/../../uploads/photo-user/" . $userPhoto, 'user-photo');
             $mail->Body = $body;
-            var_dump($mail);
             $mail->send();
             return true;
         } catch (Exception $e) {
@@ -188,7 +187,6 @@ class MailController extends BaseController
             $body = str_replace('{{ messageSnippet }}', $message, $body);
             $mail->addEmbeddedImage(__DIR__ . "/../../uploads/photo-user/" . $userPhoto, 'user-photo');
             $mail->Body = $body;
-            var_dump($mail);
             $mail->send();
             return true;
         } catch (Exception $e) {

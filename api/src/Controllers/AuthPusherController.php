@@ -65,17 +65,4 @@ class AuthPusherController extends BaseController
         }
 
     }
-
-    public function beamsToken(int $id)
-    {
-        $beamsClient = new PushNotifications([
-            "instanceId" => $_ENV['BEAMS_ID'],
-            "secretKey" => $_ENV['BEAMS_KEY'],
-        ]);
-
-        $publishableToken = $beamsClient->generateToken($id);
-        var_dump($publishableToken);
-        header('Content-Type: application/json');
-        return json_encode(['token' => $publishableToken]);
-    }
 }

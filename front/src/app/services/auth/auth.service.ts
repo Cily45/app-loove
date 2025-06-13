@@ -6,6 +6,8 @@ import {UserService} from '../api/user.service';
 import {ToastService} from '../toast.service';
 import {Router} from '@angular/router';
 import {PusherService} from '../pusher.service';
+import * as PusherPushNotifications from "@pusher/push-notifications-web";
+import {PusherBeamsService} from '../pusher-beams.service';
 
 interface LoginResponse {
   token?: string
@@ -30,9 +32,10 @@ export class AuthService {
 
   constructor(private https: HttpClient,
               private userService: UserService,
-              private pusher: PusherService,
               private toastService: ToastService,
-              private router: Router) {
+              private router: Router,
+              private pusherBeams : PusherBeamsService,
+  ) {
   }
 
   async login(credentials: LoginCredentials): Promise<boolean> {
@@ -46,7 +49,7 @@ export class AuthService {
         this.userService.userProfil(response.id).subscribe((res) => {
           localStorage.setItem('profil', JSON.stringify(res));
           localStorage.setItem('email', credentials.email);
-
+          const beams = this.pusherBeams.start(response.id);
         })
 
         this.userService.getNotifications().subscribe(list => {

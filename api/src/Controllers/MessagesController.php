@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\MessagesModel;
 use App\Models\UserModel;
+use App\Services\NotificationService;
 use App\utils\AuthService;
 use Pusher\Pusher;
 use Pusher\PushNotifications\PushNotifications;
@@ -107,13 +108,18 @@ class MessagesController extends AuthController
                 'sender' => $senderId,
             ]);
 
-            $mail = new MailController();
             $userModel = new UserModel();
             $userReceiver = $userModel->get($receiverId);
             $userSender = $userModel->get($senderId);
 
             if($userReceiver['message_email'] === 1){
-               $mail->sendMessage($userSender['firstname'], $userSender['profil_photo'], $userSender['id'], $message, $userReceiver['email']);
+                $mail = new MailController();
+                $mail->sendMessage($userSender['firstname'], $userSender['profil_photo'], $userSender['id'], $message, $userReceiver['email']);
+            }
+
+            if($userReceiver['message_push'] === 1){
+                $notification = new NotificationService();
+                $notification->send_notification_new_match($userSender['id'], $userSender['firstname'], $userReceiver['id']);
             }
 
             http_response_code(201);

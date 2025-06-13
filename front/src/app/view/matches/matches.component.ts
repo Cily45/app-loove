@@ -14,6 +14,7 @@ import {MatchCardComponent} from '../../component/match-card/match-card.componen
 export class MatchesComponent implements OnInit {
   isSubscribe = signal<boolean>(false)
   matchs = signal<Profil[]>([])
+
   constructor(private subcriptionService: SubscriptionService, private userService : UserService) {
   }
 

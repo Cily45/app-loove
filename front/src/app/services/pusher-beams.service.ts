@@ -6,7 +6,6 @@ import * as PushNotifications from '@pusher/push-notifications-web';
 })
 export class PusherBeamsService {
   beamsClient: any;
-  private apiUrl = environment.apiUrl;
 
   constructor() {
     this.beamsClient = new PushNotifications.Client({
@@ -14,10 +13,12 @@ export class PusherBeamsService {
     });
   }
 
-  async start() {
+  async start(id: any ) {
     try {
-      await this.beamsClient.start();
-      console.log('Beams client démarré.');
+      await this.beamsClient
+        .start()
+        .then(() => this.beamsClient.addDeviceInterest(`${id}`))
+        .then(() => this.beamsClient.getDeviceInterests())
     } catch (error) {
       console.error('Erreur démarrage Beams:', error);
     }
