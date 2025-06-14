@@ -119,7 +119,7 @@ export class MessageComponent implements OnInit {
   }
 
   openReport() {
-    this.isProfilHidden.update(u => false)
+    this.isReportHidden.update(u => false)
     document.getElementById(`report-${this.profil().id}`)?.classList.remove('hidden');
   }
 

@@ -37,4 +37,9 @@ export class ReportService {
     return this.https.get<number>(`${this.apiUrl}/report-count`)
       .pipe(map(response => response));
   }
+
+  sendWarning(infos :any){
+    console.log(infos)
+    return this.https.post<number>(`${this.apiUrl}/send-warning`, infos)
+  }
 }

@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Models\MatchModel;
 use App\Models\UserModel;
 use App\Services\NotificationService;
-use Pusher\Pusher;
 
 class MatchContoller extends BaseController
 {

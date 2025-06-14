@@ -180,8 +180,7 @@ WHERE u.id != :id
   --  )
     -- Filtre de genre (si des filtres existent)
     AND (
-        NOT EXISTS (SELECT 1 FROM user_filter_gender WHERE user_id = :id)
-        OR u.gender_id IN (
+    u.gender_id IN (
             SELECT gender_id FROM user_filter_gender WHERE user_id = :id
         )
     )

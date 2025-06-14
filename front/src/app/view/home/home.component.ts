@@ -97,7 +97,7 @@ export class HomeComponent implements OnInit {
   }
 
   openReport() {
-    this.isProfilHidden.update(u => false)
+    this.isReportHidden.update(u => false)
     document.getElementById(`report-${this.profils()[this.index].id}`)?.classList.remove('hidden')
   }
 

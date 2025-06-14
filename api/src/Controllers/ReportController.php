@@ -17,7 +17,7 @@ class ReportController extends BaseController
         try {
             $data = json_decode(file_get_contents('php://input'), true);
             $id = isset($data['id']) ? (int)$data['id'] : null;
-            $reason = isset($date['reason']) ? (int)$data['reason'] : null;
+            $reason = isset($data['reason']) ? (int)$data['reason'] : null;
             date_default_timezone_set('Europe/Paris');
             $date = date('Y-m-d');
             $model = new ReportModel();
@@ -27,7 +27,9 @@ class ReportController extends BaseController
                 return json_encode(['error' => 'Champs manquants.']);
             }
 
-            if ($model->countReport($complainantId, $id) != 0) {
+            $countReport = $model->countReport((int)$complainantId, $id);
+
+            if ($countReport != 0) {
                 http_response_code(200);
                 return json_encode(['error' => 'Signalement déjà créé'], JSON_PRETTY_PRINT);
             }
@@ -124,6 +126,13 @@ class ReportController extends BaseController
             error_log("Erreur récuperation du signalement: " . $e->getMessage());
             http_response_code(500);
             return json_encode(['error' => 'Erreur serveur']);
+        }
+    }
+
+    public function warning(){
+        if (!$this->isAdmin()) {
+            http_response_code(401);
+            return json_encode(['error' => 'Token invalid']);
         }
     }
 }

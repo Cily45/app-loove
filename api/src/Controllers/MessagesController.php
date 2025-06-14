@@ -5,9 +5,7 @@ namespace App\Controllers;
 use App\Models\MessagesModel;
 use App\Models\UserModel;
 use App\Services\NotificationService;
-use App\utils\AuthService;
 use Pusher\Pusher;
-use Pusher\PushNotifications\PushNotifications;
 
 class MessagesController extends AuthController
 {

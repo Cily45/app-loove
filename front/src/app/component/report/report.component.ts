@@ -33,6 +33,7 @@ export class ReportComponent implements OnChanges {
 
   async ngOnChanges(changes: SimpleChanges) {
     if (!changes['hidden'].currentValue) {
+      console.log('ok')
       this.reportReasons.set(await firstValueFrom(this.reportReasonService.getAll()))
     }
   }

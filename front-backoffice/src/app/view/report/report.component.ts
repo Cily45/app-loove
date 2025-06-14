@@ -54,13 +54,16 @@ export class ReportComponent implements OnInit {
     })
   }
 
-  onSubmit() {
+ async onSubmit() {
     let isActionValidate = false
     switch (this.selectedSanction) {
       case "Avertissement": {
-        if (confirm(`Êtes-vous sûr de vouloir supprimer l'utilisateur n°${this.report().accused_id} ?`)) {
           isActionValidate = true
-          // a implémenter!!!!
+          const res = await firstValueFrom(this.reportService.sendWarning({"id" : this.report().accused_id, "reason" : this.report().reason}))
+        if (res) {
+          this.toastService.showSuccess(`L'utilisateur n°${this.report().accused_id} a bien été averti par email.`)
+        } else {
+          this.toastService.showError('Une erreur est survenue')
         }
         break
       }

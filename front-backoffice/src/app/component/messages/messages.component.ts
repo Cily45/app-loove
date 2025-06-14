@@ -15,7 +15,7 @@ export class MessagesComponent {
     effect(() => {
       if (this.id0() !== 0 || this.id1() !== 0) {
         this.messageService.messagesById(this.id0(), this.id1()).subscribe(list => {
-          this.messages.set(list)
+          this.messages.update(u => list)
         })
       }
     })

@@ -9,18 +9,17 @@ class ReportModel extends BaseModel
         int $accusedId
     ): int
     {
-        return $this
+       $result =  $this
             ->query("
-            SELECT COUNT(*) 
+            SELECT * 
             FROM `report`
-            WHERE `complainant_id` = :complainantId
-            AND `accused_id` = :accusedId
-            AND `is_solved` = 0
+            WHERE `complainant_id` = :complainantId AND `accused_id` = :accusedId AND `is_solved` = 0
             ")
-            ->fetchColumn([
-                ':accusedId' => $accusedId,
-                ':complainantId' => $complainantId,
+            ->fetchAll([
+                'accusedId' => $accusedId,
+                'complainantId' => $complainantId,
             ]);
+         return count($result);
     }
 
     public function createReport(
@@ -36,10 +35,10 @@ class ReportModel extends BaseModel
             VALUES (:complainantId,:id,:reason,:date)
             ")
             ->execute([
-                ':complainantId' => $complainantId,
-                ':id' => $id,
-                ':reason' => $reason,
-                ':date' => $date
+                'complainantId' => $complainantId,
+                'id' => $id,
+                'reason' => $reason,
+                'date' => $date
             ]);
     }
 

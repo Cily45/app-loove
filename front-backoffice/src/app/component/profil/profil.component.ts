@@ -1,7 +1,6 @@
-import {AfterViewInit, Component, effect, input, signal} from '@angular/core';
+import { Component, effect, input, signal} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Profil, UserService} from '../../services/api/user.service';
-import {HobbiesService} from '../../services/api/hobbies.service';
 import {getAge} from '../helper';
 import {environment} from '../../env';
 
@@ -19,7 +18,7 @@ id = input<number>(0)
   profil = signal<Profil>({
     id: 0,
     lastname: '',
-    firstname: '',
+    firstname: 'Utilisateur supprimé',
     profil_photo: '',
     description: '',
     birthday: '',
@@ -28,11 +27,13 @@ id = input<number>(0)
     gender: '',
   })
 
-  constructor(private userService : UserService, private hobbiesService : HobbiesService) {
+   constructor(private userService : UserService) {
     effect(() => {
       if (this.id() !== 0) {
         this.userService.userProfil(this.id()).subscribe(profil => {
-          this.profil.set(profil)
+          if(profil) {
+            this.profil.update(u => profil)
+          }
         })
       }
     })

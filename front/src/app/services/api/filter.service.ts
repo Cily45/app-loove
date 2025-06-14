@@ -18,8 +18,4 @@ export class FilterService {
   add(form: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/add-filter`, form)
   }
-
-  reset(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/reset-filter`)
-  }
 }

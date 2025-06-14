@@ -13,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 use App\Controllers\AuthAdminController;
+use App\Controllers\AuthController;
 use App\Controllers\AuthPusherController;
 use App\Controllers\BannedController;
 use App\Controllers\DogController;
@@ -20,6 +21,7 @@ use App\Controllers\DogGenderController;
 use App\Controllers\DogSizeController;
 use App\Controllers\DogTemperamentController;
 use App\Controllers\FilterController;
+use App\Controllers\GenderController;
 use App\Controllers\HobbiesController;
 use App\Controllers\MailController;
 use App\Controllers\MatchContoller;
@@ -29,12 +31,10 @@ use App\Controllers\ReportController;
 use App\Controllers\ReportReasonController;
 use App\Controllers\StatisticsController;
 use App\Controllers\SubscriptionController;
-use Dotenv\Dotenv;
-use App\Controllers\AuthController;
-use App\Controllers\GenderController;
 use App\Controllers\UsersController;
 use App\Core\Routeur;
 use App\Kernel;
+use Dotenv\Dotenv;
 
 require 'vendor/autoload.php';
 require_once __DIR__ . '/src/utils/helper.php';
@@ -99,6 +99,7 @@ $routeur->addRoute(['GET'], '/report/{id}', ReportController::class, 'get');
 $routeur->addRoute(['PUT'], '/report-update', ReportController::class, 'update');
 $routeur->addRoute(['GET'], '/report-count', ReportController::class, 'count');
 
+
 //SUSCRIPTION
 $routeur->addRoute(['GET'], '/is-subscribe', SubscriptionController::class, 'isActif');
 $routeur->addRoute(['GET'], '/subscription-info', SubscriptionController::class, 'info');
@@ -129,5 +130,6 @@ $routeur->addRoute(['GET'], '/reset-filter', FilterController::class, 'reset');
 
 //MAIL
 $routeur->addRoute(['POST'], '/send-contact', MailController::class, 'sendContact');
+$routeur->addRoute(['POST'], '/send-warning', MailController::class, 'sendWarning');
 
 new Kernel($routeur);
