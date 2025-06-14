@@ -76,7 +76,7 @@ class UserModel extends BaseModel
         string   $email,
         string   $password,
         string   $token
-    ): bool
+    )
     {
         $result = $this
             ->query("
@@ -98,13 +98,14 @@ class UserModel extends BaseModel
             return $result;
         }
 
-        return $this
+         $this
             ->query("
                 INSERT INTO `user_filter`(`user_id`)
                 VALUES (:id)")
             ->execute([
                 'id' => $id
             ]);
+        return $id;
     }
 
     public function getProfil(

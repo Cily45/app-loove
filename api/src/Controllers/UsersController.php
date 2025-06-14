@@ -75,9 +75,9 @@ class UsersController extends BaseController
         $lastname = isset($data['lastname']) ? cleanString($data['lastname']) : null;
         $birthday = isset($data['birthday']) ? DateTime::createFromFormat('Y-m-d', cleanString($data['birthday'])) : null;
         $gender = isset($data['gender']) ? (int)cleanString($data['gender']) : null;
+        $genderPreference = isset($data['sexualOrientation']) ? (int)cleanString($data['sexualOrientation']) : null;
         $email = isset($data['email']) ? cleanString($data['email']) : null;
         $password = isset($data['password']) ? trim($data['password']) : bin2hex(random_bytes(10));
-
         try {
             $userModel = new UserModel();
 
@@ -96,7 +96,7 @@ class UsersController extends BaseController
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $token = bin2hex(random_bytes(32));
 
-            $userModel->createUser(
+            $userId = $userModel->createUser(
                 $firstname,
                 $lastname,
                 $birthday,
@@ -106,6 +106,8 @@ class UsersController extends BaseController
                 $token
             );
 
+            $genderModel = new GenderModel();
+            $gendePref = $genderModel->add($genderPreference, $userId);
             $mailController = new MailController();
             $mailController->sendConfirm($token, $email);
 
