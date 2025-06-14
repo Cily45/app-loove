@@ -19,8 +19,8 @@
           </a>
         }
         @if (profil().id) {
-          <app-profil [id]="profil().id"></app-profil>
-          <app-report [id]="profil().id"></app-report>
+          <app-profil [hidden]="isProfilHidden()" [id]="profil().id"></app-profil>
+          <app-report [hidden]="isReportHidden()" [id]="profil().id"></app-report>
         }
       </div>
     </div>

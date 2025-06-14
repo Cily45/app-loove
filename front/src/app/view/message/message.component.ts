@@ -53,7 +53,8 @@ export class MessageComponent implements OnInit {
     distance_km: 0
   })
   channel = ''
-
+  isProfilHidden = signal<boolean>(true)
+  isReportHidden = signal<boolean>(true)
   constructor(
     private route: ActivatedRoute,
     private messagesService: MessageService,
@@ -76,12 +77,13 @@ export class MessageComponent implements OnInit {
 
     if (id !== null) {
       const res = await firstValueFrom(this.userService.userProfil(id))
+
       if (res) {
-        this.profil.set(res)
+        this.profil.update(u => res)
         this.channel = ('private-users-' + (this.userProfil().id > this.profil().id ? this.userProfil().id + '-' + this.profil().id : this.profil().id + '-' + this.userProfil().id))
         this.pusher.subscribeMessageChannel(this.channel, 'new-message', (data: any) => {
-          const currentUserId = this.userProfil().id;
-          const fromUser = data.sender == currentUserId;
+          const currentUserId = this.userProfil().id
+          const fromUser = data.sender == currentUserId
           this.messages.update(current => [{
             id: data.id,
             message: data.message,
@@ -112,10 +114,12 @@ export class MessageComponent implements OnInit {
   }
 
   openProfil() {
+    this.isProfilHidden.update(u => false)
     document.getElementById(`profil-${this.profil().id}`)?.classList.remove('hidden');
   }
 
   openReport() {
+    this.isProfilHidden.update(u => false)
     document.getElementById(`report-${this.profil().id}`)?.classList.remove('hidden');
   }
 

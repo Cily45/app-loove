@@ -44,7 +44,6 @@ class MessagesController extends AuthController
         try {
             $model = new MessagesModel();
             $result = $model->allMessageByIdById($id0, $id1);
-      //      var_dump($result);
             return json_encode($result, JSON_PRETTY_PRINT);
         } catch (\Exception $e) {
             error_log("Erreur récuperation conversation: " . $e->getMessage());
@@ -119,7 +118,7 @@ class MessagesController extends AuthController
 
             if($userReceiver['message_push'] === 1){
                 $notification = new NotificationService();
-                $notification->send_notification_new_match($userSender['id'], $userSender['firstname'], $userReceiver['id']);
+                $notification->send_notification_new_message($userReceiver['id'], $userSender['firstname'], $userSender['id']);
             }
 
             http_response_code(201);
