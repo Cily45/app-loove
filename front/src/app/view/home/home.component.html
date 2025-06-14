@@ -3,7 +3,9 @@
     id="tphoto"
     class="h-[calc(100vh-60px)] flex items-center justify-center relative md:h-screen"
   >
-    @if (profils().length > 0) {
+    @if (userProfil().profil_photo === null) {
+      Veuillez ajouter une photo de profil afin de pouvoir accéder au système de matching.
+    } @else if (profils().length > 0) {
       <div class="w-4/5 h-[80vh] lg:w-3/5 relative rounded-3xl shadow-lg shadow-black/25">
 
         <img src="{{environment.apiUrl}}/uploads/photo-user/{{profils()[index].profil_photo}}"
@@ -48,15 +50,13 @@
         </div>
 
       </div>
+
     } @else if (profils().length === 0) {
       <div class="text-center">
-      <p>Aucun profil à montrer.</p>
+        <p>Aucun profil à montrer.</p>
         <p>Veuillez vérifier vos filtres.</p>
       </div>
-    } @else if(userProfil().profil_photo === null) {
-      Veuillez ajouter une photo de profil afin de pouvoir accéder au système de matching.
-    } @else
-    {
+    } @else {
       En cours de chargement
     }
 
