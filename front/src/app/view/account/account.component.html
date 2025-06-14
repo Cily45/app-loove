@@ -17,6 +17,7 @@
             placeholder="example@example.com"
             formControlName="email"
             name="email"
+            type="email"
             required
           />
           <mat-error *ngIf="emailFormGroup.get('email')?.errors?.['required']">Email requis</mat-error>

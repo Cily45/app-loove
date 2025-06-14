@@ -190,7 +190,7 @@ export class FilterComponent implements OnInit {
 
     const res = await firstValueFrom(this.filterService.add(formData))
     if (res) {
-      this.toastService.showSuccess('Filtre mis à jour')
+      this.toastService.showSuccess('Filtres mis à jour')
     } else {
       this.toastService.showError('Échec de la mise à jour des filtres')
     }

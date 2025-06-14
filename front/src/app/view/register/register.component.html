@@ -110,6 +110,7 @@
               matInput
               formControlName="email"
               placeholder="pat@example.com"
+              type="email"
               required
             />
             <mat-error *ngIf="thirdFormGroup.get('email')?.errors?.['required']">Email requis</mat-error>
