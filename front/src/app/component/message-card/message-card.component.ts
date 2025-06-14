@@ -2,6 +2,7 @@ import {Component, input} from '@angular/core';
 import {Message} from '../../services/api/message.service';
 import {NgClass} from '@angular/common';
 import {environment} from '../../env';
+import {getTime} from '../helper';
 
 @Component({
   selector: 'app-message-card',
@@ -32,4 +33,5 @@ getDatetime():string {
 
 
   protected readonly environment = environment;
+  protected readonly getTime = getTime;
 }

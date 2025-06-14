@@ -1,8 +1,8 @@
-<a class="app-chat-card flex justify-between items-center p-6" [routerLink]="['discussion/', message()?.id]">
-  <div class="flex items-center">
+<a class="app-chat-card flex justify-between items-center p-6 md:w-[calc(100vw-248px)]" [routerLink]="['discussion/', message()?.id]">
+  <div class="flex items-center ">
     <img src="{{environment.apiUrl}}/uploads/photo-user/{{message()?.profil_photo}}" alt="photo de profil"
          class="w-20 h-20 object-cover rounded-full drop-shadow-xl border-[#6A3A71] border mr-3">
-    <div class="w-[calc(100vw-180px)]">
+    <div class="w-[calc(100vw-180px)] md:w-[calc(100vw-400px)]">
         <p class="font-medium text-lg truncate">{{ message()?.firstname }}</p>
       <p class="text-lg truncate"
          [ngClass]="{'font-semibold text-[#F7A8C5]': message()?.is_view === 0 && message()?.is_that_user === 0}">{{ message()?.message }}</p>

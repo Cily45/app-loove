@@ -23,7 +23,7 @@ export class ChatComponent implements OnInit {
   async ngOnInit() {
     const messages = await firstValueFrom(this.messagesService.messages())
       if (messages.length > 0) {
-        this.messages.set(messages)
+        this.messages.update(u => messages)
       }
   }
 

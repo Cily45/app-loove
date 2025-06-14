@@ -1,11 +1,14 @@
 <div class="app-message-card my-3">
   <div class="flex justify-end" [ngClass]="message().is_that_user? 'flex-row':'flex-row-reverse'">
     <div class="max-w-3/4 h-fit w-fit  m-3 ">
-    <p class="bg-[#6A3A71] text-white p-3 break-words rounded-t-3xl shadow-lg shadow-black/25"
-       [ngClass]="message().is_that_user? 'rounded-bl-3xl' : 'rounded-br-3xl' ">
-      {{ message().message }}
-    </p>
-    <p class="text-[#202121] text-end text-sm">{{getDatetime()}}</p>
+      <p class="bg-[#6A3A71] text-white p-3 break-words rounded-t-3xl shadow-lg shadow-black/25"
+         [ngClass]="message().is_that_user? 'rounded-bl-3xl' : 'rounded-br-3xl' ">
+        {{ message().message }}
+      </p>
+      <p class="group relative cursor-pointer text-[#202121] text-end text-sm">
+        <span class="group-hover:hidden">{{ getTime(message().date, message().hour) }}</span>
+        <span class="hidden group-hover:inline">{{ getDatetime() }}</span>
+      </p>
     </div>
     <img src="{{environment.apiUrl}}/uploads/photo-user/{{photo()}}" alt="photo de profil"
          class="w-15 h-15 border border-[#6A3A71] object-cover rounded-full mr-3 mt-10 shadow-lg shadow-black/25">
