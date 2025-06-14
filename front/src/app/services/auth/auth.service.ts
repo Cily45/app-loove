@@ -5,8 +5,6 @@ import {environment} from '../../env';
 import {UserService} from '../api/user.service';
 import {ToastService} from '../toast.service';
 import {Router} from '@angular/router';
-import {PusherService} from '../pusher.service';
-import * as PusherPushNotifications from "@pusher/push-notifications-web";
 import {PusherBeamsService} from '../pusher-beams.service';
 
 interface LoginResponse {
