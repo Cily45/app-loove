@@ -156,7 +156,7 @@ export class ProfilComponent implements OnInit {
                 profil_photo: webpFile
               })
 
-              this.selectedPhoto.set(webpFile)
+              this.selectedPhoto.update(u => webpFile)
             }
           }, 'image/webp', 0.8)
         }

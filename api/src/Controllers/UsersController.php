@@ -328,54 +328,41 @@ class UsersController extends BaseController
         $id = $this->getId();
         if (!$id) {
             http_response_code(401);
-            echo json_encode(['error' => 'Erreur de token']);
-            return;
+            return json_encode(['error' => 'Erreur de token']);
         }
 
-        if (!isset($_FILES['photo']) || $_FILES['photo']['error'] !== UPLOAD_ERR_OK) {
-            http_response_code(400);
-            echo json_encode(['error' => 'Aucun fichier valide envoyé']);
-            return;
-        }
+        if (isset($_FILES['photo'])) {
+            $uploadDir = __DIR__ . '/../../uploads/photo-user/';
+            $tmpName = $_FILES['photo']['tmp_name'];
 
-        $uploadDir = __DIR__ . '/../../uploads/photo-user/';
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0755, true);
-        }
+            $fileName = 'profil-photo-' . $id . '.webp';
+            $targetPath = $uploadDir . $fileName;
 
-        $tmpName = $_FILES['photo']['tmp_name'];
-        $originalName = $_FILES['photo']['name'];
+            $oldFiles = glob($uploadDir . 'profil-photo-' . $id . '.*');
+            foreach ($oldFiles as $oldFile) {
+                unlink($oldFile);
+            }
 
-        $fileName = 'profil-photo-' . $id . '.webp';
-        $targetPath = $uploadDir . $fileName;
-
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $mimeType = finfo_file($finfo, $tmpName);
-        finfo_close($finfo);
-
-        if ($mimeType !== 'image/webp') {
-            http_response_code(415);
-            echo json_encode(['error' => 'Format de fichier non supporté (webp requis)']);
-            return;
-        }
-
-        if (move_uploaded_file($tmpName, $targetPath)) {
-            try {
-                $model = new UserModel();
-                $result = $model->updatePhoto($id, $fileName);
-                http_response_code(200);
-                echo json_encode($result, JSON_PRETTY_PRINT);
-            } catch (\Exception $e) {
-                error_log("Erreur avec la mise à jour de la photo: " . $e->getMessage());
+            if (move_uploaded_file($tmpName, $targetPath)) {
+                try {
+                    $model = new UserModel();
+                    $result = $model->updatePhoto($id, $fileName);
+                    http_response_code(200);
+                    return json_encode($result, JSON_PRETTY_PRINT);
+                } catch (\Exception $e) {
+                    error_log("Erreur avec la mise à jour de la photo: " . $e->getMessage());
+                    http_response_code(500);
+                    return json_encode(['error' => 'Erreur serveur']);
+                }
+            } else {
                 http_response_code(500);
-                echo json_encode(['error' => 'Erreur serveur']);
+                return json_encode(['error' => 'Erreur lors du déplacement du fichier']);
             }
         } else {
-            http_response_code(500);
-            echo json_encode(['error' => 'Erreur lors du déplacement du fichier']);
+            http_response_code(400);
+            return json_encode(['error' => 'Aucun fichier envoyé']);
         }
     }
-
 
     public
     function updateUser(): bool|string
