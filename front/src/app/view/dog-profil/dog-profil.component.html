@@ -11,11 +11,14 @@
           </mat-expansion-panel-header>
 
           <div [formGroupName]="i">
-            <input
+            <div class="mb-2">
+              <label>Nom du chien: </label>
+              <input
               type="text"
-              class="form__field"
-              formControlName="name"
-              placeholder="Nom du chien">
+              class="form__field border border-[#b59db8] rounded-3xl p-1"
+              formControlName="name">
+            </div>
+
             <div>
             <label>Date de naissance: </label>
             <input class="border border-[#b59db8] rounded-3xl p-1"
