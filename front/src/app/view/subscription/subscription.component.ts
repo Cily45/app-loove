@@ -25,8 +25,11 @@ export class SubscriptionComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.subscriptionInfo.set(await firstValueFrom(this.subscriptionService.info()))
-    this.isSubscribe.set(await firstValueFrom(this.subscriptionService.isSubscribe()))
+    const isSub = await firstValueFrom(this.subscriptionService.isSubscribe());
+    const info = await firstValueFrom(this.subscriptionService.info());
+
+    this.subscriptionInfo.update(u => info)
+    this.isSubscribe.update(u => isSub)
   }
 
   protected readonly getDate = getDate;

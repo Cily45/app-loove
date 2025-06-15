@@ -28,10 +28,10 @@ class SubscriptionController extends BaseController
                 if (!empty($result)) {
                     $model->delete($id);
                 }
-                return json_encode(['abonnement' => false]);
+                return json_encode( false);
             }
 
-            return json_encode(['abonnement' => true]);
+            return json_encode( true);
         } catch (\Exception $e) {
             error_log("Erreur avec la récupération d'information sur l'abonnement: " . $e->getMessage());
             http_response_code(500);
@@ -53,7 +53,7 @@ class SubscriptionController extends BaseController
             $result = $model->get($id);
 
             http_response_code(200);
-            return json_encode($result);
+            return json_encode($result, JSON_PRETTY_PRINT);
         } catch (\Exception $e) {
             error_log("Erreur avec la récupération d'information sur l'abonnement: " . $e->getMessage());
             http_response_code(500);
@@ -71,11 +71,16 @@ class SubscriptionController extends BaseController
         }
 
         try {
-            $isActif = json_decode($this->isActif());
+            $isActif = $this->isActif();
             $data = json_decode(file_get_contents('php://input'), true);
-            $time = isset($data['time']) ? (int)$data['time'] : time();
+            $time = isset($data) ? (int)$data : null ;
 
-            if ($isActif) {
+            if(!$time){
+                http_response_code(400);
+                return json_encode(['error' => 'Champ temps manquant']);
+            }
+
+            if ($isActif === "true") {
                 $this->update($id, $time);
             } else {
                 $model = new SubscriptionModel();
@@ -83,10 +88,8 @@ class SubscriptionController extends BaseController
                 $date_begin = date('Y-m-d');
                 $date_end = new DateTime();
                 $date_end->modify("+$time month");
-
                 $date_end = $date_end->format('Y-m-d');
-                $model->create($id, $date_begin, $date_end);
-
+                $result = $model->create($id, $date_begin, $date_end);
             }
 
             http_response_code(200);

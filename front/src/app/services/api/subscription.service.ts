@@ -18,9 +18,8 @@ export class SubscriptionService {
   }
 
 
-  isSubscribe(): Observable<boolean> {
-    return this.https.get<{ abonnement: boolean }>(`${this.apiUrl}/is-subscribe`)
-      .pipe(map(response => response.abonnement));
+  isSubscribe(){
+    return this.https.get<boolean>(`${this.apiUrl}/is-subscribe`)
   }
 
   info(): Observable<SubscriptionInfo> {
