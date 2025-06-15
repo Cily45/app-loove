@@ -37,5 +37,5 @@ export function getTime(dateString: string, hoursString: string): string {
     return `${Math.floor(timePassed / minute)}m`;
   }
 
-  return "now"
+  return "0m"
 }
