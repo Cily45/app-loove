@@ -31,8 +31,8 @@
         (change)="updatePhoto($event)"
       >
     </label>
-      <div class="flex justify-between flex-wrap w-50">
-        @if(isMobile){
+      <div class="flex flex-row justify-between flex-wrap w-56 m-auto">
+        @if(!isMobile){
       <button
         mat-flat-button
         class="mt-2 w-fit m-auto block"
