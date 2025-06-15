@@ -335,16 +335,35 @@ class UsersController extends BaseController
         if (isset($_FILES['photo'])) {
             $uploadDir = __DIR__ . '/../../uploads/photo-user/';
             $tmpName = $_FILES['photo']['tmp_name'];
-          //  $fileName = 'profil-photo-' . $id . '.jpg';
-         //   $targetPath = $uploadDir . $fileName;
             $fileName = 'profil-photo-' . $id . '.webp';
-            $webpName = $uploadDir . $fileName;
-      /*      if (move_uploaded_file($tmpName, $targetPath)) {
+            $targetPath = $uploadDir . $fileName;
+
+            if (move_uploaded_file($tmpName, $targetPath)) {
+                    try {
+                        $model = new UserModel();
+                        $result = $model->updatePhoto($id, $targetPath);
+                        http_response_code(200);
+                        return json_encode($result, JSON_PRETTY_PRINT);
+                    } catch (\Exception $e) {
+                        error_log("Erreur avec la mise à jour de la photo: " . $e->getMessage());
+                        http_response_code(500);
+                        return json_encode(['error' => 'Erreur serveur']);
+                    }
+            } else {
+                http_response_code(500);
+                return json_encode(['error' => 'Erreur lors du déplacement du fichier']);
+            }
+            /*$uploadDir = __DIR__ . '/../../uploads/photo-user/';
+            $tmpName = $_FILES['photo']['tmp_name'];
+            $fileName = 'profil-photo-' . $id . '.jpg';
+            $targetPath = $uploadDir . $fileName;
+
+            if (move_uploaded_file($tmpName, $targetPath)) {
                 $webpName = pathinfo($fileName, PATHINFO_FILENAME) . '.webp';
                 $webpPath = $uploadDir . $webpName;
 
-                if (convertToWebP($targetPath, $webpPath)) {*/
-           //         unlink($targetPath);
+                if (convertToWebP($targetPath, $webpPath)) {
+                    unlink($targetPath);
                     try {
                         $model = new UserModel();
                         $result = $model->updatePhoto($id, $webpName);
@@ -356,7 +375,7 @@ class UsersController extends BaseController
                         return json_encode(['error' => 'Erreur serveur']);
                     }
 
-  /*              } else {
+                } else {
                     return json_encode([
                         'error' => 'Conversion WebP échouée'
                     ]);
