@@ -129,21 +129,45 @@ export class ProfilComponent implements OnInit {
   }
 
   updatePhoto(event: Event) {
-    const target = event.target as HTMLInputElement
+    const target = event.target as HTMLInputElement;
     if (target && target.files && target.files.length > 0) {
       const file = target.files[0]
 
-      const objectUrl = URL.createObjectURL(file)
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        const img = new Image()
+        img.onload = () => {
+          const canvas = document.createElement('canvas')
+          canvas.width = img.width
+          canvas.height = img.height
+          const ctx = canvas.getContext('2d')
+          if (!ctx) return
 
-      this.profilPhoto.set(objectUrl)
-      this.profilForm.patchValue({
-        profil_photo: file
-      })
-      if (target.files?.length) {
-        this.selectedPhoto.set(target.files[0])
+          ctx.drawImage(img, 0, 0)
+
+          canvas.toBlob((blob) => {
+            if (blob) {
+              const objectUrl = URL.createObjectURL(blob)
+              this.profilPhoto.set(objectUrl)
+
+              const webpFile = new File([blob], file.name.replace(/\.\w+$/, '.webp'), {type: 'image/webp'})
+
+              this.profilForm.patchValue({
+                profil_photo: webpFile
+              })
+
+              this.selectedPhoto.set(webpFile)
+            }
+          }, 'image/webp', 0.8)
+        }
+        if (e.target?.result) {
+          img.src = e.target.result as string
+        }
       }
+      reader.readAsDataURL(file)
     }
   }
+
 
   async onSubmit() {
     const count = this.genderPreferencesArray.value.filter((val: boolean) => val).length
