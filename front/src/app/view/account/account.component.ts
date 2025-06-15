@@ -1,6 +1,6 @@
 import {Component, OnInit, signal} from '@angular/core';
 import {MatExpansionModule} from '@angular/material/expansion';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormControl, FormGroup,  ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input'
 import {MatFormFieldModule} from '@angular/material/form-field'
 import {MatButton} from '@angular/material/button';
@@ -15,7 +15,7 @@ import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-account',
-  imports: [MatExpansionModule, FormsModule, MatInputModule, ReactiveFormsModule, MatFormFieldModule, MatButton, MatIconModule, NgIf],
+  imports: [MatExpansionModule, MatInputModule, ReactiveFormsModule, MatFormFieldModule, MatButton, MatIconModule, NgIf],
   templateUrl: './account.component.html',
   styleUrl: './account.component.scss'
 })
