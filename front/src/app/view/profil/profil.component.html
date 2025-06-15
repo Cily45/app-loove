@@ -10,22 +10,54 @@
     <label class="relative inline-block m-auto">
       <img
         [src]="profilPhoto()"
-        class="h-50 w-50 object-cover object-center rounded-3xl"
+        class="h-50 w-50 object-cover object-center rounded-3xl m-auto"
         alt="Photo de profil principal"
       >
 
       <input
         type="file"
-        (input)="updatePhoto($event)"
         accept="image/webp, image/png, image/jpeg"
         class="hidden"
-        required
+        #galleryInput
+        (change)="updatePhoto($event)"
       >
 
-      <div class="absolute bottom-2 right-2 h-8 w-8 bg-white text-[#6A3A71] p-1 rounded-full shadow-md">
-        <mat-icon>edit</mat-icon>
+      <input
+        type="file"
+        accept="image/webp, image/png, image/jpeg"
+        capture="environment"
+        class="hidden"
+        #cameraInput
+        (change)="updatePhoto($event)"
+      >
+
+      <div class="flex justify-between flex-wrap w-50">
+        @if(isMobile){
+      <button
+        mat-flat-button
+        class="mt-2 w-fit m-auto block"
+        type="button"
+        (click)="cameraInput.click()"
+      >
+        <mat-icon>photo_camera</mat-icon>
+        Photo
+      </button>
+        }
+      <button
+        mat-flat-button
+        class="mt-2 w-fit m-auto block m-auto"
+        type="button"
+        (click)="galleryInput.click()"
+      >
+        <mat-icon>folder</mat-icon>
+        Fichier
+      </button>
+
       </div>
     </label>
+
+
+
 
     <div class="flex flex-col justify-around items-center">
       <div class="flex flex-wrap justify-around w-4/5">

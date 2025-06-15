@@ -45,8 +45,8 @@ export class ProfilComponent implements OnInit {
   hobbies = signal<Hobby[]>([])
   genders = signal<Gender[]>([])
   selectedPhoto = signal<File | null>(null)
-
-  profilForm: FormGroup;
+  isMobile = false
+  profilForm: FormGroup
 
   constructor(
     private hobbiesService: HobbiesService,
@@ -66,6 +66,7 @@ export class ProfilComponent implements OnInit {
   async ngOnInit() {
     this.userProfil.set(JSON.parse(<string>localStorage.getItem('profil')))
     this.profilPhoto.set(environment.apiUrl + "/uploads/photo-user/" + this.userProfil()?.profil_photo)
+    this.isMobile = /iPhone|iPad|iPod|Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 
     this.profilForm.patchValue({
       firstname: this.userProfil().firstname,
