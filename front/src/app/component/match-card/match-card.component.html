@@ -1,8 +1,8 @@
 @if(!isSkiped()){
-<div class="shrink-0 snap-center bg-second bg-white/30">
+<div class="shrink-0 snap-center bg-second bg-white/30 rounded-3xl">
   <div
-    class=" w-[calc(80vw)] h-[calc(80vh-60px)] md:w-[calc(80vw-220px)] md:h-[calc(80vh-)] relative rounded-3xl drop-shadow-2xl"
-    [ngClass]="{'drop-shadow-pink-500/50': profil().match_code === 0}"
+    class=" w-[calc(80vw)] h-[calc(80vh-60px)] md:w-[calc(80vw-220px)] md:h-[calc(80vh-)] relative rounded-3xl drop-shadow-xl"
+    [ngClass]="{'drop-shadow-pink-700/50': profil().match_code === 0}"
   >
     @if (!isSubcribe() && profil().match_code !== 0) {
       <div
@@ -48,7 +48,7 @@
     <div
       class="absolute bottom-0 rounded-b-3xl left-0 w-full h-32 bg-gradient-to-t from-black/75 to-transparent z-10"></div>
     <p
-      class="absolute z-50 w-[calc(80vw)] md:w-[calc(80vw-220px)] text-center text-3xl text-white">{{ profil().match_code === 0 ? "Pawfect" : "" }}</p>
+      class="absolute z-50 w-[calc(80vw)] md:w-[calc(80vw-220px)] text-center text-3xl text-white drop-shadow drop-shadow-pink-600/50">{{ profil().match_code === 0 ? "Pawfect" : "" }}</p>
 
   </div>
   <app-report [hidden]="isReportHidden()" [id]="profil().id"></app-report>
