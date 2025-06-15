@@ -335,15 +335,16 @@ class UsersController extends BaseController
         if (isset($_FILES['photo'])) {
             $uploadDir = __DIR__ . '/../../uploads/photo-user/';
             $tmpName = $_FILES['photo']['tmp_name'];
-            $fileName = 'profil-photo-' . $id . '.jpg';
-            $targetPath = $uploadDir . $fileName;
-
-            if (move_uploaded_file($tmpName, $targetPath)) {
+          //  $fileName = 'profil-photo-' . $id . '.jpg';
+         //   $targetPath = $uploadDir . $fileName;
+            $fileName = 'profil-photo-' . $id . '.webp';
+            $webpName = $uploadDir . $fileName;
+      /*      if (move_uploaded_file($tmpName, $targetPath)) {
                 $webpName = pathinfo($fileName, PATHINFO_FILENAME) . '.webp';
                 $webpPath = $uploadDir . $webpName;
 
-                if (convertToWebP($targetPath, $webpPath)) {
-                    unlink($targetPath);
+                if (convertToWebP($targetPath, $webpPath)) {*/
+           //         unlink($targetPath);
                     try {
                         $model = new UserModel();
                         $result = $model->updatePhoto($id, $webpName);
@@ -355,7 +356,7 @@ class UsersController extends BaseController
                         return json_encode(['error' => 'Erreur serveur']);
                     }
 
-                } else {
+  /*              } else {
                     return json_encode([
                         'error' => 'Conversion WebP échouée'
                     ]);
@@ -363,7 +364,7 @@ class UsersController extends BaseController
             } else {
                 http_response_code(500);
                 return json_encode(['error' => 'Erreur lors du déplacement du fichier']);
-            }
+            }*/
 
 
         } else {
