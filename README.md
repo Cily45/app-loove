@@ -23,6 +23,13 @@
 * Pusher Channels
 * Pusher Beams
 
+#### Schémas de base de données
+
+![Sans titre](https://github.com/user-attachments/assets/9eaf772e-4651-4163-ab67-de6d84ea02f1)
+
+
+---
+
 ### 💻 Frontend (Angular)
 * Angular 15+ (vérifie la version exacte)
 * Tailwind CSS (ou autre framework CSS utilisé)
@@ -67,7 +74,10 @@ cd api
 composer install
 ```
 
-4. Configuration des environnements
+4. Importation de la base de donnée
+   ici
+  
+6. Configuration des environnements
 Backend :
 Copier le fichier .env.dist en .env
 puis remplir les informations nécessaires (connexion DB, clés API, etc.).
@@ -76,7 +86,7 @@ Frontend :
 Dans client/src/environments/, copier environment.dist.ts en environment.ts
 et renseigner les bonnes valeurs (URL API, clés Pusher, PayPal, etc.).
 
-5. Lancer le serveur PHP
+6. Lancer le serveur PHP
 ```
 php -S localhost:8000 -t public
 ```
