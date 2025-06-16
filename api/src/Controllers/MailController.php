@@ -22,6 +22,7 @@ class MailController extends BaseController
         $mail->isSMTP();
         $mail->Host = self::SMTP_HOST;
         $mail->SMTPAuth = true;
+        $mail->CharSet = 'UTF-8';
         $mail->Username = self::SMTP_USER;
         $mail->Password = self::SMTP_PASS;
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
@@ -190,7 +191,7 @@ class MailController extends BaseController
             $mail = $this->getMailer($mailUser);
             $mail->Subject = 'Vous avez un nouveau message';
 
-            $body = file_get_contents(__DIR__ . '/../mail-template/messageNotification.html');
+            $body = file_get_contents(__DIR__ . '/../mail-template/warningMail.html');
             $body = str_replace(
                 ['{{ reason }}', '{{contact_link}}', '{{ message }}'],
                 [$reason, $_ENV['URL'] . '/contact/', $reasonMessage[$reason]],
