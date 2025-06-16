@@ -44,7 +44,7 @@ export class PaypalButtonComponent implements AfterViewInit {
           const details = await actions.order!.capture()
 
           if (details.status === "COMPLETED")
-            this.subscriptionService.subscription(this.price()?.quantity).subscribe(res => {
+            this.subscriptionService.subscription(this.price()).subscribe(res => {
               this.router.navigate(['/abonnement'])
               if (res) {
                 this.toastService.showSuccess(`Votre compte à était créditer de ${this.price()?.quantity} mois de premium`)

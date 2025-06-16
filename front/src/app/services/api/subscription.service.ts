@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {map, Observable} from 'rxjs';
 import {environment} from '../../env';
 import {HttpClient} from '@angular/common/http';
+import {Price} from './price.service';
 
 export interface SubscriptionInfo {
   begin_date: string
@@ -26,9 +27,9 @@ export class SubscriptionService {
     return this.https.get<SubscriptionInfo>(`${this.apiUrl}/subscription-info`)
   }
 
-  subscription(time: number | undefined): Observable<boolean> {
+  subscription(price: Price | null): Observable<boolean> {
     return this.https.post<{
       abonnement: boolean
-    }>(`${this.apiUrl}/subscription`, time).pipe(map(response => response.abonnement));
+    }>(`${this.apiUrl}/subscription`, price).pipe(map(response => response.abonnement));
   }
 }

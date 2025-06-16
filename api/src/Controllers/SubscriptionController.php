@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\InflowModel;
 use App\Models\SubscriptionModel;
 use DateTime;
 
@@ -73,12 +74,15 @@ class SubscriptionController extends BaseController
         try {
             $isActif = $this->isActif();
             $data = json_decode(file_get_contents('php://input'), true);
-            $time = isset($data) ? (int)$data : null ;
+            $time = isset($data['quantity']) ? (int)$data['quantity'] : null ;
+            $price = isset($data['price']) ? (int)$data['price'] : null ;
 
             if(!$time){
                 http_response_code(400);
                 return json_encode(['error' => 'Champ temps manquant']);
             }
+
+            (new InflowModel())->add($price);
 
             if ($isActif === "true") {
                 $this->update($id, $time);
@@ -90,6 +94,7 @@ class SubscriptionController extends BaseController
                 $date_end->modify("+$time month");
                 $date_end = $date_end->format('Y-m-d');
                 $result = $model->create($id, $date_begin, $date_end);
+
             }
 
             http_response_code(200);
