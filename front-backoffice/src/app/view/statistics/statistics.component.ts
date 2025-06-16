@@ -32,4 +32,6 @@ export class StatisticsComponent implements OnInit {
   async ngOnInit() {
     this.statistics.set(await firstValueFrom(this.statisticsService.get()))
   }
+
+  protected readonly Math = Math;
 }

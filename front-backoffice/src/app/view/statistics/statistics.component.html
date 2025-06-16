@@ -11,7 +11,7 @@
       </mat-expansion-panel-header>
       <p>Total des utilisateurs : {{ statistics().users }} </p>
       <p>Utilisateurs premium : {{ statistics().subcrib}} </p>
-      <p>Gain : {{ statistics().inflow}}€</p>
+      <p>Gain : {{ (Math.round(statistics().inflow * 100) / 100).toFixed(2)}}€</p>
     </mat-expansion-panel>
 
     <mat-expansion-panel class="my-6">
