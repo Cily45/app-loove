@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\InflowModel;
 use App\Models\MatchModel;
 use App\Models\MessagesModel;
 use App\Models\ReportModel;
