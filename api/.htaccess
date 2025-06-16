@@ -18,3 +18,17 @@ SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
 
 # Forcer l'interprétation PHP si jamais les .php ne sont pas bien détectés
 AddType application/x-httpd-php .php
+
+# Bloquer les fichiers cachés (ex : .env, .gitignore)
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
+
+# Bloquer l'accès au dossier .git
+RedirectMatch 404 /\.git
+
+# Bloquer le fichier .env
+<Files .env>
+  Order allow,deny
+  Deny from all
+</Files>
