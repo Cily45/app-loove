@@ -22,16 +22,16 @@ class NotificationService {
                     "notification" => [
                         "title" => "Nouveau Match",
                         "body" => "Vous avez matcher avec $name",
-                        "icon" => "https://pawfectmatch.dev/uploads/logo-entier.png",
-                        "deep_link" => "https://pawfectmatch.dev:4200/messagerie/discussion/" . $id,
+                        "icon" => "https://pawfect-match.duckdns-api.org/uploads/logo-entier.png",
+                        "deep_link" => "https://pawfect-match.duckdns.org/messagerie/discussion/" . $id,
                     ]
                 ],
                 "web" => [
                     "notification" => [
                         "title" => "Nouveau Match",
                         "body" => "Vous avez matcher avec $name",
-                        "icon" => "https://pawfectmatch.dev/uploads/logo-entier.png",
-                        "deep_link" => "https://pawfectmatch.dev:4200/messagerie/discussion/" . $id,
+                        "icon" => "https://pawfect-match.duckdns-api.org/uploads/logo-entier.png",
+                        "deep_link" => "https://pawfect-match.duckdns.org/messagerie/discussion/" . $id,
                     ]
                 ]
             ]
@@ -46,16 +46,16 @@ class NotificationService {
                     "notification" => [
                         "title" => "Nouveau Message",
                         "body" => "Vous avez reçu un nouveau message de $name",
-                        "icon" => "https://pawfectmatch.dev/uploads/logo-entier.png",
-                        "deep_link" => "https://pawfectmatch.dev:4200/messagerie/discussion/" . $id,
+                        "icon" => "https://pawfect-match.duckdns-api.org/uploads/logo-entier.png",
+                        "deep_link" => "https://pawfect-match.duckdns.org/messagerie/discussion/" . $id,
                     ]
                 ],
                 "web" => [
                     "notification" => [
                         "title" => "Nouveau message",
                         "body" => "Vous avez reçu un nouveau message de $name",
-                        "icon" => "https://pawfectmatch.dev/uploads/logo-entier.png",
-                        "deep_link" => "https://pawfectmatch.dev:4200/messagerie/discussion/" . $id,
+                        "icon" => "https://pawfect-match.duckdns-api.org/uploads/logo-entier.png",
+                        "deep_link" => "https://pawfect-match.duckdns.org/messagerie/discussion/" . $id,
                     ]
                 ]
             ]
