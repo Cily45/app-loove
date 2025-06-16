@@ -189,7 +189,7 @@ class MailController extends BaseController
             $user = $userController->get($idUser);
             $mailUser = $user["email"];
             $mail = $this->getMailer($mailUser);
-            $mail->Subject = 'Vous avez un nouveau message';
+            $mail->Subject = '⚠ Avertissement';
 
             $body = file_get_contents(__DIR__ . '/../mail-template/warningMail.html');
             $body = str_replace(
@@ -197,7 +197,7 @@ class MailController extends BaseController
                 [$reason, $_ENV['URL'] . '/contact/', $reasonMessage[$reason]],
                 $body
             );
-            $mail->addEmbeddedImage(__DIR__ . '/../../uploads/logo-entier.png', 'logoCID');
+            $mail->addEmbeddedImage(__DIR__ . '/../../uploads/logo-entier.png', 'logo');
             $mail->Body = $body;
 
             $mail->send();
