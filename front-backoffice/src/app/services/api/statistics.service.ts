@@ -11,6 +11,7 @@ export interface Stats {
   reportUnsolved: number
   matchs: number
   subcrib: number
+  inflow: number
 }
 @Injectable({
   providedIn: 'root'

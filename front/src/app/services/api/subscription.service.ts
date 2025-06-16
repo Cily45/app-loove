@@ -28,8 +28,8 @@ export class SubscriptionService {
   }
 
   subscription(price: Price | null): Observable<boolean> {
-    return this.https.post<{
-      abonnement: boolean
-    }>(`${this.apiUrl}/subscription`, price).pipe(map(response => response.abonnement));
+    console.log(price)
+    return this.https.post<boolean>(`${this.apiUrl}/subscription`, price);
   }
+
 }

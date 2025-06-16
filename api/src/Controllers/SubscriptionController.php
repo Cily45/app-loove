@@ -76,10 +76,10 @@ class SubscriptionController extends BaseController
             $data = json_decode(file_get_contents('php://input'), true);
             $time = isset($data['quantity']) ? (int)$data['quantity'] : null ;
             $price = isset($data['price']) ? (int)$data['price'] : null ;
-
-            if(!$time){
+            var_dump($data);
+            if(!$time || !$price) {
                 http_response_code(400);
-                return json_encode(['error' => 'Champ temps manquant']);
+                return json_encode(['error' => 'Champ manquant']);
             }
 
             (new InflowModel())->add($price);

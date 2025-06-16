@@ -21,7 +21,8 @@ export class StatisticsComponent implements OnInit {
     reports: 0,
     reportUnsolved: 0,
     matchs: 0,
-    subcrib: 0
+    subcrib: 0,
+    inflow: 0
   })
 
 
