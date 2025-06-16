@@ -12,7 +12,7 @@ class InflowModel extends BaseModel
             ->fetch();
     }
 
-    public function add(int $cash)
+    public function add(float $cash)
     {
         return $this
             ->query("INSERT INTO inflow (cash) VALUES (:cash)")

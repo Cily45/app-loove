@@ -75,8 +75,8 @@ class SubscriptionController extends BaseController
             $isActif = $this->isActif();
             $data = json_decode(file_get_contents('php://input'), true);
             $time = isset($data['quantity']) ? (int)$data['quantity'] : null ;
-            $price = isset($data['price']) ? (int)$data['price'] : null ;
-            var_dump($data);
+            $price = isset($data['price']) ? (float)$data['price'] : null ;
+
             if(!$time || !$price) {
                 http_response_code(400);
                 return json_encode(['error' => 'Champ manquant']);
