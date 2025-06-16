@@ -8,7 +8,7 @@ class InflowModel extends BaseModel
     public function count()
     {
         return $this
-            ->query("SELECT SUM(cash) AS total FROM inflow")
+            ->query("SELECT SUM(cash) AS inflow FROM inflow")
             ->fetch();
     }
 

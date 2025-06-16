@@ -27,7 +27,7 @@ class StatisticsController extends BaseController
                 'reportUnsolved' => (new ReportModel())->countUnsolved(),
                 'matchs' => (new MatchModel())->count(),
                 'subcrib' => (new SubscriptionModel())->count(),
-                'inflow' => (new InflowModel())->count(),
+                (new InflowModel())->count(),
             ];
         } catch (Exception $e) {
             error_log("Erreur de récuperation des statistique: " . $e->getMessage());
