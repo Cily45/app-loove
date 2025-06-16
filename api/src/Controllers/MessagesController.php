@@ -65,14 +65,10 @@ class MessagesController extends AuthController
             $date = date('Y-m-d');
             $hour = date("H:i:s");
 
-
-
             if (!$receiverId || !$message) {
                 http_response_code(400);
                 return json_encode(['error' => 'Champs manquants.']);
             }
-
-
 
             $model = new MessagesModel();
             $result = $model->addMessage($receiverId, $senderId, $message, $date, $hour);
