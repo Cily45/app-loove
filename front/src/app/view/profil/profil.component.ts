@@ -65,7 +65,7 @@ export class ProfilComponent implements OnInit {
 
   async ngOnInit() {
     this.userProfil.set(JSON.parse(<string>localStorage.getItem('profil')))
-    this.profilPhoto.set(environment.apiUrl + "/uploads/photo-user/" + this.userProfil()?.profil_photo)
+    this.profilPhoto.set(environment.apiUrl + "/uploads/photo-user/" + this.userProfil()?.profil_photo + "?v=" + Date.now())
     this.isMobile = /iPhone|iPad|iPod|Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 
     this.profilForm.patchValue({

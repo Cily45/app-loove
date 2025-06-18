@@ -81,4 +81,5 @@ export class ProfilComponent implements OnChanges {
 
 protected readonly getAge = getAge;
 protected readonly environment = environment;
+  protected readonly Date = Date;
 }

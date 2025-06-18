@@ -70,4 +70,5 @@ export class MatchCardComponent {
   isSubcribe = input<boolean>()
   protected readonly environment = environment;
   protected readonly document = document;
+  protected readonly Date = Date;
 }

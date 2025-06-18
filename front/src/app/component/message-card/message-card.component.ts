@@ -34,4 +34,5 @@ getDatetime():string {
 
   protected readonly environment = environment;
   protected readonly getTime = getTime;
+  protected readonly Date = Date;
 }

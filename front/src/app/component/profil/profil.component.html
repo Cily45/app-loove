@@ -14,7 +14,7 @@
         <p>{{ profil().lastname }}</p>
       </div>
 
-      <img src="{{environment.apiUrl}}/uploads/photo-user/{{profil().profil_photo}}"
+      <img src="{{environment.apiUrl}}/uploads/photo-user/{{profil().profil_photo}}?v={{Date.now()}}"
            class="w-full h-full object-cover object-center rounded-3xl " alt="Photo"/>
 
       <div class="flex justify-center space-x-3 text-xl text-white ">

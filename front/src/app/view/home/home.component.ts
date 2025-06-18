@@ -104,4 +104,5 @@ export class HomeComponent implements OnInit {
   getAge = getAge;
   environment = environment;
   Math = Math;
+  protected readonly Date = Date;
 }
