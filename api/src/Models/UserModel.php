@@ -170,15 +170,15 @@ WHERE u.id != :id
             AND TIMESTAMPDIFF(YEAR, u.birthday, CURDATE()) <= (SELECT max_age FROM user_filter WHERE user_id = :id LIMIT 1)
         )
     )
- -- Filtre de distance (si des filtres existent)
+    -- Filtre de distance (si des filtres existent)
    AND (
         NOT EXISTS (SELECT 1 FROM user_filter WHERE user_id = :id AND distance IS NOT NULL)
         OR ST_Distance_Sphere(
            u.location, 
-           (SELECT location FROM user WHERE id = :id)
-        ) / 1000 <= (SELECT distance FROM user_filter WHERE user_id = :id AND distance IS NOT NULL LIMIT 1)
-   )
-     Filtre de genre (si des filtres existent)
+            (SELECT location FROM user WHERE id = :id)
+       ) / 1000 <= (SELECT distance FROM user_filter WHERE user_id = :id AND distance IS NOT NULL LIMIT 1)
+    )
+    -- Filtre de genre (si des filtres existent)
     AND (
     u.gender_id IN (
             SELECT gender_id FROM user_filter_gender WHERE user_id = :id
