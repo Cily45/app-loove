@@ -95,10 +95,10 @@ export class RegisterComponent implements OnInit {
       ...this.thirdFormGroup.value
     }
 
-   /* const res = await firstValueFrom(this.userService.createUser(form))
+    const res = await firstValueFrom(this.userService.createUser(form))
     if (res) {
       stepper.next()
-    }*/
+    }
   }
 
   async ngOnInit() {
