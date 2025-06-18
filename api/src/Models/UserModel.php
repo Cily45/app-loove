@@ -129,9 +129,7 @@ class UserModel extends BaseModel
             ->fetch(['id' => $id]);
     }
 
-    public function getAllProfil(
-        int $id
-    ): array
+    public function getAllProfil(int $id): array
     {
         return $this
             ->query("
@@ -152,12 +150,11 @@ SELECT DISTINCT
         ) / 1000, 2
     ) as distance_km
 FROM user u
--- Suppression des LEFT JOIN qui causent les doublons
 WHERE u.id != :id 
     AND u.lastname IS NOT NULL
     AND u.profil_photo IS NOT NULL
     AND u.is_verified = 1
-        AND u.id NOT IN (
+    AND u.id NOT IN (
         SELECT user_id_1 
         FROM matches 
         WHERE user_id_0 = :id
@@ -170,17 +167,20 @@ WHERE u.id != :id
             AND TIMESTAMPDIFF(YEAR, u.birthday, CURDATE()) <= (SELECT max_age FROM user_filter WHERE user_id = :id LIMIT 1)
         )
     )
-    -- Filtre de distance (si des filtres existent)
+    -- Filtre de distance
     AND (
         NOT EXISTS (SELECT 1 FROM user_filter WHERE user_id = :id AND distance IS NOT NULL)
-       OR ST_Distance_Sphere(
-            u.location, 
-            (SELECT location FROM user WHERE id = :id)
-        ) / 1000 <= (SELECT distance FROM user_filter WHERE user_id = :id AND distance IS NOT NULL LIMIT 1)
+        OR (
+            ST_Distance_Sphere(
+                u.location, 
+                (SELECT location FROM user WHERE id = :id)
+            ) / 1000 <= (SELECT distance FROM user_filter WHERE user_id = :id AND distance IS NOT NULL LIMIT 1)
+        )
     )
-    -- Filtre de genre (si des filtres existent)
+    -- Filtre de genre 
     AND (
-    u.gender_id IN (
+        NOT EXISTS (SELECT 1 FROM user_filter_gender WHERE user_id = :id)
+        OR u.gender_id IN (
             SELECT gender_id FROM user_filter_gender WHERE user_id = :id
         )
     )
@@ -235,7 +235,8 @@ WHERE u.id != :id
             )
         )
     )
-ORDER BY distance_km ASC LIMIT 10;
+ORDER BY distance_km ASC 
+LIMIT 10;
 ")
             ->fetchAll(['id' => $id]);
     }
