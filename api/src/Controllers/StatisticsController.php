@@ -28,6 +28,7 @@ class StatisticsController extends BaseController
                 'matchs' => (new MatchModel())->count(),
                 'subcrib' => (new SubscriptionModel())->count(),
                 'inflow' => (new InflowModel())->count()['total'],
+                'yearInflow' => (new InflowModel())->getLastYearInflow(),
             ];
         } catch (Exception $e) {
             error_log("Erreur de récuperation des statistique: " . $e->getMessage());

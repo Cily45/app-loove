@@ -12,6 +12,12 @@ export interface Stats {
   matchs: number
   subcrib: number
   inflow: number
+  yearInflow: MonthlyInflow[]
+}
+
+export interface MonthlyInflow {
+  mois: string;
+  revenu_total: number;
 }
 @Injectable({
   providedIn: 'root'

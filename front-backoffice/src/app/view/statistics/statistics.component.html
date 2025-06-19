@@ -1,4 +1,4 @@
-<div class="app-faq mx-auto w-10/12 md:w-4/5 xl:w-1/2">
+<div class="app-faq mx-auto w-10/12 md:w-4/5 xl:w-1/2 pb-[60px] md:pb-0">
   <img class="min-w-25 max-w-50 w-1/2 mt-10 mx-auto mb-12"
        routerLink="/"
        src="assets/image/logo-entier.png"
@@ -11,7 +11,10 @@
       </mat-expansion-panel-header>
       <p>Total des utilisateurs : {{ statistics().users }} </p>
       <p>Utilisateurs premium : {{ statistics().subcrib}} </p>
-      <p>Gain : {{ (Math.round(statistics().inflow * 100) / 100).toFixed(2)}}€</p>
+      <p>Revenue : {{ (Math.round(statistics().inflow * 100) / 100).toFixed(2)}}€</p>
+      <div class="w-full">
+        <canvas id="inflow" width="800" height="400"></canvas>
+      </div>
     </mat-expansion-panel>
 
     <mat-expansion-panel class="my-6">
@@ -27,8 +30,12 @@
       <mat-expansion-panel-header>
         <mat-panel-title>🔎 Modération et sécurité</mat-panel-title>
       </mat-expansion-panel-header>
-      <p>Signalements reçus : {{ statistics().reports }}</p>
-      <p>Signalement non traités: {{ statistics().reportUnsolved }}</p>
+
+      <div class="w-full">
+        <canvas id="report" width="800" height="400"></canvas>
+      </div>
+
+
     </mat-expansion-panel>
   </mat-accordion>
 </div>
