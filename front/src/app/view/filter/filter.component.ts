@@ -22,6 +22,7 @@ import {DogGender} from '../../services/api/dog-gender.service';
 import {FilterService} from '../../services/api/filter.service';
 import {ToastService} from '../../services/toast.service';
 import {firstValueFrom} from 'rxjs';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-filter',
@@ -56,7 +57,8 @@ export class FilterComponent implements OnInit {
     private fb: FormBuilder,
     private subcriptionService: SubscriptionService,
     private toastService: ToastService,
-    private filterService: FilterService
+    private filterService: FilterService,
+    private router: Router,
   ) {
     this.filterForm = this.fb.group({
       genderFilter: fb.array([]),
@@ -191,6 +193,8 @@ export class FilterComponent implements OnInit {
     const res = await firstValueFrom(this.filterService.add(formData))
     if (res) {
       this.toastService.showSuccess('Filtres mis à jour')
+      this.router.navigate(['/accueil'])
+
     } else {
       this.toastService.showError('Échec de la mise à jour des filtres')
     }
