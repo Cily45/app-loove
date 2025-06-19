@@ -25,7 +25,7 @@
       </div>
     </div>
   </div>
-  <div class="bg-second h-[calc(100vh-268px)] md:h-[calc(100vh-208px)] p-6 flex flex-col-reverse overflow-y-auto">
+  <div class="bg-second h-[calc(100vh-228px)] md:h-[calc(100vh-208px)] p-6 flex flex-col-reverse overflow-y-auto">
     @for (message of messages(); track message) {
       <app-message-card [message]="message"
                         [photo]="message.is_that_user? userProfil().profil_photo : profil().profil_photo"></app-message-card>
