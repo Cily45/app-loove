@@ -76,6 +76,9 @@ export class RegisterComponent implements OnInit {
 
 
   async onSubmit(stepper: MatStepper) {
+    if(!this.thirdFormGroup.valid){
+      return
+    }
     const emailControl = this.thirdFormGroup.get('email')
     const email: string = this.thirdFormGroup.get('email')?.value || 'error'
     this.isLoading = false
