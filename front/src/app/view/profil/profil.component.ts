@@ -13,6 +13,7 @@ import {Gender, GenderService} from '../../services/api/gender.service';
 import {getDate} from '../../component/helper';
 import {ToastService} from '../../services/toast.service';
 import {firstValueFrom} from 'rxjs';
+import {SpinnerComponent} from '../../component/spinner/spinner.component';
 
 @Component({
   selector: 'app-profil',
@@ -24,7 +25,9 @@ import {firstValueFrom} from 'rxjs';
     MatInputModule,
     MatExpansionModule,
     MatButton,
-    ReactiveFormsModule],
+    ReactiveFormsModule,
+    SpinnerComponent
+  ],
   templateUrl: './profil.component.html',
   styleUrl: './profil.component.scss'
 })
@@ -47,6 +50,7 @@ export class ProfilComponent implements OnInit {
   selectedPhoto = signal<File | null>(null)
   isMobile = false
   profilForm: FormGroup
+  isLoading = true
 
   constructor(
     private hobbiesService: HobbiesService,
@@ -188,7 +192,9 @@ export class ProfilComponent implements OnInit {
           this.selectedHobbiesArray.at(index).value
         )
       }
+      this.isLoading = false
       const res = await firstValueFrom(this.userService.updateUser(formData))
+      this.isLoading = true
       localStorage.setItem('profil', JSON.stringify(res));
       if (res) {
         this.toastService.showSuccess('Votre profil à été mis à jours')

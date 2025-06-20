@@ -235,10 +235,10 @@ class UsersController extends BaseController
 
         try {
             $uploadDir = __DIR__ . '/../../uploads/photo-user/';
-            $targetPath = $uploadDir . 'profil-photo-' . $idUser . '.webp';
+            $path = $uploadDir . 'profil-photo-' . $idUser . '.webp';
 
-            if (file_exists($targetPath)) {
-                unlink($targetPath);
+            if (file_exists($path)) {
+                unlink($path);
             }
 
             $model = new UserModel();

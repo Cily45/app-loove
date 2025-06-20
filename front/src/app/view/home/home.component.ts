@@ -12,6 +12,7 @@ import {ToastService} from '../../services/toast.service';
 import {environment} from '../../env';
 import {ProfilComponent} from '../../component/profil/profil.component';
 import {firstValueFrom} from 'rxjs';
+import {SpinnerComponent} from '../../component/spinner/spinner.component';
 
 @Component({
   selector: 'app-home',
@@ -21,6 +22,7 @@ import {firstValueFrom} from 'rxjs';
     ReportComponent,
     ProfilComponent,
     ProfilComponent,
+    SpinnerComponent,
 
   ],
   templateUrl: './home.component.html',
@@ -43,6 +45,7 @@ export class HomeComponent implements OnInit {
   })
   isProfilHidden = signal<boolean>(true)
   isReportHidden = signal<boolean>(true)
+  isLoading = true
 
   constructor(private userService: UserService, private matchService: MatchService, private subscriptionService: SubscriptionService, private toastService: ToastService) {
   }
@@ -63,7 +66,7 @@ export class HomeComponent implements OnInit {
       }).subscribe();
     }
     this.index++
-    if (this.index > 9) {
+    if (this.index >= 9 || this.index >= this.profils().length) {
       this.reload()
     }
   }
@@ -76,7 +79,7 @@ export class HomeComponent implements OnInit {
       }).subscribe();
     }
     this.index++
-    if (this.index > 9) {
+    if (this.index >= 9 || this.index >= this.profils().length) {
       this.reload()
     }
   }
@@ -86,8 +89,10 @@ export class HomeComponent implements OnInit {
     this.userProfil.set(JSON.parse(<string>localStorage.getItem('profil')))
 
     if (this.userProfil().profil_photo !== null) {
+      this.isLoading = false
       this.profils.set(await firstValueFrom(this.userService.getAllProfil()))
       this.isSubscribe.set(await firstValueFrom(this.subscriptionService.isSubscribe()))
+      this.isLoading = true
     }
   }
 

@@ -24,8 +24,8 @@ import {PasswordResetComponent} from './view/password-reset/password-reset.compo
 
 export const routes: Routes = [
   {
-    title: 'Connection',
-    path: 'connection',
+    title: 'Connexion',
+    path: 'connexion',
     component: LoginComponent,
     data: {
       hideFooter: true,
@@ -182,7 +182,7 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'connection',
+    redirectTo: 'connexion',
     pathMatch: 'full'
   }
 ]

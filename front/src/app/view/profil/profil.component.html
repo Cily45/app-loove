@@ -1,3 +1,4 @@
+<app-spinner class="spinner absolute" [hidden]="isLoading"></app-spinner>
 <div class="app-profil h-[calc(100vh-60px)] w-screen md:w-[calc(100vw-220px)] md:min-h-screen pb-[60px] md:pb-0">
   <h2 class="text-center text-2xl w-full fixed top-0 text-[#6A3A71] bg-gradient-to-b bg-[#b59db8] p-6 md:w-[calc(100vw-220px)] md:top-0 z-10">Votre profil</h2>
   <form class="flex flex-col pt-[100px]" [formGroup]="profilForm" (ngSubmit)="onSubmit()">
@@ -166,10 +167,11 @@
       </div>
 
       <div class="flex flex-wrap justify-around w-4/5 mb-6">
-        <button mat-raised-button routerLink="/chiens" class="mt-6" type="button">
+        <button mat-raised-button routerLink="/chiens" class="mt-6 z-0" type="button">
           Mon/mes chien(s)
         </button>
-        <button mat-raised-button class="mt-6" type="submit">
+
+        <button mat-raised-button class="mt-6 z-0" type="submit">
           Valider
         </button>
       </div>

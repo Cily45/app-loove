@@ -33,8 +33,13 @@ export class ReportComponent implements OnChanges {
 
   async ngOnChanges(changes: SimpleChanges) {
     if (!changes['hidden'].currentValue) {
-      console.log('ok')
-      this.reportReasons.set(await firstValueFrom(this.reportReasonService.getAll()))
+    }
+    const hiddenChange = changes['hidden'];
+    const idChange = changes['id'];
+    if ((idChange && idChange.currentValue !== idChange.previousValue) || (hiddenChange && !changes['hidden'].currentValue)) {
+      if (this.id() !== 0) {
+        this.reportReasons.set(await firstValueFrom(this.reportReasonService.getAll()))
+      }
     }
   }
 

@@ -49,9 +49,6 @@ export class AuthService {
           localStorage.setItem('email', credentials.email);
           const beams = this.pusherBeams.start(response.id);
 
-
-
-
         this.userService.getNotifications().subscribe(list => {
           localStorage.setItem('notifications', JSON.stringify(list));
         })

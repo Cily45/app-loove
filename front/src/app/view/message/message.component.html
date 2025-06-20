@@ -3,15 +3,17 @@
 
     <div class="w-screen flex items-center justify-between text-[#6A3A71]">
       <div class="flex items-center">
-      <a routerLink="/messagerie" class="p-2 text-[#6A3A71] text-3xl"><mat-icon>arrow_back</mat-icon></a>
-      <a (click)="openProfil()" class="flex items-center cursor-pointer">
-        <img src="{{environment.apiUrl}}/uploads/photo-user/{{profil().profil_photo}}" alt="photo de profil"
-             class="w-15 h-15 md:w-25 md:h-25 object-cover rounded-2xl mr-3 shadow-lg shadow-black/25">
-        <div class="flex-col text-md md:text-2xl truncate w-[calc(25vw)]">
-          <p class="truncate">{{ profil().firstname }} </p>
-          <p class="truncate">{{ profil().lastname }}</p>
-        </div>
-      </a></div>
+        <a routerLink="/messagerie" class="p-2 text-[#6A3A71] text-3xl">
+          <mat-icon>arrow_back</mat-icon>
+        </a>
+        <a (click)="openProfil()" class="flex items-center cursor-pointer">
+          <img src="{{environment.apiUrl}}/uploads/photo-user/{{profil().profil_photo}}" alt="photo de profil"
+               class="w-15 h-15 md:w-25 md:h-25 object-cover rounded-2xl mr-3 shadow-lg shadow-black/25">
+          <div class="flex-col text-md md:text-2xl truncate w-[calc(25vw)]">
+            <p class="truncate">{{ profil().firstname }} </p>
+            <p class="truncate">{{ profil().lastname }}</p>
+          </div>
+        </a></div>
       <div>
         @if (profil().lastname !== '') {
           <a (click)="openReport()" class="cursor-pointer px-4 py-2">
@@ -32,20 +34,20 @@
     }
   </div>
 
-  @if(profil().id !== 0){
-  <form
-    class="flex justify-between h-[60px] py-3 fixed bottom-15 md:bottom-0 w-full md:w-[calc(100vw-220px)] px-3 bg-second">
-    <input
-      class="w-full bg-zinc-200 text-zinc-600 font-mono ring-1 ring-zinc-400 focus:ring-2 focus:ring-[#6A3A71] outline-none duration-300 placeholder:text-zinc-600 placeholder:opacity-50 rounded-full px-4 py-1 shadow-md focus:shadow-lg focus:shadow-[#6A3A71]"
-      placeholder="Message..."
-      [formControl]="message"
-      required
-    />
-    @if(message.value.length > 0) {
-      <button type="submit" (click)="onSubmit()" class="pl-3 text-[#6A3A71] my-auto cursor-pointer">
-        <mat-icon>send</mat-icon>
-      </button>
-    }
-  </form>
+  @if (profil().id !== 0) {
+    <form
+      class="flex justify-between h-[60px] py-3 fixed bottom-15 md:bottom-0 w-full md:w-[calc(100vw-220px)] px-3 bg-second">
+      <input
+        class="w-full bg-zinc-200 text-zinc-600 font-mono ring-1 ring-zinc-400 focus:ring-2 focus:ring-[#6A3A71] outline-none duration-300 placeholder:text-zinc-600 placeholder:opacity-50 rounded-full px-4 py-1 shadow-md focus:shadow-lg focus:shadow-[#6A3A71]"
+        placeholder="Message..."
+        [formControl]="message"
+        required
+      />
+      @if (message.value.length > 0) {
+        <button type="submit" (click)="onSubmit()" class="pl-3 text-[#6A3A71] my-auto cursor-pointer">
+          <mat-icon>send</mat-icon>
+        </button>
+      }
+    </form>
   }
 </div>

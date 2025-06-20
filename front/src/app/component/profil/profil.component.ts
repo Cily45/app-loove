@@ -68,12 +68,18 @@ export class ProfilComponent implements OnChanges {
   }
 
   async ngOnChanges(changes: SimpleChanges) {
-    if (!changes['hidden'].currentValue) {
+    const hiddenChange = changes['hidden'];
+    const idChange = changes['id'];
+    if ((idChange && idChange.currentValue !== idChange.previousValue) || (hiddenChange && !changes['hidden'].currentValue)) {
       if (this.id() !== 0) {
-        this.profil.set(await firstValueFrom(this.userService.userProfil(this.id())))
-        this.hobbies.set(await firstValueFrom(this.hobbiesService.getAllByUser(this.profil().id)))
-        this.gendersPreference.set(await firstValueFrom(this.genderService.get(this.id())))
-        this.dogs.set(await firstValueFrom(this.dogService.dogProfil(this.id())))
+        const profil = await firstValueFrom(this.userService.userProfil(this.id()))
+        const hobby = await firstValueFrom(this.hobbiesService.getAllByUser(this.profil().id))
+        const gendersPreference = await firstValueFrom(this.genderService.get(this.id()))
+        const dogs = await firstValueFrom(this.dogService.dogProfil(this.id()))
+        this.profil.update(() => profil)
+        this.hobbies.update(() => hobby)
+        this.gendersPreference.update(() => gendersPreference)
+        this.dogs.update(() => dogs)
       }
     }
   }

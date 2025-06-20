@@ -5,7 +5,11 @@ export function getAge(birthday: string): number {
 
   const ageInMilliseconds = today.getTime() - birthDate.getTime()
   const ageDate = new Date(ageInMilliseconds)
-  return Math.abs(ageDate.getUTCFullYear() - 1970)
+  const age = Math.abs(ageDate.getUTCFullYear() - 1970)
+  if (age > 0) {
+    return age
+  }
+  return Math.floor(ageInMilliseconds / (1000 * 60 * 60 * 24 * 30.4375))
 }
 
 export function getDate(date: string): string {

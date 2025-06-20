@@ -64,7 +64,7 @@ export class MatchCardComponent {
     }
   }
   openReport(){
-    this.isReportHidden.update(u => false)
+    this.isReportHidden.update(() => false)
     document.getElementById(`report-${this.profil().id}`)?.classList.remove('hidden');
   }
   isSubcribe = input<boolean>()
