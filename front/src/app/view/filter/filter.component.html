@@ -11,7 +11,7 @@
 
           <h3 class="mb-3">Préférence amoureuse:</h3>
           <div class="flex flex-row flex-wrap justify-between">
-            @for (gender of genders();let i = $index; track gender ) {
+            @for (gender of genders(); let i = $index; track gender) {
               <label
                 class="relative mx-12 my-4 text-[#6A3A71] flex cursor-pointer items-center"
                 [for]="'gender-' + i"
@@ -81,10 +81,17 @@
 
         <mat-expansion-panel class="my-6" [disabled]="!isSubscribe()">
           <mat-expansion-panel-header>
-            <mat-panel-title>Loisirs</mat-panel-title>
+            <mat-panel-title>
+              <div class="flex justify-between w-full">
+                <h3>Loisirs</h3>
+                @if (!isSubscribe()) {
+                  <a routerLink="/nouvel-abonnement" class="text-white">🔒 Fonctionnalité premium</a>
+                }
+              </div>
+            </mat-panel-title>
           </mat-expansion-panel-header>
           <div class="flex flex-wrap justify-between">
-            @for (hobby of hobbies();let i = $index; track hobby ) {
+            @for (hobby of hobbies(); let i = $index; track hobby) {
               <div class="w-[250px]">
                 <label
                   class="relative mx-12 my-4 text-[#6A3A71] flex cursor-pointer items-center"
@@ -127,12 +134,19 @@
 
         <mat-expansion-panel class="my-6" [disabled]="!isSubscribe()">
           <mat-expansion-panel-header>
-            <mat-panel-title>Chiens</mat-panel-title>
+            <mat-panel-title>
+              <div class="flex justify-between w-full">
+                <h3>Chiens</h3>
+                @if (!isSubscribe()) {
+                  <a routerLink="/nouvel-abonnement" class="text-white">🔒 Fonctionnalité premium</a>
+                }
+              </div>
+            </mat-panel-title>
           </mat-expansion-panel-header>
           <div class="mb-6">
             <p class="font-bold text-[#6A3A71]">Quel genre de chien votre/vos chien(s) tolère-t-il ?</p>
             <ul class="flex flex-col">
-              @for (dog of dogGenders();let i = $index; track dog; ) {
+              @for (dog of dogGenders(); let i = $index; track dog; ) {
                 <li class="w-[250px] ml-15">
                   <label
                     class="relative mx-12 my-4 text-[#6A3A71] flex cursor-pointer items-center"
@@ -173,7 +187,7 @@
 
             <p class="font-bold text-[#6A3A71]">Quelle taille de chien votre/vos chien(s) tolère-t-il ?</p>
             <ul class="flex flex-col">
-              @for (dog of dogSizes(); let i = $index; track dog;) {
+              @for (dog of dogSizes(); let i = $index; track dog; ) {
                 <li class="ml-15">
                   <label
                     class="relative mx-12 my-4 text-[#6A3A71] flex cursor-pointer items-center"
@@ -214,7 +228,7 @@
 
             <p class="font-bold text-[#6A3A71]">Quel(s) tempérament(s) de chien votre/vos chien(s) tolère-t-il ?</p>
             <ul class="flex flex-col">
-              @for (dog of dogTemperaments();let i = $index; track dog) {
+              @for (dog of dogTemperaments(); let i = $index; track dog) {
                 <li class="ml-15">
                   <label
                     class="relative mx-12 my-4 text-[#6A3A71] flex cursor-pointer items-center"
