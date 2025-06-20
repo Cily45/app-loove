@@ -1,7 +1,12 @@
 # 💕 Pawfect Match 🐾
 
+<img width="1512" alt="Capture d’écran 2025-06-20 à 18 08 28" src="https://github.com/user-attachments/assets/525e23ee-9606-45b4-a158-42789241b6bf" />
+
 ## Description
 **Pawfect Match** est une application de rencontre intuitive conçue pour faciliter la mise en relation entre propriétaires de chiens. Elle propose une interface fluide, une gestion sécurisée des profils et une expérience utilisateur optimisée.
+[Lien de la version client mis en ligne](https://pawfect-match.duckdns.org/)
+
+[Lien de la version back-office mis en ligne](https://pawfect-match-bo.duckdns.org/)
 
 ### Fonctionnalités principales
 * 🔍 Matchmaking intelligent basé sur des critères personnalisés (genre, âge, distance, loisirs, caractéristiques canines)
@@ -75,9 +80,9 @@ composer install
 ```
 
 4. Importation de la base de donnée
-   ici
+Importer la base de donnée qui est dans la racine du projet
   
-6. Configuration des environnements
+5. Configuration des environnements
 Backend :
 Copier le fichier .env.dist en .env
 puis remplir les informations nécessaires (connexion DB, clés API, etc.).
@@ -90,7 +95,9 @@ et renseigner les bonnes valeurs (URL API, clés Pusher, PayPal, etc.).
 ```
 php -S localhost:8000 -t public
 ```
-
+7. Accées backoffice
+Email: admin@pawfect-match.dev
+Mdp: coucou
 # 📡 API Endpoints
 
 ## 🔐 Auth
