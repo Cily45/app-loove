@@ -1,17 +1,7 @@
 /* From Uiverse.io by eduardo-amaro-maciel */
-.scroll-1::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-.scroll-1::-webkit-scrollbar-thumb {
-  border-radius: 20px;
-  background: #888;
-}
 
 .container * {
   box-sizing: border-box;
-  padding: 0;
   margin: auto;
   color: #fff;
 }
@@ -19,18 +9,14 @@
 .container {
   display: flex;
   overflow-x: scroll;
-  padding: 24px;
-  width: 80vw;
-  scroll-snap-type: x mandatory;
-  scroll-padding-top: 24px;
-  border-radius: 8px;
+  border-radius: 15px;
   gap: 20px;
 }
 
 .container .card {
   flex: 0 0 200px;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 20px;
   background-color: #141414;
   scroll-snap-align: start;
 }

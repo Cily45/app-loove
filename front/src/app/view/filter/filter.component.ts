@@ -22,7 +22,7 @@ import {DogGender} from '../../services/api/dog-gender.service';
 import {FilterService} from '../../services/api/filter.service';
 import {ToastService} from '../../services/toast.service';
 import {firstValueFrom} from 'rxjs';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-filter',
@@ -39,7 +39,8 @@ import {Router} from '@angular/router';
     FormsModule,
     MatCheckboxModule,
     MatIconModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterLink
   ],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.scss'

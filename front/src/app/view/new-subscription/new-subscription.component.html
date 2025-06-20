@@ -1,13 +1,13 @@
-<div class="app-newSubscription flex flex-col items-center h-[calc(100vh-60px)] md:h-screen p-6">
+<div class="app-newSubscription flex flex-col items-center h-[calc(100vh-60px)] md:h-screen p-6 md:px-6 md:w-[calc(100vw-220px)] ">
   <div class="">
     <h2 class="text-2xl text-center text-[#6A3A71] mb-6">Abonnement</h2>
     <p>Accéder à plus de filtres de recherche avancée</p>
     <p> Envoyer des messages sans avoir à attendre un match</p>
     <p> Voir avec qui on a matcher</p>
   </div>
-  <div class="container scroll-1">
+  <div class="container m-6 p-6 md:w-[calc(100vw-220px)] ">
     @for (price of prices(); track price) {
-      <div class="card" (click)="setPrice(price)">
+      <div class="card shadow-lg shadow-black/25" (click)="setPrice(price)">
         <div class="card__image">
           <img class="w-2/3 max-w-[400px] my-10 mx-auto rounded-3xl"
                src="assets/image/premium.webp"
