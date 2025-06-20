@@ -40,7 +40,7 @@ export class RegisterComponent implements OnInit {
   genders: Gender[] = []
   hidePassword = signal(true)
   hideConfirm = signal(true)
-  isLoading = false
+  isLoading = true
   constructor(
     private breakpointObserver: BreakpointObserver,
     private genderService: GenderService,
@@ -78,9 +78,9 @@ export class RegisterComponent implements OnInit {
   async onSubmit(stepper: MatStepper) {
     const emailControl = this.thirdFormGroup.get('email')
     const email: string = this.thirdFormGroup.get('email')?.value || 'error'
-    this.isLoading = true
-    let isEmailUsed = await firstValueFrom(this.userService.isMailUsed(email))
     this.isLoading = false
+    let isEmailUsed = await firstValueFrom(this.userService.isMailUsed(email))
+    this.isLoading = true
 
     if (!emailControl) {
       return
@@ -99,9 +99,9 @@ export class RegisterComponent implements OnInit {
       ...this.thirdFormGroup.value
     }
 
-    this.isLoading = true
-    const res = await firstValueFrom(this.userService.createUser(form))
     this.isLoading = false
+    const res = await firstValueFrom(this.userService.createUser(form))
+    this.isLoading = true
 
     if (res) {
       stepper.next()

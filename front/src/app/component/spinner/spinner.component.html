@@ -1,5 +1,24 @@
 <!-- From Uiverse.io by c0d3hdz -->
-<div class="md:w-[calc(100vw-220px)] loader absolute z-50 h-screen w-screen m-auto inset-0  bg-white/30 backdrop-blur-sm bg-opacity-50 flex items-center justify-center pb-[60px] md:pb-0">
+<div
+  class="
+  loader
+  absolute
+  z-50
+  h-screen
+   w-screen
+   m-auto
+   inset-0
+   bg-white/30
+   backdrop-blur-sm
+   bg-opacity-50
+   flex
+   items-center
+   justify-center
+   pb-[60px]
+   md:pb-0
+"
+  [ngClass]="isNavbar()?'' : 'md:w-[calc(100vw-220px)]' "
+>
   Loading
   <span class="Particle_heart">♥</span>
   <span class="Particle_heart">♥</span>
