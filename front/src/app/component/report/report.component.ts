@@ -32,8 +32,6 @@ export class ReportComponent implements OnChanges {
   })
 
   async ngOnChanges(changes: SimpleChanges) {
-    if (!changes['hidden'].currentValue) {
-    }
     const hiddenChange = changes['hidden'];
     const idChange = changes['id'];
     if ((idChange && idChange.currentValue !== idChange.previousValue) || (hiddenChange && !changes['hidden'].currentValue)) {
@@ -59,6 +57,7 @@ export class ReportComponent implements OnChanges {
       } else {
         this.toastService.showSuccess('Signalement effectuer');
       }
+      this.close()
     }
   }
 }
