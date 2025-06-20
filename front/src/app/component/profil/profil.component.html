@@ -1,5 +1,5 @@
-<div id="profil-{{id()}}"
-     class="fixed inset-0  bg-white/30 backdrop-blur-sm bg-opacity-50 flex items-center justify-center hidden z-50 md:pl-[220px]">
+<div  id="profil-{{id()}}"
+     class="fixed inset-0 bg-white/30 backdrop-blur-sm bg-opacity-50 flex items-center justify-center hidden z-50 md:pl-[220px]">
   <div class="app-profil bg-[#b59db8] rounded-3xl h-[90vh] w-[90vw] md:w-[calc(90vh-220px)] shadow-md shadow-black/25">
     <button (click)="close()"
             class="ml-auto m-3 text-white hover:text-gray-700 text-2xl leading-none hover:bg-gray-100 rounded-full w-8 h-8 flex items-center justify-center transition-colors">
@@ -38,7 +38,7 @@
       </div>
 
       <div class="bg-white rounded-3xl p-3 shadow-md shadow-black/25 w-[80vw] md:w-[calc(80vh-220px)] m-auto mb-6">
-        <h5 class="text-center text-2xl mb-3 text-[#6A3A71]">Intêret</h5>
+        <h5 class="text-center text-2xl mb-3 text-[#6A3A71]">Intêret(s)</h5>
         <div class="flex flex-wrap justify-center space-y-2">
           @for (hobby of hobbies(); track hobby) {
             @if (hobby.selected) {

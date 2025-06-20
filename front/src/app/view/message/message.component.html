@@ -21,7 +21,7 @@
           </a>
         }
         @if (profil().id) {
-          <app-profil [hidden]="isProfilHidden()" [id]="profil().id"></app-profil>
+          <app-profil [hidden]="isProfilHidden()" [id]="profil().id" class="text-black"></app-profil>
           <app-report [hidden]="isReportHidden()" [id]="profil().id"></app-report>
         }
       </div>

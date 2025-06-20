@@ -52,7 +52,6 @@ $routeur->addRoute(['POST'], '/auth-pusher', AuthPusherController::class, 'authP
 $routeur->addRoute(['GET'], '/beams-token', AuthController::class, 'beamsToken');
 
 // USER
-$routeur->addRoute(['GET'], '/users/{id}', UsersController::class, 'user');
 $routeur->addRoute(['GET'], '/users/{quantity:\d+}/{page:\d+}', UsersController::class, 'liste');
 $routeur->addRoute(['GET'], '/profil/{id}', UsersController::class, 'profil');
 $routeur->addRoute(['GET'], '/profils', UsersController::class, 'allProfil');

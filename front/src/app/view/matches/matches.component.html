@@ -1,9 +1,9 @@
 <app-spinner class="spinner absolute" [hidden]="isLoading"></app-spinner>
 
-<div class="app-match flex flex-col justify-between h-[calc(100vh-60px)] md:h-screen ">
+<div class="app-match flex flex-col justify-between h-[calc(100vh-60px)] md:h-screen">
   <h2 class="text-center text-2xl w-full text-[#6A3A71] bg-gradient-to-b bg-[#b59db8] p-6 md:w-[calc(100vw-220px)] md:top-0 z-10 fixed">Matchs</h2>
   @if (matchs().length > 0 ){
-    <div class="flex gap-6 overflow-x-auto pb-14 px-6 m-auto rounded-3xl">
+    <div class="flex gap-6 overflow-x-auto pb-14 pt-[90px] px-6 m-auto rounded-3xl">
       @for(match of matchs(); track match) {
         <app-match-card class="shrink-0 snap-center" [profil]="match" [isSubcribe]="isSubscribe()"></app-match-card>
       }
