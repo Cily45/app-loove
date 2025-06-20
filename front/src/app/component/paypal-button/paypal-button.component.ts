@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 @Component({
   selector: 'app-paypal-button',
   templateUrl: './paypal-button.component.html',
+  imports: []
 })
 export class PaypalButtonComponent implements AfterViewInit {
   @ViewChild('paypalRef', {static: true}) paypalRef!: ElementRef<HTMLDivElement>;
@@ -24,8 +25,7 @@ export class PaypalButtonComponent implements AfterViewInit {
     const paypal: PayPalNamespace | null = await loadScript({
       clientId: this.id,
       currency: 'EUR',
-    });
-
+    })
     if (paypal?.Buttons && this.price() !== null) {
       await paypal.Buttons({
         createOrder: (data, actions) => {
@@ -38,7 +38,7 @@ export class PaypalButtonComponent implements AfterViewInit {
                 value: this.price().price.toString()
               }
             }]
-          });
+          })
         },
         onApprove: async (data, actions) => {
           const details = await actions.order!.capture()

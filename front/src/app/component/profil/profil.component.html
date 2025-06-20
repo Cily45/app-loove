@@ -6,7 +6,6 @@
       &times;
     </button>
 
-
     <div class="space-y-4 h-[calc(90vh-80px)] flex-1 overflow-y-auto overflow-x-hidden scroll-container">
 
       <div class="flex justify-center space-x-3 text-2xl text-white text-shadow-lg">
@@ -15,14 +14,14 @@
       </div>
 
       <img src="{{environment.apiUrl}}/uploads/photo-user/{{profil().profil_photo}}"
-           class="h-full object-cover object-center rounded-3xl shadow-md shadow-black/25 w-[80vw] m-auto mb-4" alt="Photo"/>
+           class="h-full object-cover object-center rounded-3xl shadow-md shadow-black/25 w-[80vw] md:w-[calc(80vh-220px)] m-auto mb-4" alt="Photo"/>
 
       <div class="flex justify-center space-x-3 text-xl text-white ">
         <p class="capitalize">{{ profil().gender }}</p>
         <p>{{ getAge(profil().birthday) }}ans</p>
       </div>
 
-      <div class="bg-white rounded-3xl p-3 shadow-md shadow-black/25 w-[80vw] m-auto mb-6">
+      <div class="bg-white rounded-3xl p-3 shadow-md shadow-black/25 w-[80vw] md:w-[calc(80vh-220px)] m-auto mb-6">
         <h5 class="text-center text-2xl mb-3 text-[#6A3A71]">Préférence(s) amoureuse</h5>
         <div class="flex flex-wrap justify-center">
           @for (gender of gendersPreference(); track gender) {
@@ -33,12 +32,12 @@
         </div>
       </div>
 
-      <div class="bg-white rounded-3xl p-3 shadow-md shadow-black/25 w-[80vw] m-auto mb-6">
+      <div class="bg-white rounded-3xl p-3 shadow-md shadow-black/25 w-[80vw] md:w-[calc(80vh-220px)] m-auto mb-6">
         <h5 class="text-center text-2xl mb-3 text-[#6A3A71]">Description</h5>
         <p class="px-6">{{ profil().description }}</p>
       </div>
 
-      <div class="bg-white rounded-3xl p-3 shadow-md shadow-black/25 w-[80vw] m-auto mb-6">
+      <div class="bg-white rounded-3xl p-3 shadow-md shadow-black/25 w-[80vw] md:w-[calc(80vh-220px)] m-auto mb-6">
         <h5 class="text-center text-2xl mb-3 text-[#6A3A71]">Intêret</h5>
         <div class="flex flex-wrap justify-center space-y-2">
           @for (hobby of hobbies(); track hobby) {
@@ -52,7 +51,7 @@
         </div>
       </div>
 
-      <div class="bg-white rounded-3xl p-3 shadow-md shadow-black/25 w-[80vw] m-auto mb-6">
+      <div class="bg-white rounded-3xl p-3 shadow-md shadow-black/25 w-[80vw] md:w-[calc(80vh-220px)] m-auto mb-6">
         <h5 class="text-center text-2xl mb-3 text-[#6A3A71]">Chien(s)</h5>
         <div class="flex flex-wrap justify-center">
           @for (dog of dogs(); track dog) {

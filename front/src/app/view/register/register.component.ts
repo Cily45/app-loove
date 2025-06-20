@@ -13,6 +13,7 @@ import {UserService} from '../../services/api/user.service'
 import {MatSelectModule} from '@angular/material/select'
 import {NgIf} from '@angular/common';
 import {firstValueFrom} from 'rxjs';
+import {SpinnerComponent} from '../../component/spinner/spinner.component';
 
 
 @Component({
@@ -28,6 +29,7 @@ import {firstValueFrom} from 'rxjs';
     MatIconModule,
     MatSelectModule,
     NgIf,
+    SpinnerComponent,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
@@ -38,7 +40,7 @@ export class RegisterComponent implements OnInit {
   genders: Gender[] = []
   hidePassword = signal(true)
   hideConfirm = signal(true)
-
+  isLoading = false
   constructor(
     private breakpointObserver: BreakpointObserver,
     private genderService: GenderService,
@@ -76,7 +78,9 @@ export class RegisterComponent implements OnInit {
   async onSubmit(stepper: MatStepper) {
     const emailControl = this.thirdFormGroup.get('email')
     const email: string = this.thirdFormGroup.get('email')?.value || 'error'
+    this.isLoading = true
     let isEmailUsed = await firstValueFrom(this.userService.isMailUsed(email))
+    this.isLoading = false
 
     if (!emailControl) {
       return
@@ -95,7 +99,10 @@ export class RegisterComponent implements OnInit {
       ...this.thirdFormGroup.value
     }
 
+    this.isLoading = true
     const res = await firstValueFrom(this.userService.createUser(form))
+    this.isLoading = false
+
     if (res) {
       stepper.next()
     }

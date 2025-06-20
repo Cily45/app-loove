@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit {
   })
   isProfilHidden = signal<boolean>(true)
   isReportHidden = signal<boolean>(true)
-  isLoading = true
+  isLoading = false
 
   constructor(private userService: UserService, private matchService: MatchService, private subscriptionService: SubscriptionService, private toastService: ToastService) {
   }
